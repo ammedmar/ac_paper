@@ -9,11 +9,8 @@
 \addbibresource{aux/bibliography.bib}  % add references here
 
 %%%%%%%%%%%%%%%%%%%%%%
-\title[Short title]{Full title}
-
-%\author[A.~Medina-Mardones]{Anibal~M.~Medina-Mardones}
-%\address{Department of Mathematics, Western University, Canada}
-%\email{\href{anibal.medina.mardones@uwo.ca}{anibal.medina.mardones@uwo.ca}}
+\title{Notes on the Andrews-Curtis conjecture}
+\input{sec/authors}
 
 \date{\today}
 \subjclass[2020]{\TBW}
@@ -23,8 +20,41 @@
 	\input{sec/abstract}
 	\maketitle
 	\input{sec/introduction}
+	\input{sec/conjecture}
+	\input{sec/embeddings}
+	\input{sec/reinforcement}
+	\input{sec/results}
 	\input{sec/acknowledgment}
-	\nocite{*}
 	\sloppy
 	\printbibliography
 \end{document}
+
+% Outline:
+% 1. Andrews-Curtis conjecture
+% 2. Reinforcement Learning
+% 3. Progress and current challenges
+% 4.
+
+% Successes:
+% 1. We are able to find the shortest sequence of AC moves that trivializes AK(2) with maximum length = 7.
+
+% Main troubles:
+
+% 1. Say we have solved AK(2) for maximum length = 7 (which we have). We want to solve it again after setting maximum length = 20. Now we have to do hyperparameter search again, and there is no guarantee that we will find a good set of hyperparameters in the same range that we used while conducting hyperparamter search for (AK(2), 7). This is a time consuming and resource intensive process with possibly requiring thousands of experiments to be run.
+
+% Possible solutions:
+% a). Based on the hyperparameters for the best run of (AK(2), 7), there is a (possibly clever) set of hyperparameters for which (AK(2), 20) will be near optimal.
+% b). So far, I have only used random search. Maybe using a more sophisticated search approach will cut down time. I think Ray Tune has some sophisticated search algorithms that 'stop bad runs early, save intermediate results, restart from previous trials, or pause and resume runs'.
+% b). Use maximum update parameterization.
+
+% 2. Policy gradient algorithms can learn to do better if they solve the problem in the first place. With very large maximum length such as
+
+% Possible directions:
+% 1. In addition to AK(3) (which has been focus of our work so far), try running experiments for presentations of the other family (the one that's parameterized by w). We have a list of these presentations up to maximum length=20,
+
+% Some ideas to try if our current approach does not work out:
+% 1.
+
+% Some mathematical ideas to try if our current approach does not work out:
+
+% 1. It might be useful to try using Whitehead

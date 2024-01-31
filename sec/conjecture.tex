@@ -1,0 +1,89 @@
+% !TEX root = ../ac_paper.tex
+
+\section{Andrews-Curtis conjecture\label{sec:AC}}
+
+Andrews-Curtis conjecture concerns balanced presentations
+of the trivial group. These are presentations for which the number of relators is
+equal to the number of generators. The conjecture states that any balanced presentation of
+the trivial group can be transformed into the trivial presentation $$<x_1, \cdots, x_n | x_1, \cdots, x_n >$$ by
+a sequence of the following moves \cite{Andrews-Curtis}.
+
+\begin{itemize}
+	\item (concatenation) replace $r_i$ by $r_i r_j$ for $i \neq j$
+	\item (inversion) replace $r_i$ by $r_i^{-1}$
+	\item (conjugation) replace $r_i$ by $g r_i g^{-1}$ where $g$ is a generator or its inverse.
+\end{itemize}
+
+These moves are called AC moves. The conjecture is widely believed to be false.
+\footnote{In \cite{decidability}, it is proven that either Andrews-Curtis conjecture is false,
+	or there exists an algorithm that decides whether a balanced presentation
+	is of the trivial group. For arbitrary presentations (i.e. not necessarily balanced), the decidability
+	problem is known to be unsolvable. \fixme{Is Baumslag-Boone-Neumann the right reference
+		for this?}} Previous approaches to studying this conjecture have made extensive use
+of classical computer algorithms, such as genetic algorithms \cite{genetic}, and breadth-first-search  \cite{bfs-ac}. The following result of \cite{bfs-ac} still holds true.
+
+\begin{theorem}
+	Let $G$ be a group defined by a balanced presentation on two generators, with the sum
+	of the relator lengths at most 13. Then:
+	\begin{enumerate}[label=(\roman*)]
+		\item if $G$ has a trivial abelianization, $G$ is trivial or is isomorphic to $L_2(5)$, the unique perfect
+		group of order 120;
+		\item if $G$ is trivial, its presentation is AC-equivalent to the standard presentation or to the presentation
+		$\langle x, y | x^3 = y^4, xyx = yxy \rangle$.
+	\end{enumerate}
+\end{theorem}
+
+That is, the simplest potential counterexample of the Andrews-Curtis conjecture for two generators
+appears at a total relator length of 13. This example is part of the Akbulut-Kirby series of potential counterexamples \cite{Akbulut-Kirby}:
+\bea
+\AK(n): \langle x, y | x^n = y^{n+1}, xyx = yxy\rangle
+\eea
+for $n \geq 2.$ The case of $n=2$ is known to be consistent with the conjecture; the potential counterexample
+in the theorem above is the case of $n=3$. Previous works have verified that no sequence of AC moves that allows the length of each relator to grow up to 20 trivializes this presentation \cite{Panteleev-Ushakov}. Naively, this could be taken as strong evidence in favor of $\AK(3)$ being a true counterexample of the AC conjecture. However, it should be interpreted with caution as there exist AC-trivializable presentations of the trivial group for which the number of AC moves grows more quickly than any tower of exponentials \cite{Bridson, Lishak}. Roughly speaking, for these presentations, if the sum of word lengths is $n$, the number of AC moves required to trivialize the presentation is at least $\Delta (\lfloor \log_2 (n) \rfloor)$ where $\Delta : \mathbb{N} \to \mathbb{N}$ is defined recursively as $\Delta(0) = 2$ and $\Delta (m) = 2^{\Delta(m-1)}$ for $m \geq 1$.
+\newline
+
+Another well-known series of potential counterexamples is due to Miller and Schupp \cite{Miller-Schupp}:
+\bea
+\MS(n, w): \ \langle x, y | x^{-1} y^n x = y^{n+1}, x = w \rangle.
+\eea
+Here $n > 0$ and $w$ is a word in $x$ and $y$ such that $w$ has exponent sum 0
+on $x$.
+\footnote{Angus has pointed out that for $n=1$, these are all likely trivializable. Can we show that?
+	\fixme{I think we should be able to list all possibilities for w; this seems like a combinatorial problem.} }
+\footnote{The first potential counterexamples in this series that are not AC-equivalent to the
+	standard presentation or to $AK(3)$ would be of length 14. Can we list those presentations and
+	check their relation to the trivial presentation or AK(3)? One such element is the case $n=3$,
+	$w = y^{-1} x y x^{-1}$; this example is AC-trivializable. \cite{morse}}
+For $w_\star = y^{-1} x^{-1} y x y$, $\MS(w_\star, n)$ is known to be AC-equivalent to $\AK(n)$ \cite{MMS}; therefore, in this paper, we focus entirely on the Miller-Schupp series.
+Notice that the sum of relator lengths of $\AK(n)$ is $2n+7$, and that of $\MS(w_\star, n)$ is $2n+9$.
+\newline
+
+A third series of potential counterexamples is due to Gordon \cite{Brown}:
+\bea
+\G(m, n, p, q): \langle x, y | x = [x^m, y^n], y = [y^p, x^q] \rangle.
+\eea
+where $m,n,p,q \in \mathbb{Z}$. All examples of this series with the total relator length of 14 are known
+to be AC-trivializable \cite{Bowman-McCaul}
+\footnote{Perform the same exercise as in the footnote above for this series.}
+\newline
+
+There is also a length-14 presentation in \cite{MMS} for which the authors could not reduce the length of the relators using AC moves.
+\bea
+<x, y | xyx^{-2}y^{-1} xy^{-1}, x^{-1} y^{-1} x y^2 x y^{-1}>.
+\eea
+
+\subsection{Generalizations and other variants}
+
+There also exists a weaker version of the Andrews-Curtis conjecture, also known as the "stable Andrews-Curtis conjecture". It allows, in addition to the AC moves presented above, a "stability move" --- i.e., extend a presentation $\langle x_1, \cdots, x_n | r_1, \cdots, r_n \rangle$ to include more generators:
+\bea
+\langle x_1, \cdots, x_n, x_{n+1}, \cdots x_m | r_1, \cdots, r_n, x_{n+1}, \cdots, x_m \rangle.
+\eea
+
+It is not known if stable AC-equivalence between two presentations implies AC-equivalence between the two presentations. A potential counterexample to this statement is given in \cite{MMS}: the presentation $\langle x, y | x^4 = y x^2 y^{-1} x^{-1} y x^2 y^{-1}, y = [x^2, y]^3 $ of total word length 32 is stably AC-equivalent to $\AK(3)$ but it is not known if the two presentations are AC-equivalent.
+\footnote{Exploring this presentation with our RL agent could be useful in showing that the two are indeed equivalent.}
+\newline
+
+There also exist other generalizations of the conjecture for other kinds of groups; some of which have been proved. In particular, the conjecture holds true for finite groups and soluble groups \cite{Borovik, Guyot}. I think these versions will not be important for us.
+\newline
+
+Finally, there exists a notion of "elementary M-transformations" which could be useful \cite{BurnsI, BurnsII}. Each elementary M-transformation is a composition of AC moves, such that trivializing a presentation requires dramatically less M-transformations compared to the number of AC moves. For example, trivializing $\AK(2)$ requires 14 AC moves, but only 2 elementary M-transformations.\fixme{Explain M-transformations a bit here.}
