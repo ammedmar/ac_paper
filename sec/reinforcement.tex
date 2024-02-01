@@ -4,44 +4,48 @@
 
 \subsection{Markov Decision Process}
 
-We will model the problem underlying the Andrews-Curtis conjecture as a Markov Decision
-Process (MDP). An MDP is a tuple of data $(S, A, P, R, \rho)$ where
+We will model the problem underlying the Andrews-Curtis conjecture as a Markov Decision Process (MDP).
+An MDP is a tuple of data $(S, A, P, R, \rho)$ where
 \begin{itemize}
 	\item $S$ is a set of states called the state space.
 	\item $A$ is a set of actions that acts on $S$, called the action space.
 	That is, each element $a \in A$ is a map $a: S \to S$.
 	\item $P: S \times A \times S \to \mathbb{R}$ is the transition
-	probability function. It is the probability $p (s' | a, s)$ of reaching
+	probability function.
+	It is the probability $p (s' | a, s)$ of reaching
 	state $s'$ as we take action $a$ in state $s$.
 	\item $R: S \times A \times S \to \mathbb{R}$ is the 'reward' function.
 	\item $\rho$ is the initial probability distribution of states.
 \end{itemize}
 
-In the setting of the Andrews-Curtis conjecture, $S$ is the set of all presentations of
-the trivial group, and $A$ is the set of AC moves. The transition probability function $P$ is the probability
-of applying a particular AC move to a given presentation.
-The choice of reward function $R$ is up to us. One suitable option (the only one we have worked with so far)
-is to take $R(s)$ for a presentation $s$ to be the negative of the total word length ---
-i.e., the sum of word lengths of each relator in the presentation. (AK(3) has a total word length of 13.)
+In the setting of the Andrews-Curtis conjecture, $S$ is the set of all presentations of the trivial group, and $A$ is the set of AC moves.
+The transition probability function $P$ is the probability of applying a particular AC move to a given presentation.
+The choice of reward function $R$ is up to us.
+One suitable option (the only one we have worked with so far) is to take $R(s)$ for a presentation $s$ to be the negative of the total word length ---i.e., the sum of word lengths of each relator in the presentation.
+(AK(3) has a total word length of 13.)
 This choice depends only on the final state $s'$ and is independent of the initial state $s$
 or the action $a$.
-\footnote{Another good choice could be the difference in total word lengths
-	of the final and the initial states.} It is suitable for the goal of trivializing a presentation
-as the trivial presentation has the maximum possible reward value: negative of the number of generators.
+\footnote{Another good choice could be the difference in total word lengths of the final and the initial states.} It is suitable for the goal of trivializing a presentation as the trivial presentation has the maximum possible reward value: negative of the number of generators.
 
-Differences in our AC moves and the usual notion of AC moves: 1. since we restrict lengths, our AC moves are not invertible; 2. we use full-simplify which cyclically reduces words before returning the answer. For example, if we conjugate a word and it takes the form $y \cdots y^{-1}$, our conjugation operation returns $\cdots$.
+Differences in our AC moves and the usual notion of AC moves: 1.
+since we restrict lengths, our AC moves are not invertible; 2.
+we use full-simplify which cyclically reduces words before returning the answer.
+For example, if we conjugate a word and it takes the form $y \cdots y^{-1}$, our conjugation operation returns $\cdots$.
 
 \fixme{Things to try: change the initial state distribution to include canonic representations of certain lengths.}
 
-\fixme{If we have a "good" policy for a small max length $k$, a new "good" policy for a larger max length $k'$ should do one of two things things: i). for state $s$ with length $< k$ and with $a(s) $ also of length $< k$ for all $a$, $\pi(s)$ should be the same; ii). learn new optimal policy i.e. new $\pi(s)$ for all other $s$ starting with random policy. This kind of states include states of length $> k$ as well as states of length $< k$ for which $a(s) $ has length $> k$ for some $a$. }
+\fixme{If we have a "good" policy for a small max length $k$, a new "good" policy for a larger max length $k'$ should do one of two things things: i).
+for state $s$ with length $< k$ and with $a(s) $ also of length $< k$ for all $a$, $\pi(s)$ should be the same; ii) learn new optimal policy i.e. new $\pi(s)$ for all other $s$ starting with random policy.
+This kind of states include states of length $> k$ as well as states of length $< k$ for which $a(s) $ has length $> k$ for some $a$.}
 
-\fixme{When we increase max length, value of states of type i) could still change. We could replace the condition in i) by the condition that states $s$ are trivializable. but even then, their values could change. In particular, an optimal policy function might become sub-optimal (restricted to states of smaller length) when max length is increased. }
-
+\fixme{When we increase max length, value of states of type i) could still change.
+We could replace the condition in i) by the condition that states $s$ are trivializable.
+but even then, their values could change.
+In particular, an optimal policy function might become sub-optimal (restricted to states of smaller length) when max length is increased.}
 
 \subsection{Proximal Policy Optimization}
 
-
 https://arxiv.org/pdf/2110.00641.pdf
 
-\fixme{Maybe change the terminal state in RL to be the one where either relator is of length 1 ---
-	as that essentially implies triviality of the presentation. Does that also mean the reward should be -min(lenghts)?}
+\fixme{Maybe change the terminal state in RL to be the one where either relator is of length 1 --- as that essentially implies triviality of the presentation.
+Does that also mean the reward should be -min(lengths)?}
