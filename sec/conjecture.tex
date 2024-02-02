@@ -32,7 +32,7 @@ The following result of \cite{bfs-ac} still holds true.
 		\item if $G$ has a trivial abelianization, $G$ is trivial or is isomorphic to $L_2(5)$, the unique perfect
 		group of order 120;
 		\item if $G$ is trivial, its presentation is AC-equivalent to the standard presentation or to the presentation
-		$\langle x, y | x^3 = y^4, xyx = yxy \rangle$.
+		$\angles{x, y | x^3 = y^4, xyx = yxy}$.
 	\end{enumerate}
 \end{theorem}
 
@@ -40,7 +40,7 @@ That is, the simplest potential counterexample of the Andrews-Curtis conjecture 
 appears at a total relator length of 13.
 This example is part of the Akbulut-Kirby series of potential counterexamples \cite{Akbulut-Kirby}:
 \bea
-\AK(n) \colon \langle x, y | x^n = y^{n+1}, xyx = yxy\rangle
+\AK(n) \colon \angles{x, y | x^n = y^{n+1}, xyx = yxy}
 \eea
 for $n \geq 2.$ The case of $n=2$ is known to be consistent with the conjecture; the potential counterexample
 in the theorem above is the case of $n=3$.
@@ -52,7 +52,7 @@ Roughly speaking, for these presentations, if the sum of word lengths is $n$, th
 
 Another well-known series of potential counterexamples is due to Miller and Schupp \cite{Miller-Schupp}:
 \bea
-\MS(n, w): \ \langle x, y | x^{-1} y^n x = y^{n+1}, x = w \rangle.
+\MS(n, w): \ \angles{x, y | x^{-1} y^n x = y^{n+1}, x = w}.
 \eea
 Here $n > 0$ and $w$ is a word in $x$ and $y$ such that $w$ has exponent sum 0
 on $x$.
@@ -67,7 +67,7 @@ Notice that the sum of relator lengths of $\AK(n)$ is $2n+7$, and that of $\MS(w
 
 A third series of potential counterexamples is due to Gordon \cite{Brown}:
 \bea
-\G(m, n, p, q): \langle x, y | x = [x^m, y^n], y = [y^p, x^q] \rangle.
+\G(m, n, p, q): \angles{x, y | x = [x^m, y^n], y = [y^p, x^q]}.
 \eea
 where $m,n,p,q \in \mathbb{Z}$.
 All examples of this series with the total relator length of 14 are known
@@ -77,15 +77,15 @@ to be AC-trivializable \cite{Bowman-McCaul}
 
 There is also a length-14 presentation in \cite{MMS} for which the authors could not reduce the length of the relators using AC moves.
 \bea
-<x, y | xyx^{-2}y^{-1} xy^{-1}, x^{-1} y^{-1} x y^2 x y^{-1}>.
+\angles{x, y | xyx^{-2}y^{-1} xy^{-1}, x^{-1} y^{-1} x y^2 x y^{-1}}.
 \eea
 
 \subsection{Generalizations and other variants}
 
 There also exists a weaker version of the Andrews-Curtis conjecture, also known as the "stable Andrews-Curtis conjecture".
-It allows, in addition to the AC moves presented above, a "stability move" --- i.e., extend a presentation $\langle x_1, \cdots, x_n | r_1, \cdots, r_n \rangle$ to include more generators:
+It allows, in addition to the AC moves presented above, a "stability move" --- i.e., extend a presentation $\angles{x_1, \cdots, x_n | r_1, \cdots, r_n}$ to include more generators:
 \bea
-\langle x_1, \cdots, x_n, x_{n+1}, \cdots x_m | r_1, \cdots, r_n, x_{n+1}, \cdots, x_m \rangle.
+\angles{x_1, \cdots, x_n, x_{n+1}, \cdots x_m | r_1, \cdots, r_n, x_{n+1}, \cdots, x_m}.
 \eea
 
 It is not known if stable AC-equivalence between two presentations implies AC-equivalence between the two presentations.
