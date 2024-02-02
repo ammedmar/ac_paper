@@ -9,12 +9,12 @@ An MDP is a tuple of data $(S, A, P, R, \rho)$ where
 \begin{itemize}
 	\item $S$ is a set of states called the state space.
 	\item $A$ is a set of actions that acts on $S$, called the action space.
-	That is, each element $a \in A$ is a map $a: S \to S$.
-	\item $P: S \times A \times S \to \mathbb{R}$ is the transition
+	That is, each element $a \in A$ is a map $a \colon S \to S$.
+	\item $P \colon S \times A \times S \to \mathbb{R}$ is the transition
 	probability function.
-	It is the probability $p (s' \mid a, s)$ of reaching
+	It is the probability $p (s' | a, s)$ of reaching
 	state $s'$ as we take action $a$ in state $s$.
-	\item $R: S \times A \times S \to \mathbb{R}$ is the 'reward' function.
+	\item $R \colon S \times A \times S \to \mathbb{R}$ is the 'reward' function.
 	\item $\rho$ is the initial probability distribution of states.
 \end{itemize}
 
