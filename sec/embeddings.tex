@@ -108,10 +108,10 @@ Maybe instead of writing $A \sim \text{AC Moves}$, there should be a notation li
 
 		\Comment{The increment by which the maximum relator length increases in each phase}
 
-		\For {$i = 1, 2, \cdots, n$}
+		\For {$i = 1, 2, \dots, n$}
 
 		\Comment{Loop over $n$ phases}
-		\For {$j = 1, 2, \cdots, m$}
+		\For {$j = 1, 2, \dots, m$}
 
 		\Comment{Generate $m$ presentations in each phase}
 		\State $l_i \sim \mathcal{U}(l + i l_{\text{inc}} , l + (i+1) l_{\text{inc}})$
@@ -126,7 +126,7 @@ Maybe instead of writing $A \sim \text{AC Moves}$, there should be a notation li
 		\Comment{Set $R$ to a presentation of the previous phase if $i > 0$, else set it to the initial presentation $R_0$}
 
 
-		\For{$k = 1, 2, \cdots, T$}
+		\For{$k = 1, 2, \dots, T$}
 
 		\Comment{Apply $T$ randomly selected AC-moves}
 		\State A $\sim$ AC Moves
