@@ -6,9 +6,11 @@ Andrews-Curtis conjecture concerns balanced presentations
 of the trivial group.
 These are presentations for which the number of relators is
 equal to the number of generators.
-The conjecture states that any balanced presentation of
-the trivial group can be transformed into the trivial presentation $$<x_1, \cdots, x_n | x_1, \cdots, x_n >$$ by
-a sequence of the following moves \cite{Andrews-Curtis}.
+The conjecture states that any balanced presentation of the trivial group can be transformed into the trivial presentation
+\[
+\angles{x_1, \cdots, x_n \mid x_1, \cdots, x_n}
+\]
+by a sequence of the following moves \cite{Andrews-Curtis}.
 
 \begin{itemize}
 	\item (concatenation) replace $r_i$ by $r_i r_j$ for $i \neq j$
@@ -32,16 +34,16 @@ The following result of \cite{bfs-ac} still holds true.
 		\item if $G$ has a trivial abelianization, $G$ is trivial or is isomorphic to $L_2(5)$, the unique perfect
 		group of order 120;
 		\item if $G$ is trivial, its presentation is AC-equivalent to the standard presentation or to the presentation
-		$\angles{x, y | x^3 = y^4, xyx = yxy}$.
+		$\angles{x, y \mid x^3 = y^4, xyx = yxy}$.
 	\end{enumerate}
 \end{theorem}
 
 That is, the simplest potential counterexample of the Andrews-Curtis conjecture for two generators
 appears at a total relator length of 13.
 This example is part of the Akbulut-Kirby series of potential counterexamples \cite{Akbulut-Kirby}:
-\bea
-\AK(n) \colon \angles{x, y | x^n = y^{n+1}, xyx = yxy}
-\eea
+\[
+\AK(n) \colon \angles{x, y \mid x^n = y^{n+1}, xyx = yxy}
+\]
 for $n \geq 2.$ The case of $n=2$ is known to be consistent with the conjecture; the potential counterexample
 in the theorem above is the case of $n=3$.
 Previous works have verified that no sequence of AC moves that allows the length of each relator to grow up to 20 trivializes this presentation \cite{Panteleev-Ushakov}.
@@ -51,9 +53,9 @@ Roughly speaking, for these presentations, if the sum of word lengths is $n$, th
 \newline
 
 Another well-known series of potential counterexamples is due to Miller and Schupp \cite{Miller-Schupp}:
-\bea
-\MS(n, w): \ \angles{x, y | x^{-1} y^n x = y^{n+1}, x = w}.
-\eea
+\[
+\MS(n, w) \colon \angles{x, y \mid x^{-1} y^n x = y^{n+1}, x = w}.
+\]
 Here $n > 0$ and $w$ is a word in $x$ and $y$ such that $w$ has exponent sum 0
 on $x$.
 \footnote{Angus has pointed out that for $n=1$, these are all likely trivializable.
@@ -66,9 +68,9 @@ Notice that the sum of relator lengths of $\AK(n)$ is $2n+7$, and that of $\MS(w
 \newline
 
 A third series of potential counterexamples is due to Gordon \cite{Brown}:
-\bea
-\G(m, n, p, q): \angles{x, y | x = [x^m, y^n], y = [y^p, x^q]}.
-\eea
+\[
+\G(m, n, p, q): \angles{x, y \mid x = [x^m, y^n], y = [y^p, x^q]}.
+\]
 where $m,n,p,q \in \mathbb{Z}$.
 All examples of this series with the total relator length of 14 are known
 to be AC-trivializable \cite{Bowman-McCaul}
@@ -76,20 +78,20 @@ to be AC-trivializable \cite{Bowman-McCaul}
 \newline
 
 There is also a length-14 presentation in \cite{MMS} for which the authors could not reduce the length of the relators using AC moves.
-\bea
-\angles{x, y | xyx^{-2}y^{-1} xy^{-1}, x^{-1} y^{-1} x y^2 x y^{-1}}.
-\eea
+\[
+\angles{x, y \mid xyx^{-2}y^{-1} xy^{-1}, x^{-1} y^{-1} x y^2 x y^{-1}}.
+\]
 
 \subsection{Generalizations and other variants}
 
 There also exists a weaker version of the Andrews-Curtis conjecture, also known as the "stable Andrews-Curtis conjecture".
-It allows, in addition to the AC moves presented above, a "stability move" --- i.e., extend a presentation $\angles{x_1, \cdots, x_n | r_1, \cdots, r_n}$ to include more generators:
-\bea
-\angles{x_1, \cdots, x_n, x_{n+1}, \cdots x_m | r_1, \cdots, r_n, x_{n+1}, \cdots, x_m}.
-\eea
+It allows, in addition to the AC moves presented above, a "stability move" --- i.e., extend a presentation $\angles{x_1, \cdots, x_n \mid r_1, \cdots, r_n}$ to include more generators:
+\[
+\angles{x_1, \cdots, x_n, x_{n+1}, \cdots x_m \mid r_1, \cdots, r_n, x_{n+1}, \cdots, x_m}.
+\]
 
 It is not known if stable AC-equivalence between two presentations implies AC-equivalence between the two presentations.
-A potential counterexample to this statement is given in \cite{MMS}: the presentation $\langle x, y | x^4 = y x^2 y^{-1} x^{-1} y x^2 y^{-1}, y = [x^2, y]^3 $ of total word length 32 is stably AC-equivalent to $\AK(3)$ but it is not known if the two presentations are AC-equivalent.
+A potential counterexample to this statement is given in \cite{MMS}: the presentation $\langle x, y \mid x^4 = y x^2 y^{-1} x^{-1} y x^2 y^{-1}, y = [x^2, y]^3 $ of total word length 32 is stably AC-equivalent to $\AK(3)$ but it is not known if the two presentations are AC-equivalent.
 \footnote{Exploring this presentation with our RL agent could be useful in showing that the two are indeed equivalent.}
 \newline
 
