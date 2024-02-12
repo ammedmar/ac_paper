@@ -1,0 +1,69 @@
+% !TEX root = ../ac_paper.tex
+
+\section{Breadth first search}
+
+We consider all examples of the Miller-Schupp series for $n \leq 7$ and $\text{len}(w) \leq 7$.
+We freely and cyclically reduce $x^{-1}w$ and, keep only one element of each orbit under the action of cyclic permutations.
+\footnote{Here, the restriction len$(w) \leq 7$ was imposed \textit{before} freely and cyclically reducing $x^{-1}w$.
+The total length of a presentation in the Miller-Schupp series before this reduction is $2n+4+\text{len}(w)$, however, after these reductions, the total length decreases to $2n+4+\text{len}(w')$ where $x^{-1}w'$ is the reduced word.
+This can be a source of confusion.
+Maybe I should consider all examples that satisfy $\text{len}(w') \leq 7$.}
+There are 170 relators of the form $x^{-1}w$ with these restrictions, and hence 1190 presentations in total.
+We use the algorithm presented in Algorithm \autoref{alg:bfs} to classify these examples as solved or unsolved.
+For each presentation $R_0$, we start with a heap $H$ and a set $S$; each of them containing only $R_0$.
+The heap $H$ is ordered by a tuple $(n, m)$ where $n$ is the total length of a presentation and $m$ is the length of the sequence of AC moves connecting a presentation and $R_0$.
+The size of the tree grows extremely fast\footnote{Something like $n^k$?}, hence we put a hard cutoff on the number of nodes of the tree.
+If the algorithm finds the trivial presentation, we consider the starting presentation $R_0$ 'BFS-easy'; else, we consider it a 'BFS-hard' example.
+\footnote{Justify the BFS name.}
+\footnote{Note that the choice of $10^6$ nodes is based entirely on computational convenience.
+With this choice, we found that each example took 1-2 minutes to process.
+For 1190 presentations, this amounted to approximately 20 hours.
+Can this be made more precise maybe in terms of CPU time?}
+\footnote{The sequence we first encounter depends on the choice of sequence of AC moves in the for loop.
+What is that sequence in our case?}
+\footnote{Isn't S a set instead of a list? Specify what Actions, H, $N_f$ mean in our case.
+Why should this algorithm be called BFS?}
+
+\begin{algorithm}
+	\caption{Search algorithm}\label{alg:bfs}
+	\begin{algorithmic}
+		\State $H \gets R_0$ \Comment{Initialize the heap of presentations with $R_0$.}
+		\State $S \gets R_0$ \Comment{Initialize the set of seen presentations with $R_0$.}
+
+		\While{$\text{len}(S) < 10^6$} \Comment{While number of nodes in $S$ is less than $N$.}
+		\State $R \gets H[0]$ \Comment{Pop the top element of the heap.}
+		\For{$A \in \text{AC Moves}$}
+		\State $RA \gets A \cdot R$ \Comment{Act on $R$ by $A$.}
+		\If{RA is trivial}
+		\Return{True}
+		\Else{ $RA \notin S$}
+		\State $S \gets RA$
+		\State $H \gets RA$ \Comment{Add $RA$ to $H$ keeping the heap invariant.}
+
+		\EndIf
+		\EndFor
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
+The number of BFS-hard examples increases as a function of $n$.
+(See \autoref{fig:hist_vs_n}.)
+The distributions of BFS-easy and BFS-hard as a function of the total length of a presentation are also given in \autoref{fig:hist_vs_length}.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
+		\includegraphics[width=\textwidth]{fig/hist_vs_n.png}
+		\caption{Distribution versus $n$}
+		\label{fig:hist_vs_n}
+	\end{subfigure}%
+	%add desired spacing between images, e. g. ~, \quad, \qquad etc.
+	%(or a blank line to force the subfigure onto a new line)
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{fig/hist_vs_lengths.png}
+		\caption{Distribution versus total length}
+		\label{fig:hist_vs_length}
+	\end{subfigure}
+	\caption{Number of presentations}\label{fig:miller_schupp_statistics}
+\end{figure}
