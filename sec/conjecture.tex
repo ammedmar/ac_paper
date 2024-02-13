@@ -26,24 +26,31 @@ Previous approaches to studying this conjecture have made extensive use of class
 was discovered to be the shortest presentation (upto AC-equivalence) that alluded all attempts of reducing length. This presentation was previously suggested as a member of an inifite series of potential counterexamples by Akbulut and Kirby \cite{Akbulut-Kirby}:
 
 \[
-\AK(n) \colon \angles{x, y \mid x^n = y^{n+1}, xyx = yxy} \quad , \quad n \geq 2
+\angles{x, y \mid x^n = y^{n+1}, xyx = yxy}, \quad n \geq 2
 \]
-The case of $n=2$ is a length-11 presentation and is now known to be AC-trivial. The length-13 presentation mentioned above is the case $n=3$. 
+For $n=2$, it gives a length-11 presentation, which is now known to be AC-trivial. The case $n=3$ is the length-13 presentation mentioned above. 
 \newline
 
-In the two decades since \cite{genetic, bfs-ac}, breadth-first search has been applied to trivialize this length-13 presentation with larger amounts of compute and storage but has had no signs of success \cite{Panteleev-Ushakov}. 
+In a little more than two decades since \cite{genetic, bfs-ac}, breadth-first search has been applied in attempts to trivialize this length-13 presentation with larger amounts of compute and storage but has had no signs of success \cite{Panteleev-Ushakov}. 
 \footnote{Include citations to other papers.}
-In particular, the work of \cite{Panteleev-Ushakov} showed that no sequence of AC moves that allows relator lengths to increase up to 20 trivializes this presentation. This could be taken as  evidence that the length-13 presentation is, in fact, a counterexample to Andrews-Curtis conjecture. However, recent works of Bridson and Lishak have showed that there exist AC-trivializable presentations of the trivial group for which the number of AC moves in a trivializing sequence is bounded below by a superexponential function of the length of the presentation \cite{Bridson, Lishak}.
+In particular, the work of \cite{Panteleev-Ushakov} showed that no sequence of AC moves that allows relator lengths to increase up to 20 trivializes this presentation. This could be taken as  evidence that the length-13 presentation is, in fact, a counterexample to Andrews-Curtis conjecture. However, recent works of Bridson and Lishak have showed that there exist AC-trivializable balanced presentations of the trivial group for which the number of AC moves is bounded below by a superexponential function of the length of the presentation \cite{Bridson, Lishak}.
 Roughly speaking, for these presentations, if the sum of word lengths is $n$, the number of AC moves required to trivialize the presentation is at least $\Delta (\lfloor \log_2 (n) \rfloor)$ where $\Delta \colon \mathbb{N} \to \mathbb{N}$ is defined recursively as $\Delta(0) = 2$ and $\Delta (m) = 2^{\Delta(m-1)}$ for $m \geq 1$.
+\footnote{Can we write concisely the family of presentations studied by Lishak? How different are they from AK(n)? }
+\footnote{Note that for $n=13$, $\Delta (\lfloor \log_2 (n) \rfloor) = 65536$.}
 \newline
 
-In this paper, we will consider a wide range of computational tools to understand the properties of balanced presentations of trivial group. In order to 
-
-consider a wider class of potential counterexamples, known as the Miller-Schupp series \cite{Miller-Schupp}. It consists of presentations of the form
+In this paper, we will consider a wide range of computational tools to understand better the properties of balanced presentations of the trivial group. We will test the efficacy of our approaches on a subset of presentations from the Miller-Schupp series of potential counterexamples \cite{Miller-Schupp}.
 \[
 \MS(n, w) \colon \angles{x, y \mid x^{-1} y^n x = y^{n+1}, x = w}.
 \]
-where $n > 0$, and $w$ is a word in $x$ and $y$ such that with zero exponent sum on $x$.
+Here, $n > 0$, and $w$ is a word in $x$ and $y$ with zero exponent sum on $x$. For $w_\star = y^{-1} x^{-1} y x y$, the presentations $\MS(n, w_\star)$ are AC-equivalent to the presentations from Akbulut-Kirby series \cite{MMS}. In particular, the presentation
+\[
+\MS(n, w) \colon \angles{x, y \mid x^{-1} y^3 x = y^{4}, x =  y^{-1} x^{-1} y x y}.
+\]
+of length 15 is AC-equivalent to the shortest potential counterexample mentioned above. We will restrict to the cases $n \leq 7$ and also only consider words $w$ of length at most 7. 
+\footnote{These choices are somewhat arbitrary. We wanted a set of presentations that is large enough for us to be able to make reasonable conclusions about our approaches, but still small enough that we can perform computations in a reasonable amount of time.  \fixme{Why not restrict length to 25 instead of restricting n and length of w? Well if we do that with 2n + 4 + lenw = 25, then lenw has to be at least 1, so n can be at most 10. and n has to be at least 1, so lenw can be at most 19.}}
+We reduced $x^{-1}w$ freely and cyclically, and kept only one representative of each orbit under the action of cyclic permutations. After these simplifications, we were left with $170$ choices for the second relator. In overall, this amounted to $7 \times 170 = 1190$ presentations from the Miller-Schupp series.
+%\footnote{Notice that the sum of relator lengths of $\AK(n)$ is $2n+7$, and that of $\MS(w_\star, n)$ is $2n+9$.}
 \footnote{Angus has pointed out that for $n=1$, these are all likely trivializable.
 Can we show that? 
 I think we should be able to list all possibilities for w; this seems like a combinatorial problem.
@@ -52,21 +59,17 @@ This is because BFS trees will get too large as the length of $w$ is increased b
 }
 \footnote{The first potential counterexamples in this series that are not AC-equivalent to the standard presentation or to $AK(3)$ would be of length 14.
 Can we list those presentations and	check their relation to the trivial presentation or AK(3)? One such element is the case $n=3$, $w = y^{-1} x y x^{-1}$; this example is AC-trivializable \cite{morse}.}
-The presentations $\MS(n, w_\star)$ for $w_\star = y^{-1} x^{-1} y x y$ are known to be AC-equivalent to $\AK(n)$. In particular, $\AK(3)$ studied above is  \cite{MMS}; therefore, in this paper, we focus entirely on the Miller-Schupp series.
-Notice that the sum of relator lengths of $\AK(n)$ is $2n+7$, and that of $\MS(w_\star, n)$ is $2n+9$.
+\newline
 
 
-We consider examples of the Miller-Schupp series for $n \leq 7$ and $\text{len}(w) \leq 7$. \fixme{How many examples are there?}
+
+
+
+
+
  
  \fixme{Give details of the specific way in which we coded AC moves.}
 
-We consider all examples of the Miller-Schupp series for $n \leq 7$ and $\text{len}(w) \leq 7$.
-We freely and cyclically reduce $x^{-1}w$ and, keep only one element of each orbit under the action of cyclic permutations.
-\footnote{Here, the restriction len$(w) \leq 7$ was imposed \textit{before} freely and cyclically reducing $x^{-1}w$.
-The total length of a presentation in the Miller-Schupp series before this reduction is $2n+4+\text{len}(w)$, however, after these reductions, the total length decreases to $2n+4+\text{len}(w')$ where $x^{-1}w'$ is the reduced word.
-This can be a source of confusion.
-Maybe I should consider all examples that satisfy $\text{len}(w') \leq 7$.}
-There are 170 relators of the form $x^{-1}w$ with these restrictions, and hence 1190 presentations in total.
 
 %\footnote{In \cite{decidability}, it is proven that either Andrews-Curtis conjecture is false, or there exists an algorithm that decides whether a balanced presentation is of the trivial group.
 %For arbitrary presentations (i.e. not necessarily balanced), the decidability problem is known to be unsolvable.
