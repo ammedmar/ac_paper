@@ -1,0 +1,97 @@
+% !TEX root = ../ac_paper.tex
+
+\section{Isolation components and values}\label{s:isolation}
+
+Lets recall that in the AC conjecture one focuses on ($k$-balanced) presentations and their AC simplifications.
+That is, for an an arbitrary presentation $\pi$, a sequence $(\pi_0,\dots,\pi)$ with $\pi_0$ the trivial presentation and such that any two consecutive presentations in the sequence are related by an AC move.
+Since $\pi_0$ minimizes length among all balanced presentations, in attempting to simplify a given $\pi$ one might adopt a greedy strategy: given $\pi_k$, select $\pi_{k-1}$ such that the length of $\pi_{k-1}$ is either reduced or, at the very least, not increased relative to $\pi_k$.
+While this approach proves useful in numerous instances, it is not universally applicable.
+A more nuanced perspective involves considering simplifications $(\pi_0,\dots,\pi_m)$ where the length of each $\pi_k$ does not exceed that of $\pi$.
+Our focus will be on this scenario, referring to presentations that resist such simplifications as \textit{isolated}.
+
+To quantify the degree of isolation, we introduce an \textit{isolation value} for each presentation,
+an integer that in the extreme cases is $0$ for presentations that are not isolated and $\infty$ for counterexamples to the AC conjecture, if any.
+Since isolated presentations are not necessarily isolated from each other, we introduce an equivalence relation that allows us to better count these isolated component and their isolation values.
+
+Employing methodologies from topological data analysis, our objective in this section is to empirically count isolated components and compute their isolation value.
+Our analysis will be conducted through finite approximations of the AC problem, providing insights into the structural intricacies and challenges inherent in the AC conjecture.
+
+\subsection{Formalization}
+
+We provide the basic definitions and conceptual basis for the computations presented in the next subsection.
+
+\subsubsection{Based graphs}
+
+A \textit{based graph} is a pair $(\Gamma, v_0)$ consisting of a graph $\Gamma$ and a preferred vertex $v_0$ in it.
+We will often drop $v_0$ from the notation.
+A \textit{based subgraph} $\Gamma_n$ of $\Gamma$, written $\Gamma_n \leq \Gamma$, is a subgraph $\Gamma_n$ of $\Gamma$ with the same preferred vertex.
+We say that $\Gamma_n$ is \textit{full} in $\Gamma$ if for any two vertices in $\Gamma_n$ joined by an edge in $\Gamma$, the edge is also in $\Gamma_n$.
+A \textit{filtration} of a based graph $\Gamma$ is a collection
+\[
+\Gamma_0 \leq \Gamma_1 \leq \Gamma_2 \leq \dotsb
+\]
+of based subgraphs of $\Gamma$ for which each vertex and edge of $\Gamma$ is in $\Gamma_n$ for some $n$.
+We refer to $\Gamma$ as a \textit{filtered based graph}.
+If each $\Gamma_n$ is full in $\Gamma$ we refer to the filtration as full and notice that full filtrations are equivalent to $\N$ valued functions from the set of vertices of $\Gamma$ sending $v_0$ to $0$.
+
+\subsubsection{The AC graph}
+
+Let $\Gamma^{\text{AC(k)}}$ be the graph whose vertices are $k$-balanced presentations, based at the trivial presentation, having an edge between two vertices if there is an AC move between them.
+Additionally, $\Gamma^{\text{AC(k)}}$ is equipped with a full filtration obtained from the function sending a vertex to the length of its presentation minus $k$.
+
+\subsubsection{Filtration and connectivity values}
+
+Given a filtered based graph $(\Gamma, v_0)$.
+The \textit{filtration value} $\Filt(v)$ of a vertex $v$ is the smallest $n \in \N$ such that $v$ is a vertex in $\Gamma_n$.
+Similarly, its \textit{connectivity value} $\Conn(v)$ is the smallest $n \in \N$ such that $v$ and $v_0$ can be joined by a path in $\Gamma_n$ or is set to $\infty$ if such path does not exist in $\Gamma$.
+
+\subsubsection{Isolation value and components}
+
+The \textit{isolation value} of a vertex $v$ in a filtered based graph is defined as
+\[
+\Isol(v) = \Conn(v) - \Filt(v),
+\]
+a number in $\N \cup \set{\infty}$.
+A vertex is said to be \textit{isolated} if its isolation value is positive.
+
+We introduce an equivalence relation on isolated vertices.
+Two belong to the same \textit{isolated component} if they have the same connectivity value, say $n$, and they can be joined by a path in $\Gamma_{n-1}$.
+The \textit{isolation value} of a component is the maximum of the isolation values of its elements.
+
+\subsection{Results}
+
+Let $\Gamma(\ell)$ be the full subgraph of $\Gamma^{\text{AC(2)}}$, with the induced filtration, whose vertices are presentations that can be joined to the trivial one via paths that contains only presentations of length at most~$\ell$.
+Naturally, for any $\ell$ and $n$ we have that $\Gamma(\ell)_n$ is a full subgraph of $\Gamma(\ell+1)_n$.
+We will denote by $v(\ell)$ and $e(\ell)$ the number of vertices and edges of $\Gamma(\ell)$.
+Let us denote by $ic(\ell)_k$ the number of isolated components with isolation value $k$.
+The following table summarizes our results:
+
+\[
+\begin{tabular}{|c|c|c|c|c|c|}
+	\hline
+	$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ & $ic(\ell,3)$ \\ \hline
+	2 & 4 & 4 & 0 & 0 & 0 \\ \hline
+	3 & 36 & 76 & 0 & 0 & 0 \\ \hline
+	4 & 100 & 241 & 0 & 0 & 0 \\ \hline
+	5 & 388 & 1027 & 0 & 0 & 0 \\ \hline
+	6 & 876 & 2224 & 0 & 0 & 0 \\ \hline
+	7 & 3844 & 10057 & 0 & 0 & 0 \\ \hline
+	8 & 8992 & 23726 & 0 & 0 & 0 \\ \hline
+	9 & 35844 & 97243 & 0 & 0 & 0 \\ \hline
+	10 & 81004 & 216412 & 1 & 0 & 0 \\ \hline
+	11 & 338020 & 920347 & 6 & 3 & 0 \\ \hline
+	12 & 762116 & 2043028 & 12 & 8 & 1 \\ \hline
+	13 & 3115928 & 8478633 & 32 & 21 & 2 \\ \hline
+\end{tabular}
+\]
+
+\medskip We can see that in our approximations $\Gamma(\ell)$ of $\Gamma^{\text{AC(2)}}$ there are no isolated components for values of $\ell$ less than or equal to $9$, and that their number grows rapidly afterwards.
+
+\subsection{Methods}
+
+The number of isolated components with isolation value $k$ in a connected filtered based graph $\Gamma$ is one less than the number of bars in the 0-barcode of its persistent homology.
+Since by construction our approximations $\Gamma(\ell)$ are all connected, it suffices to compute said invariant.
+For this task we used \texttt{giotto-TDA} version 5.1 \cite{tauzin2021giotto}.
+Specifically, its binding of the \texttt{SimplexTree} data structure \cite{boissonnat2014simplex} present in \texttt{GUDHI} \cite{maria2014gudhi}.
+
+To compute the approximation $\Gamma(\ell)$ an store it as a \text{SimplexTree} we proceeded as follows: \anibal{(@Jessica)}.
