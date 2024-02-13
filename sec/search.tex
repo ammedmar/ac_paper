@@ -2,13 +2,11 @@
 
 \section{Breadth first search}
 
-We consider all examples of the Miller-Schupp series for $n \leq 7$ and $\text{len}(w) \leq 7$.
-We freely and cyclically reduce $x^{-1}w$ and, keep only one element of each orbit under the action of cyclic permutations.
-\footnote{Here, the restriction len$(w) \leq 7$ was imposed \textit{before} freely and cyclically reducing $x^{-1}w$.
-The total length of a presentation in the Miller-Schupp series before this reduction is $2n+4+\text{len}(w)$, however, after these reductions, the total length decreases to $2n+4+\text{len}(w')$ where $x^{-1}w'$ is the reduced word.
-This can be a source of confusion.
-Maybe I should consider all examples that satisfy $\text{len}(w') \leq 7$.}
-There are 170 relators of the form $x^{-1}w$ with these restrictions, and hence 1190 presentations in total.
+
+
+
+
+
 We use the algorithm presented in Algorithm \autoref{alg:bfs} to classify these examples as solved or unsolved.
 For each presentation $R_0$, we start with a heap $H$ and a set $S$; each of them containing only $R_0$.
 The heap $H$ is ordered by a tuple $(n, m)$ where $n$ is the total length of a presentation and $m$ is the length of the sequence of AC moves connecting a presentation and $R_0$.
