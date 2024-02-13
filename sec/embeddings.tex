@@ -113,7 +113,8 @@ As the model was trained, we were able to achieve the minimum validation loss of
 \footnote{insert a validation loss curve.}
 
 We use the trained model to obtain embeddings of the 1190 Miller Schupp presentations studied above.
-To visualize these embeddings, we use t-SNE with distance measured by the cosine of the angle between two embedding vectors and project the embedding space down to two dimensions.
+To visualize these embeddings, we use t-SNE with distance measured by the cosine of the angle between two embedding vectors and project the embedding space down to two dimensions. \fixme{Try to understand how cosine similarity changes formulas for t-SNE.}  Value of perplexity? Were the results robust under the change of perplexity?
+\fixme{Should we also plot UMAPs?}
 The final result is shown in \autoref{fig:embeddings_tsne}.
 We see that the model has clustered together examples with the same $n$.
 
@@ -129,7 +130,7 @@ We see that the model has clustered together examples with the same $n$.
 \begin{figure}
 	\centering
 	\begin{subfigure}[b]{\textwidth}
-		\includegraphics[width=1\linewidth]{fig/embeddings_n.png}
+		\includegraphics[width=0.5\linewidth]{fig/embeddings_n.png}
 		\caption{Scatter plot of embeddings as a function of $n$ using t-SNE}
 		\label{fig:hist_vs_n}
 	\end{subfigure}%
@@ -138,7 +139,7 @@ We see that the model has clustered together examples with the same $n$.
 
 	\begin{subfigure}[b]{\textwidth}
 		\centering
-		\includegraphics[width=1\linewidth]{fig/embeddings_easy_vs_hard.png}
+		\includegraphics[width=0.5\linewidth]{fig/embeddings_easy_vs_hard.png}
 		\caption{Scatter plot of BFS-easy and BFS-hard examples using t-SNE}
 		\label{fig:hist_vs_length}
 	\end{subfigure}
