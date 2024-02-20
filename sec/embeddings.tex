@@ -88,7 +88,7 @@ Also change the label of x-axis to something better.}
 Algorithm \autoref{alg:apply_ac_moves} generates presentations of increasing lengths in $n$ phases.
 In the $i$-th phase, presentations with maximum relator length $l_i$ are generated, where $l_i$ is sampled from a discrete uniform distribution with bounds $l + i l_{\text{inc}} $ and $l + (i+1) l_{\text{inc}}$.
 Here, $l$ is the maximum of the lengths of the two relators in the initial Miller-Schupp presentation $R_0$ (and thus the minimum value of maximum relator length in the algorithm), and $l_{\text{inc}}$ is defined in terms of the maximum possible relator length $l_{\text{max}}$ we wish to obtain in the last phase as $l_{\text{inc}} = (l_{\text{max}}-l)/n$.
-In the $i$-the phase, $T$ AC moves are applied to a presentation generated in the $(i-1)$-th phase.
+In the $i$-th phase, $T$ AC moves are applied to a presentation generated in the $(i-1)$-th phase.
 In our work, we chose $l_{\text{max}}=128$, $n=128$, $m=12$, and $T=1000$.
 \footnote{Specify much earlier in the paper, and here as well, that whenever we apply AC moves, we set a maximum length up to which each relator is allowed to grow.
 Any AC move that would result in a presentation of longer relator length acts trivially.
