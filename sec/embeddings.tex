@@ -2,9 +2,37 @@
 
 \section{Embeddings}
 
+The probability of a document 
+
+\[
+p(t_1 \cdots t_{n_c}) = \prod\limits_{i=1}^{n_c} p (t_{i} \mid t_{1} \cdots t_{i-1}) 
+\]
+
+$p (t_{n} \mid t_{1} \cdots t_{n-1}) $ is the $n$-gram probability distribution of text. Decoder-only transformer models learn this probability distribution from a dataset of text. 
+\newline
+
+Perplexity: https://huggingface.co/docs/transformers/en/perplexity
+
+An advantage of using transformers or neural networks is that you can also find an embedding of words/sentences \cite{Bengio:2003}. The similarity of texts actually reflects in the geometry of the embedding vectors: similar texts are closer to each other when measured by cosine similarity. [
+
+Here, we model the langauge of balanced presentations of the trivial group with two generators and ask if the geometry of embedding vectors reflects any structure of 
+
+In section 4.1, we give a review of decoder-only transformers; in section 4.2, we discuss the dataset used to train the model; and in section 4.3, we present our results. 
+
+\footnote{For a review of decoder-only transformer models and Large Language Models aimed at physicists and mathematicians, see \cite{douglas2023large,}.}
+
+\footnote{\fixme{What is the correct reference for analyzing embeddings through cosine simiarity between vectors?}}
+
+Original attention paper: \cite{vaswani2023attention}.
+
+Previously, encoder-only architectures were used in \cite{gukov2020learning} for the unknot decision problem. 
+
+
 \subsection{Transformers: a review}
 
 Here, we give a short review of the architecture of a decoder-only transformer. Given an input sequence $t_1, t_2, \cdots, t_{n_c}$, a decoder-only transformer predicts the probability distribution over the vocabulary, i.e. it predicts $p(t \mid t_1, t_2, \cdots, t_{n_c})$ for each $t$ in the vocabulary. We will denote the size of the vocabulary as $n_v$. Each elements of the vocabulary is often referred to as a `token'. The probability distribution for the $(n_c+1)$-st token is predicted by applying the following sequence of functions to the input sequence.
+
+The presentation given here is slightly different from the original presentation. We follow \cite{elhage2021mathematical}.
 
 We start with encoding our input sequence into a matrix $T \in \R^{n_c \times n_v}$,
 \footnote{Each row of $t$ is often referred to as a `one-hot encoded vector'.}
@@ -15,6 +43,8 @@ and embed each token into a $\dm$-dimensional space with the help of an embeddin
 \[
 x_0 = (\mathbb{1} \otimes W_E) T
 \]
+
+\fixme{positional encoding}
 
 For an $L$-layer transformer, we alternate between applying a ``multi-head attention" transformation and an ``MLP-layer" transformation as follows. 
 \[
@@ -37,7 +67,6 @@ A = \softmax(x^T W_Q^T W_K x)
 $W_O \in \R^{\dm \times \dhead}$, and 
 The number of attention heads is a hyperparameter of the architecture.
 
-Replace $m$ with $FFN$. 
 
 Apply LN right before the unembed operation. 
 
