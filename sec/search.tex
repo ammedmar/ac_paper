@@ -2,25 +2,21 @@
 
 \section{Breadth first search}
 
+% Sketch of the section: We use search algorithm to get a baseline on results. We call it breadth-first search. It is able to solve less than half of the presentations we considered. We will use these presentations to generate dataset for each of the techniques used in the next two sections: for embeddings, we generate text dataset, for reinforcement learning, these states are the initial states of a Markov Decision Process. 
 
-
-\fixme{Made search space finite. Perhaps this could be discussed in the previous section.}
+\fixme{Made search space finite. Perhaps this could be discussed in the previous section. Justify the BFS name.}
 
 
 We use the algorithm presented in Algorithm \autoref{alg:bfs} to classify these examples as solved or unsolved.
 For each presentation $R_0$, we start with a heap $H$ and a set $S$; each of them containing only $R_0$.
 The heap $H$ is ordered by a tuple $(n, m)$ where $n$ is the total length of a presentation and $m$ is the length of the sequence of AC moves connecting a presentation and $R_0$.
-The size of the tree grows extremely fast\footnote{Something like $n^k$?}, hence we put a hard cutoff on the number of nodes of the tree.
+We put a hard cutoff of $10^6$ on the number of nodes of the tree. With this choice, we found that each example took 1-2 minutes to process.
+For 1190 presentations, this amounted to approximately 20 hours. \fixme{CPU Time?}
 If the algorithm finds the trivial presentation, we consider the starting presentation $R_0$ 'BFS-easy'; else, we consider it a 'BFS-hard' example.
-\footnote{Justify the BFS name.}
-\footnote{Note that the choice of $10^6$ nodes is based entirely on computational convenience.
-With this choice, we found that each example took 1-2 minutes to process.
-For 1190 presentations, this amounted to approximately 20 hours.
-Can this be made more precise maybe in terms of CPU time?}
-\footnote{The sequence we first encounter depends on the choice of sequence of AC moves in the for loop.
-What is that sequence in our case?}
-\footnote{Isn't S a set instead of a list? Specify what Actions, H, $N_f$ mean in our case.
-Why should this algorithm be called BFS?}
+The sequence we first encounter depends on the choice of sequence of AC moves in the for loop.
+What is that sequence in our case?
+Isn't S a set instead of a list? Specify what Actions, H, $N_f$ mean in our case.
+Why should this algorithm be called BFS?
 
 \begin{algorithm}
 	\caption{Search algorithm}\label{alg:bfs}
