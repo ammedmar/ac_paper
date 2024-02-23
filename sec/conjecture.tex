@@ -17,7 +17,7 @@ through a series of following operations known as AC moves \cite{Andrews-Curtis}
 	\item Change some $r_i$ to $g r_i g^{-1}$ where $g$ is a generator or its inverse.
 \end{enumerate}
 
-Little headway has been made in establishing a proof of the conjecture. On the other hand, several families of potential counterexamples have been suggested in the literature; we collect a subset of these in Appendix A. \footnote{\fixme{Include a reference.}} To investigate a given presentation, one can systematically explore the entire space of possible sequences of AC moves in search of a sequence that renders the presentation trivial. However, this space grows exponentially with the length of the sequence. For a presentation with $n$ generators, there are $3n^2$ AC moves, and the total number of sequences of AC moves of length $k$ is $(3n^2)^k$. Even for a modest case like $n=2$ and $k=20$, the number is on the order of $10^{21}$, making a brute-force approach impractical.
+We will refer to the sum of the word lengths of all relators as ``total length" of a presentation. Little headway has been made in establishing a proof of the conjecture. On the other hand, several families of potential counterexamples have been suggested in the literature, a subset of which are collected in Appendix A. \footnote{\fixme{Fix the reference.}} To investigate a given presentation, one can systematically explore the entire space of possible sequences of AC moves in search of a sequence that renders the presentation trivial. However, this space grows exponentially with the length of the sequence. For a presentation with $n$ generators, there are $3n^2$ AC moves, and the total number of sequences of AC moves of length $k$ is $(3n^2)^k$. Even for a modest case like $n=2$ and $k=20$, the number is on the order of $10^{21}$, making a brute-force approach impractical.
 \newline 
 
 Cassical search algorithms such as genetic algorithms \cite{genetic}, and breadth-first-search  \cite{bfs-ac} have been employed to address this challenge. These methods have shown success in trivializing balanced presentations with two generators and total lengths less than 13. The following presentation of length 13,
@@ -67,3 +67,8 @@ We found this particular choice of transformations to be more useful in early ex
 \footnote{In reinforcement learning, we need a reward function to search through the set of all possible AC moves. A natural reward function is the negative of the total length of a presentation. An inversion move leaves the length of a presentation invariant providing no signal to the training process, and hence significantly affects the performance of an agent. This issue is discussed in more detail in section 5.}
 From here onwards in this paper, we will refer to these transformations as ``AC moves" instead of the original AC moves mentioned above.
 %\footnote{\fixme{We should run some experiments that show how the use of these moves as compared to the original AC moves affects the path lengths in BFS.}}
+
+
+\fixme{Perhaps all $n=1$ examples will be solved by finding paths using the original AC moves, i.e. the pattern will be more obvious that way.}
+
+\fixme{Be careful about full simplify vs simplify in presenting results.}

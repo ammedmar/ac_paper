@@ -1,6 +1,20 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Embeddings}
+\section{Language Modeling}
+
+\fixme{Can we model the language of balanced presentations of the trivial group in general, somehow? What can one hope to learn from that?}
+
+\fixme{Not very happy with the results of this section.}
+
+\fixme{Can we conclude from this section or from this paper somehow that $n$ as compared to total length is a better metric for hardness of examples from the Miller-Schupp series?}
+
+\fixme{Within examples of the same value of $n$, what distinguishes between hard vs easy problems? Is it length of the word $w$? Or is it some other property? Perhaps the count of $x$'s. Perhaps the count of $y$'s.}
+
+\fixme{One thing that t-SNE projections show is that for most values of $n$, there are two clusters: one containing a mix of solved and unsolved examples, and another containing only the unsolved examples. 1). Why is that? 2). Can we measure what distinguishes the two clusters? Is it length of $w$, is it the number of $x$'s vs $y$'s, or is it something else? 3). Can we say that the unsolved presentations in the former cluster are more likely to be solvable than the problems in the latter cluster?}
+
+\fixme{It seems that the goal for us is not to model the language as such, but to find an embedding of the examples, and see if this embedding space, also known as 'latent space' contains any useful information about the question of hardness of examples.}
+
+\fixme{The clustering with $n$ is not a miracle. That's just a consequence of our tokenization. The clustering of hard vs easy examples within each $n$, that's more interesting.}
 
 The probability of a document 
 
@@ -34,7 +48,7 @@ Here, we give a short review of the architecture of a decoder-only transformer. 
 
 The presentation given here is slightly different from the original presentation. We follow \cite{elhage2021mathematical}.
 
-We start with encoding our input sequence into a matrix $T \in \R^{n_c \times n_v}$,
+We start with encoding our input sequence into a matrix $T \in \R^{n_c \times n_v}$, \fixme{Convert $t_i$ into a number first.}
 \footnote{Each row of $t$ is often referred to as a `one-hot encoded vector'.}
 \[
 T_{ij} = \delta_{i t_i}
@@ -44,7 +58,7 @@ and embed each token into a $\dm$-dimensional space with the help of an embeddin
 x_0 = (\mathbb{1} \otimes W_E) T
 \]
 
-\fixme{positional encoding}
+\fixme{positional encoding} $W_P$ should be a matrix of shape ?
 
 For an $L$-layer transformer, we alternate between applying a ``multi-head attention" transformation and an ``MLP-layer" transformation as follows. 
 \[
@@ -227,7 +241,7 @@ We see that the model has clustered together examples with the same $n$.
 \begin{figure}
 	\centering
 	\begin{subfigure}[b]{\textwidth}
-		\includegraphics[width=0.5\linewidth]{fig/embeddings_n.png}
+		\includegraphics[width=\linewidth]{fig/embeddings_n.png}
 		\caption{Scatter plot of embeddings as a function of $n$ using t-SNE}
 		\label{fig:hist_vs_n}
 	\end{subfigure}%
@@ -236,7 +250,7 @@ We see that the model has clustered together examples with the same $n$.
 
 	\begin{subfigure}[b]{\textwidth}
 		\centering
-		\includegraphics[width=0.5\linewidth]{fig/embeddings_easy_vs_hard.png}
+		\includegraphics[width=\linewidth]{fig/embeddings_easy_vs_hard.png}
 		\caption{Scatter plot of BFS-easy and BFS-hard examples using t-SNE}
 		\label{fig:hist_vs_length}
 	\end{subfigure}

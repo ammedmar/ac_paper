@@ -2,19 +2,6 @@
 
 \section{A Greedy Search Algorithm}
 
-% Sketch of the section: We use search algorithm to get a baseline on results. We call it breadth-first search. It is able to solve less than half of the presentations we considered. We will use these presentations to generate dataset for each of the techniques used in the next two sections: for embeddings, we generate text dataset, for reinforcement learning, these states are the initial states of a Markov Decision Process. 
-
-%\fixme{Made search space finite. Perhaps this could be discussed in the previous section. Justify the BFS name.}
-
-In this section, we introduce a greedy search algorithm, referenced as \autoref{alg:bfs}, which bears resemblance to the A* search algorithm within the context of graph theory. The algorithm searches through the space of all balanced presentations, a path that connects an initial presentation $P_0$ to a trivial presentation. 
-\newline 
-
-$P_0$ is initially placed into a priority queue $Q$ and a set $S$. The priority queue is ordered by a tuple $(k, l)$ where $k$ is the total length of a presentation and $l$ is the path length between a state and $P_0$. The algorithm iteratively selects the top element from the priority queue and applies all possible AC moves to it to generate new states. If a state has not been seen before, the algorithm adds it to both $Q$ and $S$. This process is continued until the algorithm finds a trivial presentation, deeming the search process successful, or if it has seen a million distinct states. 
-\newline
-
-We put a cutoff of a million states to make the search process feasible within a practical timeframe. For 1190 presentations of the Miller-Schupp series, exploring a million states takes about 20 hours of CPU time. 
-\footnote{Make sure this is correct.} We will call a presentation ``GS-easy" if the greedy search algorithm successfully finds a path that trivializes the presentation; otherwise, we will call it ``GS-hard". The distributions of ``GS-easy" and ``GS-hard" presentations as functions of $n$ and lengths of the presentations of the Miller-Schupp series is given in \fixme{Include reference.}
-
 \begin{algorithm}
 	\caption{Greedy Search Algorithm}\label{alg:bfs}
 	\begin{algorithmic}
@@ -37,27 +24,54 @@ We put a cutoff of a million states to make the search process feasible within a
 	\end{algorithmic}
 \end{algorithm}
 
+% Sketch of the section: We use search algorithm to get a baseline on results. We call it breadth-first search. It is able to solve less than half of the presentations we considered. We will use these presentations to generate dataset for each of the techniques used in the next two sections: for embeddings, we generate text dataset, for reinforcement learning, these states are the initial states of a Markov Decision Process. 
 
-\fixme{Start from here by plotting and including heatmaps.}
+%\fixme{Made search space finite. Perhaps this could be discussed in the previous section. Justify the BFS name.}
 
-The number of BFS-hard examples increases as a function of $n$.
-(See \autoref{fig:hist_vs_n}.)
-The distributions of BFS-easy and BFS-hard as a function of the total length of a presentation are also given in \autoref{fig:hist_vs_length}.
+In this section, we introduce a greedy search algorithm, referenced as \autoref{alg:bfs}, which bears resemblance to the A* search algorithm within the context of graph theory. The algorithm searches the space of all balanced presentations for a path that connects an initial presentation $P_0$ to a trivial presentation.
+$P_0$ is initially placed into a priority queue $Q$ and a set $S$. The priority queue is ordered by a tuple $(k, l)$ where $k$ is the total length of a presentation and $l$ is the path length between a state and $P_0$. The algorithm iteratively selects the top element from the priority queue and applies all possible AC moves to it to generate new states. If a state has not been seen before, the algorithm adds it to both $Q$ and $S$. This process is continued until the algorithm finds a trivial presentation, deeming the search successful, or if it has seen a million distinct states. 
+%Note that the paths found by our greedy search algorithm depend on the particular order in which AC moves are applied. 
+\newline
 
-%\begin{figure}
-%	\centering
-%	\begin{subfigure}[b]{0.5\textwidth}
-%		\includegraphics[width=\textwidth]{fig/hist_vs_n.png}
-%		\caption{Distribution versus $n$}
-%		\label{fig:hist_vs_n}
-%	\end{subfigure}%
+We place a cutoff of a million states to make the search process feasible within a practical timeframe. We will call a presentation ``GS-easy" if the greedy search algorithm successfully finds a path that trivializes the presentation; otherwise, we will call it ``GS-hard". The distributions of ``GS-easy" and ``GS-hard" presentations as functions of $n$ and lengths of the presentations of the Miller-Schupp series is given in \autoref{fig:miller_schupp_statistics}. 
+\footnote{\fixme{Is it better to use 'GS-easy'/GS-hard or GS-solved/GS-unsolved? Fix the figure accordingly, i.e. replaced 'solved' and 'unsolved' by 'GS-solved' and 'GS-unsolved'.}}
+\footnote{\fixme{One issue with the bar chart is that it does not give precise numbers for solved and unsolved presentations. If we need to provide those explicit numbers, we can use heatmaps instead.}}
+Note that the number of unsolved presentations increases monotonically with $n$, but not with the total length of the presentation. This indicates that $n$ as compared to the length of the presentation is a better metric to measure the hardness of a presentation. 
+All presentations with total length up to 13 are solved. 
+There are a total of six unsolved presentations at length 14, four of which are AC-equivalent to $\AK(3)$. The other two presentations are as follows. 
+\[
+\angles{x, y \mid x^{-1} y^2 x = y^{3} , x = y x^2 y^{\pm 1} x^{-2}}
+\]
+We checked that these presentations are not AC-equivalent to $\AK(3)$ by any sequence of AC moves that allows the length of each relator to increase upto 20.
+
+\fixme{Compare the performance with an ordinary BFS algorithm. I set it up to run on Feb 23 with SLURM ID: 34869100. Compare it also with a GS/BFS algorithm that applies the usual AC moves. 34869254 has GS with original AC moves and 34869256 has BFS with original AC moves.}
+
+%It is listed as example 1 on page 3 of \cite{MMS}.
+%I have checked whether we can reduce the length of these examples with max length = 20.
+
+%\fixme{Compare with Table 2 of Panteleev-Ushakov.
+%They seem to have a lot more examples with $n=2$ that they could not resolve.}
+
+
+%The number of BFS-hard examples increases as a function of $n$.
+%(See \autoref{fig:hist_vs_n}.)
+%The distributions of BFS-easy and BFS-hard as a function of the total length of a presentation are also given in \autoref{fig:hist_vs_length}.
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
+		\includegraphics[width=\textwidth]{fig/hist_vs_n.png}
+		\caption{Distribution versus $n$}
+		\label{fig:hist_vs_n}
+	\end{subfigure}%
 	%add desired spacing between images, e. g. ~, \quad, \qquad etc.
 	%(or a blank line to force the subfigure onto a new line)
-%	\begin{subfigure}[b]{0.5\textwidth}
-%		\centering
-%		\includegraphics[width=\textwidth]{fig/hist_vs_lengths.png}
-%		\caption{Distribution versus total length}
-%		\label{fig:hist_vs_length}
-%	\end{subfigure}
-%	\caption{Number of presentations}\label{fig:miller_schupp_statistics}
-%\end{figure}
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.1\textwidth]{fig/hist_vs_lengths.png}
+		\caption{Distribution versus total length}
+		\label{fig:hist_vs_length}
+	\end{subfigure}
+	\caption{Number of GS-solved and GS-unsolved presentations as functions of $n$ and total length of the presentation. A presentation is GS-solved (GS-unsolved) if the greedy search algorithm in  \autoref{alg:bfs} could (could not) trivialize the presentation. The subfigure on the left (right) shows the number of GS-solved and GS-unsolved presentations in the Miller-Schupp series as a function of $n$ (the total length of the presentation). The number of GS-unsolved presentations increases monotonically with $n$. } \label{fig:miller_schupp_statistics}
+\end{figure}
