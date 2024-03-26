@@ -1,6 +1,6 @@
 % !TEX root = ../ac_paper.tex
 
-\section{A Greedy Search Algorithm}
+\section{Classical Search Algorithms}
 
 \begin{algorithm}
 	\caption{Greedy Search Algorithm}\label{alg:bfs}
@@ -44,7 +44,13 @@ There are a total of six unsolved presentations at length 14, four of which are 
 \]
 We checked that these presentations are not AC-equivalent to $\AK(3)$ by any sequence of AC moves that allows the length of each relator to increase upto 20.
 
+\fixme{What is the maximum length each relator is allowed to take in my GS?}
+
 \fixme{Compare the performance with an ordinary BFS algorithm. I set it up to run on Feb 23 with SLURM ID: 34869100. Compare it also with a GS/BFS algorithm that applies the usual AC moves. 34869254 has GS with original AC moves and 34869256 has BFS with original AC moves.}
+
+Update: there was an issue with 34869254. I submitted a new run 34943081 after fixing the issue. 
+
+Can we say anything about the structure of graph of AC presentations? It is not a tree. (What's the argument for it?) 
 
 %It is listed as example 1 on page 3 of \cite{MMS}.
 %I have checked whether we can reduce the length of these examples with max length = 20.
@@ -74,4 +80,18 @@ We checked that these presentations are not AC-equivalent to $\AK(3)$ by any seq
 		\label{fig:hist_vs_length}
 	\end{subfigure}
 	\caption{Number of GS-solved and GS-unsolved presentations as functions of $n$ and total length of the presentation. A presentation is GS-solved (GS-unsolved) if the greedy search algorithm in  \autoref{alg:bfs} could (could not) trivialize the presentation. The subfigure on the left (right) shows the number of GS-solved and GS-unsolved presentations in the Miller-Schupp series as a function of $n$ (the total length of the presentation). The number of GS-unsolved presentations increases monotonically with $n$. } \label{fig:miller_schupp_statistics}
+	
+I don't think I need to check BFS for all cases of $n$. Already at $n=1$, GS is able to solve all presentations while BFS is not. This is proof that GS is superior to BFS.
+
+
+
+As for original AC moves vs our AC moves, BFS with original AC moves also seems to be not able to solve many $n=1$ presentations. So the only comparison of interest here is GS with original AC moves vs GS with our AC moves. Since GS sorts the priority queue by the length of the presentation, I will not be surprised if GS with our AC moves does slightly better. The run of GS with original AC moves,  34869254, should be done in another day or so.
+
+
+\fixme{Perhaps all $n=1$ examples will be solved by finding paths using the original AC moves, i.e. the pattern will be more obvious that way.}
+
+\fixme{What's the longest length that a presentation obtains before it is trivialized? This is especially a question about $n=1$. In $n=1$, do lengths ever go above the original length?}
+
+\fixme{Be careful about full simplify vs simplify in presenting results. }
+
 \end{figure}

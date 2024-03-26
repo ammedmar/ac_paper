@@ -17,10 +17,10 @@ through a series of following operations known as AC moves \cite{Andrews-Curtis}
 	\item Change some $r_i$ to $g r_i g^{-1}$ where $g$ is a generator or its inverse.
 \end{enumerate}
 
-We will refer to the sum of the word lengths of all relators as ``total length" of a presentation. Little headway has been made in establishing a proof of the conjecture. On the other hand, several families of potential counterexamples have been suggested in the literature, a subset of which are collected in Appendix A. \footnote{\fixme{Fix the reference.}} To investigate a given presentation, one can systematically explore the entire space of possible sequences of AC moves in search of a sequence that renders the presentation trivial. However, this space grows exponentially with the length of the sequence. For a presentation with $n$ generators, there are $3n^2$ AC moves, and the total number of sequences of AC moves of length $k$ is $(3n^2)^k$. Even for a modest case like $n=2$ and $k=20$, the number is on the order of $10^{21}$, making a brute-force approach impractical.
+We will refer to the sum of the word lengths of all relators as total length of a presentation. Little progress has been made in establishing a proof of the conjecture. On the other hand, several families of potential counterexamples have been suggested in the literature. To investigate a given presentation, one may systematically explore the entire space of possible sequences of AC moves in search of a sequence that renders the presentation trivial. This space grows exponentially with the length of the sequence. For a presentation with $n$ generators, there are $3n^2$ AC moves, and the total number of sequences of AC moves of length $k$ is $(3n^2)^k$. Even for a modest case like $n=2$ and $k=20$, the number is on the order of $10^{21}$, making a brute-force approach impractical.
 \newline 
 
-Cassical search algorithms such as genetic algorithms \cite{genetic}, and breadth-first-search  \cite{bfs-ac} have been employed to address this challenge. These methods have shown success in trivializing balanced presentations with two generators and total lengths less than 13. The following presentation of length 13,
+Cassical search algorithms such as genetic algorithms \cite{genetic}, and breadth-first-search  \cite{bfs-ac} have been employed to search through this space more efficiently. These methods have shown success in trivializing balanced presentations with two generators and total lengths less than 13. The following presentation of length 13,
 \[
 \angles{x, y \mid x^3 = y^4, xyx = yxy}
 \]
@@ -31,15 +31,16 @@ represents the shortest presentation, upto AC-equivalence, that alludes all atte
 $\AK(2)$ has length 11 and has been established as AC-trivial  \cite{genetic}. $\AK(3)$ is the afore-mentioned length-13 presentation. 
 \newline
 
-In slightly over two decades since the first utilization of search algorithms \cite{genetic, bfs-ac}, unsuccessful attempts have been made to trivialize $\AK(3)$ with similar search algorithms and with an increased amount of computational resources \cite{Bowman-McCaul, krawiec2016distance, Panteleev-Ushakov}. Notably, \cite{Panteleev-Ushakov} found that no sequence of AC moves that allows relator lengths to increase up to 20 trivializes $\AK(3)$. 
+In over two decades since the first utilization of search algorithms \cite{genetic, bfs-ac}, unsuccessful attempts have been made to trivialize $\AK(3)$ with different variants of breadth-first search algorithm using an increased amount of computational resources \cite{Bowman-McCaul, krawiec2016distance, Panteleev-Ushakov}. Notably, \cite{Panteleev-Ushakov} found that no sequence of AC moves that allows relator lengths to increase up to 20 trivializes $\AK(3)$. 
 This lack of success could be interpreted as suggestive evidence that $\AK(3)$ might be as a counterexample to the Andrews-Curtis conjecture.
 \newline 
 
-However, recent works by Bridson and Lishak have showed that there exist AC-trivializable balanced presentations of the trivial group, for which the number of AC moves in a trivializing sequence is bounded below by a superexponential function of the length of the presentation \cite{Bridson, Lishak}.
+However, recent works by Bridson and Lishak have shown that there exist AC-trivializable balanced presentations of the trivial group, for which the number of AC moves in a trivializing sequence is bounded below by a superexponential function of the length of the presentation \cite{Bridson, Lishak}.
 Roughly speaking, for these presentations, if the sum of word lengths is $k$, the number of AC moves required to trivialize the presentation is at least $\Delta (\lfloor \log_2 k \rfloor)$ where $\Delta \colon \mathbb{N} \to \mathbb{N}$ is defined recursively as $\Delta(0) = 2$ and $\Delta (j) = 2^{\Delta(j-1)}$ for $j \geq 1$. 
-\footnote{For $k=13$, i.e. the length of $\AK(3)$, $\Delta (\lfloor \log_2 (k) \rfloor) = 65536$. In contrast, presentations trivialized by search algorithms have AC sequences of length less than $10^3$. The main reason, as mentioned above, is that the number of sequences of AC moves grows exponentially with the length of the sequence, and even with large amounts of storage in modern computers, we are not able to search through the space efficiently.}
-While $\AK(3)$ was not directly examined by Boris and Lishak, their findings challenge the inclination to view it as a counterexample. Furthermore, their work underscores the necessity of employing novel computational methods to deepen our understanding of the AC-conjecture.
+\footnote{For $k=13$, i.e. the length of $\AK(3)$, $\Delta (\lfloor \log_2 (k) \rfloor) = 65536$. In contrast, presentations trivialized by the afore-mentioned search algorithms have AC sequences of length less than $10^3$. The main reason, as mentioned above, is that the number of sequences of AC moves grows exponentially with the length of the sequence, and even with large amounts of storage in modern computers, we are not able to search through the space efficiently.}
+While $\AK(3)$ is itself not a member of the family of examples studied by Boris and Lishak, their findings challenge the inclination to view it as a counterexample. Their work also underscores the necessity of employing search methods that are more efficient than breadth-first search.
 \newline
+
 
 In this paper, we will consider a variety of computational tools to understand better the properties of balanced presentations of the trivial group. We will test the efficacy of our approaches on a subset of presentations from the Miller-Schupp series of potential counterexamples \cite{Miller-Schupp}.
 \[
@@ -49,26 +50,24 @@ Here, $n > 0$, and $w$ is a word in $x$ and $y$ with zero exponent sum on $x$. F
 \[
 \MS(n, w) \colon \angles{x, y \mid x^{-1} y^3 x = y^{4}, x =  y^{-1} x^{-1} y x y}.
 \]
-of length 15 is AC-equivalent to $\AK(3)$. We will only consider presentations where $n \leq 7$ and the length of words $w$ does not exceed 7.
-Our selection criteria aimed to strike a balance: we sought a dataset of presentations large enough to allow for meaningful analysis and conclusions regarding our methodologies, yet compact enough to ensure that our computational tasks remain feasible within a practical timeframe.
-We reduced $x^{-1}w$ freely and cyclically, and kept only one representative of each orbit under the action of cyclic permutations. After these simplifications, we were left with $170$ choices for $x^{-1} w$. This resulted in a dataset of $7 \times 170 = 1190$ presentations from the Miller-Schupp series.
-%\footnote{Notice that the sum of relator lengths of $\AK(n)$ is $2n+7$, and that of $\MS(w_\star, n)$ is $2n+9$.}
-%\footnote{We should be able to show that all $n=1$ presentations are trivializable.}
+of length 15 is AC-equivalent to $\AK(3)$. We will only consider presentations with $n,\  \text{length}(w) \leq 7$. 
+Our selection criteria aimed to strike a balance: we sought a dataset of presentations large enough to allow for meaningful analysis, yet small enough to ensure for all computations to be feasible within a practical timeframe.
+We reduced $x^{-1}w$ freely and cyclically and kept only one representative of each orbit under the action of cyclic permutations. After these simplifications, we were left with $170$ choices for $x^{-1} w$. This resulted in a dataset of $7 \times 170 = 1190$ presentations from the Miller-Schupp series.
 \newline
 
-Our implementation of moves differed slightly from the afore-mentioned AC moves.  We considered the following set of transformations, which generates a group isomorphic to the group generated by AC moves for $n=2$.
-\footnote{For a given presentation $\angles{x_1, x_2 \mid r_1, r_2}$, the sequence of following four moves: $r_2 \to r_2 r_1$, $r_1 \to r_1 r_2^{-1}$, $r_2 \to r_2 r_1$, and $r_2 \to r_1 r_2 r_1^{-1}$ results in the presentation $\angles{x_1, x_2 \mid r_2^{-1}, r_1}$. This is equivalent to the AC move $r_2 \to r_2^{-1}$ followed by an operation swapping the two relators. We also enhanced the notion of trivial presentation to mean the following set of eight presentations of length 2: $\{\angles{x_1, x_2 \mid x_1^{\pm 1}, x_2^{\pm 1}} , \angles{x_1, x_2 \mid x_2^{\pm 1}, x_1^{\pm 1}}  \}$.}
+Our implementation of AC transformations differed from the AC transformations mentioned above in two ways. First, we considered the following set of operations.
 \begin{enumerate}
 	\item Substitute some $r_i$ by $r_i r_j^{\pm 1}$ for $i \neq j$.
 	\item Change some $r_i$ to $g r_i g^{-1}$ where $g$ is a generator or its inverse.
 \end{enumerate}
 
-We found this particular choice of transformations to be more useful in early experiments with reinforcement-learning. 
-\footnote{In reinforcement learning, we need a reward function to search through the set of all possible AC moves. A natural reward function is the negative of the total length of a presentation. An inversion move leaves the length of a presentation invariant providing no signal to the training process, and hence significantly affects the performance of an agent. This issue is discussed in more detail in section 5.}
-From here onwards in this paper, we will refer to these transformations as ``AC moves" instead of the original AC moves mentioned above.
+For $n=2$, which is the only case we study in this paper, the group generated by these AC transformations is isomorphic to the group generated by the original AC transformations. Note that the difference lies in how the inversion of a relator is handled: we always follow an inversion by a concatenation, while the original AC moves allow for standalone inversion moves. 
+\footnote{The original inversion moves may be retrieved from the new generators as follows. For a given presentation $\angles{x_1, x_2 \mid r_1, r_2}$, the sequence of moves: $r_2 \to r_2 r_1$, $r_1 \to r_1 r_2^{-1}$, $r_2 \to r_2 r_1$, and $r_2 \to r_1 r_2 r_1^{-1}$ results in the presentation $\angles{x_1, x_2 \mid r_2^{-1}, r_1}$, which is the same as $r_2 \to r_2^{-1}$ upto swapping the two relators. We also enhanced the notion of trivial presentation(s) to include all presentations of length 2: $\{\angles{x_1, x_2 \mid x_i^{a}, x_j^{b}}  \mid i, j = 1, 2; a, b = \pm 1; i \neq j \}$ .
+}
+The reason for this change is due to its effect on performance in greedy search and reinforcement learning algorithms studied in Sections 3 and 4. The length of a presentation provides a useful signal when searching through the space of presentations with these algorithms. An inversion transformation leaves the length of a presentation invariant providing no signal to the search process and slowing down the performance of the algorithm significantly. 
+From here onwards in this paper, we will refer to the new transformations (instead of the original AC transformations) as  ``AC transformations" or ``AC moves".
+\newline
+
+Second, in order to make the search space finite in size, we set a maximum length that each relator is allowed to take. If an AC transformation resulted in a presentation with a relator of length greater than this maximum length, the AC transformation was set to act trivially. In the search of a sequence of AC moves that trivialize a presentations of the Miller-Schupp series $\MS(n, w)$, we set this maximum length to be $2 \times \text{max}(2 n+3, \text{length}(w)+1) + 2$. This specific choice was made to allow for at least one concatenation move followed by a conjugation move in the search process. Note that this constraint is quite restrictive: any presentation of the Miller-Schupp series that requires the length of a relator to grow to more than the set maximum length would not be trivialized. 
+
 %\footnote{\fixme{We should run some experiments that show how the use of these moves as compared to the original AC moves affects the path lengths in BFS.}}
-
-
-\fixme{Perhaps all $n=1$ examples will be solved by finding paths using the original AC moves, i.e. the pattern will be more obvious that way.}
-
-\fixme{Be careful about full simplify vs simplify in presenting results.}
