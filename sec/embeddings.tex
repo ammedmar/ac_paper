@@ -2,122 +2,90 @@
 
 \section{Language Modeling}
 
-\fixme{Can we model the language of balanced presentations of the trivial group in general, somehow? What can one hope to learn from that?}
-
-\fixme{Not very happy with the results of this section.}
-
-\fixme{Can we conclude from this section or from this paper somehow that $n$ as compared to total length is a better metric for hardness of examples from the Miller-Schupp series?}
-
-\fixme{Within examples of the same value of $n$, what distinguishes between hard vs easy problems? Is it length of the word $w$? Or is it some other property? Perhaps the count of $x$'s. Perhaps the count of $y$'s.}
-
-\fixme{One thing that t-SNE projections show is that for most values of $n$, there are two clusters: one containing a mix of solved and unsolved examples, and another containing only the unsolved examples. 1). Why is that? 2). Can we measure what distinguishes the two clusters? Is it length of $w$, is it the number of $x$'s vs $y$'s, or is it something else? 3). Can we say that the unsolved presentations in the former cluster are more likely to be solvable than the problems in the latter cluster?}
-
-\fixme{It seems that the goal for us is not to model the language as such, but to find an embedding of the examples, and see if this embedding space, also known as 'latent space' contains any useful information about the question of hardness of examples.}
-
-\fixme{The clustering with $n$ is not a miracle. That's just a consequence of our tokenization. The clustering of hard vs easy examples within each $n$, that's more interesting.}
-
-The probability of a document 
-
+In this section, we discuss a model for the ``language" of balanced presentations. Each presentation with two relators is a string of six letters, better called "tokens" in the nomenclature of Natural Language Processing, i.e. $x$, $y$, $x^{-1}$, and $y^{-1}$, and two ``stop tokens" --- one that separates two relators of a presentation, and another that marks the end of a presentation. Given this vocabulary $V$ of six tokens, we can ask what is the probability $p(t_1, \cdots, t_N)$ for $t_i \in V$ of the occurence of a specific presentation in the space of all balanced presentations. Using the chain rule of probability theory, 
 \[
-p(t_1 \cdots t_{n_c}) = \prod\limits_{i=1}^{n_c} p (t_{i} \mid t_{1} \cdots t_{i-1}) 
+p(t_1 \cdots t_{N}) = \prod\limits_{i=1}^{N} p (t_{i} \mid t_{1} \cdots t_{i-1}) 
 \]
 
-$p (t_{n} \mid t_{1} \cdots t_{n-1}) $ is the $n$-gram probability distribution of text. Decoder-only transformer models learn this probability distribution from a dataset of text. 
-\newline
+Here $p (t_{n} \mid t_{1} \cdots t_{n-1})$, often called the $n$-gram probability distribution, is the probability of a token $t_n$ following a sequence of tokens $t_{1} \cdots t_{n-1}$. In order to model the language of balanced presentations, we would like to estimate the $n$-gram probability distributions. 
 
-Perplexity: https://huggingface.co/docs/transformers/en/perplexity
-
-An advantage of using transformers or neural networks is that you can also find an embedding of words/sentences \cite{Bengio:2003}. The similarity of texts actually reflects in the geometry of the embedding vectors: similar texts are closer to each other when measured by cosine similarity. [
-
-Here, we model the langauge of balanced presentations of the trivial group with two generators and ask if the geometry of embedding vectors reflects any structure of 
-
-In section 4.1, we give a review of decoder-only transformers; in section 4.2, we discuss the dataset used to train the model; and in section 4.3, we present our results. 
-
-\footnote{For a review of decoder-only transformer models and Large Language Models aimed at physicists and mathematicians, see \cite{douglas2023large,}.}
-
-\footnote{\fixme{What is the correct reference for analyzing embeddings through cosine simiarity between vectors?}}
-
-Original attention paper: \cite{vaswani2023attention}.
-
-Previously, encoder-only architectures were used in \cite{gukov2020learning} for the unknot decision problem. 
-
+Over the last few years, Transformer models have shown great success in modeling human-understandable languages to the extent that these models can write text almost indistinguishable from human-written texts. Specifically, the architecture used for modeling language is the auto-regressive "decoder-only" Transformer, which we review in detail in section 5.1. In section 5.2, we discuss the method with which we generate the dataset required for training the model. Finally, in section 5.3, we provide details of some insights we learned from this process. 
 
 \subsection{Transformers: a review}
 
-Here, we give a short review of the architecture of a decoder-only transformer. Given an input sequence $t_1, t_2, \cdots, t_{n_c}$, a decoder-only transformer predicts the probability distribution over the vocabulary, i.e. it predicts $p(t \mid t_1, t_2, \cdots, t_{n_c})$ for each $t$ in the vocabulary. We will denote the size of the vocabulary as $n_v$. Each elements of the vocabulary is often referred to as a `token'. The probability distribution for the $(n_c+1)$-st token is predicted by applying the following sequence of functions to the input sequence.
+Here, we give a short review of the architecture of a decoder-only transformer. For more detailed descriptions, see \cite{elhage2021mathematical, vaswani2023attention, douglas2023large}. 
 
-The presentation given here is slightly different from the original presentation. We follow \cite{elhage2021mathematical}.
 
-We start with encoding our input sequence into a matrix $T \in \R^{n_c \times n_v}$, \fixme{Convert $t_i$ into a number first.}
-\footnote{Each row of $t$ is often referred to as a `one-hot encoded vector'.}
+Previously, encoder-only architectures were used in  for the unknot decision problem. 
+
+Given an input sequence $t_1, t_2, \cdots, t_{N}$, a decoder-only transformer predicts the probability distribution $p(t \mid t_1, t_2, \cdots, t_{N})$ over the set $V$ of tokens of size $n_{\text{vocab}}$. The probability is computed by applying the softmax function to the logits $T(t)$, which are estimated by applying the following sequence of operations.
+
+First, assign to each token in the vocabulary a distinct label in the range $1, 2, \cdots, n_{\text{vocab}}$; re-writing the original sequence as a sequence of integers, which we also label as $t_i$. Next, write the sequence in terms of "one-hot encoded vectors", i.e. a matrix $t  \in \R^{N \times n_{\text{vocab}}}$ such that 
 \[
-T_{ij} = \delta_{i t_i}
+t_{ij} = \delta_{i t_i}
 \]
-and embed each token into a $\dm$-dimensional space with the help of an embedding matrix $W_E \in \R^{\dm \times n_v}$,
+and embed the sequence in a $\dm$-dimensional vector space, 
 \[
-x_0 = (\mathbb{1} \otimes W_E) T
+x_0 = (W_P \otimes W_E) t
+\]
+Here, $W_P \in \R^{\dm \times N}$ and $W_E \in \R^{\dm \times n_{\text{vocab}} }$ are positional and token embedding matrices, which are learned by gradient descent. 
+\footnote{Note that $t$ and all $x_j$ are two-dimensional tensors, so it is appropriate to apply tensors of linear transformations to them. Often in a transformer architecture, these operations are of the form $\mathbb{1} \otimes \cdots$; in these cases, we write the operation simply as $\cdots$, dropping the tensor product with the identity transformation. For example, $\mathbb{1} \otimes W_U$, $\mathbb{1} \otimes W^m_I$, $\mathbb{1} \otimes W^m_O$, etc. are all often simply written as $W_U$, $W^m_I$, $W^m_O$. It is clear from the dimensionality of these matrices that they act as $\mathbb{1} \otimes \cdot$.}
+An $L$-layer transformer alternates between applying a ``multi-head attention layer" ($\sum\limits_{h \in H} h$) and an ``MLP-layer" ($m$) $L$ times. For $i=0, \cdots, L-1$,
+\[
+\begin{aligned}
+x_{2i+1} &= x_{2i} + \sum_{h \in H} h(\LN(x_{2i})), \\
+x_{2i + 2} &= x_{2i + 1} + m(\LN(x_{2i + 1})).
+\end{aligned}
+\]
+Each $x_j$ is a matrix in $\mathbb{R^{N \times \dm}}$, with the interpretation that its $i$-th row is the embedding of the sequence $t_1, \cdots, t_i$ in the $\dm$-dimensional embedding space as learned by the preceeding $j$ operations. Finally, one applies an "unembedding layer" to convert $\dm$-dimensional vectors to $n_{\text{vocab}}$-dimensional vector of "logits" $T(t)$ that estimate the sought-after probability distribution,
+\[
+\begin{aligned}
+T(t) &= W_U x_{2L-1} \\
+p(t) &=\softmax (T(t))
+\end{aligned}
 \]
 
-\fixme{positional encoding} $W_P$ should be a matrix of shape ?
-
-For an $L$-layer transformer, we alternate between applying a ``multi-head attention" transformation and an ``MLP-layer" transformation as follows. 
+The functions $\LN$, $m$ and $h$ are defined as follows. $\LN$ is the "Layer-Norm" operation intended to normalize the input of each layer to make the optimization process more feasible,
 \[
-x_{2i+1} = x_{2i} + \sum_{h \in H_j} h(\mathbb{1} \otimes \LN(x_{2i})) 
+LN(x) = \left(\mathbb{1} \otimes \text{diag}(\gamma) \right) \frac{(x-\overline{x})}{\sqrt{\text{var}(x)}} + \mathbb{1} \otimes \beta
 \]
-\[
-x_{2i + 2} = x_{2i + 1} + \FFN(\mathbb{1} \otimes \LN(x_{2i + 1}))
-\]
-where $i=0, \cdots, L-1$. Note that $x_j \in \R^{\nc \times \dm}$ for all $j = 0, 1, \cdots, 2L$, and a row of $x_j$ is seen as a vector in $\R^{\dm}$ associated to a token $t_i$ in the input text. $\LN$ is the ``Layer Normalization" operation \fixme{Include citation} 
+Here, $\gamma, \beta \in \mathbb{R}^{\dm}$ are learnable parameters. $\overline{x}$ and $\text{var}(x)$ are mean and variance of each row of $x$.
 
-
-that we will describe below. The multi-head attention transformation $\sum_{h \in H_j} h$ is a sum over various ``attention-heads", with each attention-head function $h$ acting as follows.
+The MLP-layer $m$ is a non-linear operation, 
 \[
-h(x) = (A \otimes W_O W_V) x
+m(x) =W^m_O \ \text{max}(W_I^m x, 0)
 \]
-Here, $A \in \R^{n_c \times n_c}$ is defined as
+with learnable parameters $W^m_I \in \mathbb{R}^{d_{\text{MLP}} \times \dm}$, $W^m_O \in \mathbb{R}^{\dm \times d_{\text{MLP}}}$. It is standard to take $d_{\text{MLP}} = 4 \dm$.
+
+Finally, the multi-headed attention-layer $\sum_{h \in H} h$ is a sum of $n_{\text{heads}}$ ``attention-head" operations $h$, 
 \[
-A = \softmax(x^T W_Q^T W_K x)
+h(x) = (A^h(x) \otimes W^h_O W^h_V) x
+\]
+where $W^h_V \in \R^{d_{\text{head}} \times \dm}$, 
+$W^h_O \in \R^{\dm \times d_{\text{head}}}$ 
+are matrices of learnable parameters. 
+$d_{\text{head}}$ is the "attention-head dimension" that satisfies $d_{\text{head}} \times n_{\text{head}} = d_{\text{model}}$. 
+The attention matrix $A^h$ is computed with the help of learnable matrices 
+$W^h_Q, W^h_K \in \R^{d_{\text{head}} \times \dm}$,
+\[
+A^h(x) = \softmax^\star \left(\frac{x^T (W^h_Q)^T W^h_K x}{\sqrt{d_{\text{head}}}}\right)
 \] 
-$W_O \in \R^{\dm \times \dhead}$, and 
-The number of attention heads is a hyperparameter of the architecture.
+The attention-head is an $N \times N$ matrix. The element $A^h(x)_{ij}$ 
+is interpreted as the "attention" paid to the token 
+$t_j$ in estimating 
+$p(t_{i+1} \mid t_1, \cdots, t_i)$. $\softmax^\star$
+is a variant of the $\softmax$ function suitable for auto-regressive tasks: it sets all the elements in the upper triangle of its input before applying the 
+$\softmax$ operation. 
+That is, future tokens --- $t_k$ for $k > i$, play no role in the prediction of $p(t_{i+1} \mid t_1, \cdots, t_i)$.
 
+We train the transformer model by minimizing the cross-entropy loss between the estimated and the true probability distributions of $p(t_{i+1} | t_1, \cdots, t_{i})$ for all $i$. This offers parallelism, which is useful for efficient training of our models. 
 
-Apply LN right before the unembed operation. 
-
-How does unembed work? 
-
-Why do we learn $W_O$ and $W_V$ separately and $W_Q$ and $W_K$ separately? Why don't we put them together into one? Does it have to do with $W_O W_V$ and $W_{Q^T} W_K$ being low-rank? Why do $W_O W_V$ and $W_{Q^T} W_K$ have to be low-rank and is it hard to learn low-rank matrices directly? 
-
-$W_Q$, $W_K$ and $W_V$ project from a higher dimensional space $\R^\dm$ to a lower-dimensional space $\R^\dhead$, therefore, they must have large null spaces. (On the other hand, $W_O$ projects from the lower-dimensional space $\R^\dhead$ to $\R^\dm$.) The products $W_O W_V$ and  $W_Q^T W_K$ might be low-rank because of this reason.
-
-Should $\R^{\dhead}$ be seen as a subspace of $\R^{\dm}$ or should it be seen as an independent space of its own? I don't know if this is actually a precise question. 
-
-Right below I mention that $W_O W_V$ acts on $x$, I should mention why we train 
-Include Layer Normalizations. 
-Include reference to Layer Normalization. 
-
-Cross entropy.
-
-Why Layer Normalization and not batch normalization? https://stats.stackexchange.com/questions/474440/why-do-transformers-use-layer-norm-instead-of-batch-norm
-
-What does it mean to read and write from the residual stream? 
-
-What does LayerNorm actually do? Make things zero/small/large, etc. Consider a model where layernorm is used versus not. 
-
-This article has a section on "Linearizing LayerNorm aka Ignoring LayerNorm aka Fixing LayerNorm: ". It will be useful. Don't get scared by the size of the page. Most of it is stuff you already know.
-
-https://www.neelnanda.io/mechanistic-interpretability/glossary
-
-Also Chris Olah says the following thing on the link below. Don't worry about reading the rest of that page.
-
-"LayerNorm in transformers is slightly different from what you describe. There are no interactions between tokens. This is actually the reason LayerNorm is preferred: in autoregressive transformers, one needs to be paranoid about avoiding information leakage from future tokens, and normalization across tokens becomes very complicated as a result, leading to a preference for normalization approaches that are per-token. In any case, there are some minor flow through effects from this to other things you say."
-
-Here is the link: https://www.lesswrong.com/posts/pBFTFMsuaSJX4vCj9/mechanistic-interpretability-for-the-mlp-layers-rough-early
-
-Ah, here is another interesting + useful article on LayerNorm: https://arxiv.org/pdf/2305.02582.pdf
+Before we discuss the dataset we used to train our model, we present an important remark. In practice, the embedding matrix $W_E$ and the unembedding matrix $W_U$ are often "tied" together, i.e. $W_E = W_U^T$. The rows of $W_E = W_U^T$ are interpreted as the embeddings of words/sentences, to which one can apply the usual operations of a vector space to gain insights \cite{Bengio:2003}. For example, the cosine of the angle between two embedding vectors, also known as "cosine similarity", is often used to measure the similarity between two texts. \fixme{add a citation here.}\footnote{\fixme{What is the correct reference for analyzing embeddings through cosine simiarity between vectors?}}
 
 
 \subsection{Dataset for the GPT model}
+
+In this section, we discuss the training and validation datasets we used to train and evaluate our Transformer models. 
 
 We apply sequences of AC moves to the Miller-Schupp series presentations studied in the previous subsection to generate a dataset.
 We use Algorithm \autoref{alg:apply_ac_moves} to ensure that the total length of the generated presentations follows roughly a uniform distribution.
