@@ -86,15 +86,22 @@ For example, the cosine of the angle between two embedding vectors, also known a
 Two semantically similar texts have higher cosine similarity between them, while semantically different texts correspond to (almost) orthogonal vectors in the embedding space.
 
 
-\subsection{Dataset for the GPT model}
+\subsection{Training and Evaluation Datasets}
 
 We now discuss the training and validation datasets used to train and evaluate our Transformer model. As our main interest in this paper has been in the presentations of the Miller-Schupp series, we generated a dataset of balanced presentations that are AC-equivalent to the Miller-Schupp presentations. Specifically, we apply sequences of AC moves to the 1190 presentations with $n,\ \text{length}(w) \leq 7$ discussed in section 2, creating a dataset of about 1.8 million presentations. Approximately 1 million of these presentations are AC-equivalent to the GS-hard presentations of section 3, while the remaining are related to the GS-easy presentations. 
-Only a small amount (roughly 15 percent) of the original Miller-Schupp presentations remained to be part of this dataset.
+Only a small amount (roughly 15 percent) of the original Miller-Schupp presentations were part of this dataset.
 
-We paid special attention to generating presentations over a wide range of total lengths so as not to bias our model towards learning trends that might appear in the presentations of some specific lengths. To this end, we devised an algorithm (\autoref{alg:apply_ac_moves} in Appendix A) that creates an almost uniform distribution over the total lengths of the presentations. (See \autoref{fig:gpt_data}.) Note also the frequency of appearance of each token in the dataset (Figure 3). The  
+The dataset is tokenized using six tokens: two stop tokens and one token each for the two generators and their inverses. The tokenized dataset had about $2.17 \times 10^8$ tokens. As our hope was to get some insights into any properties that might distinguish GS-easy and GS-hard presentations, we plot the percentage of appearance of each token separately for subsets of the dataset that are AC-equivalent to GS-easy and GS-hard presentations (see \autoref{fig:tokens_hist}). 
+Note that the ratio of frequency of $y^{\pm 1}$ to the frequency of $x^{\pm 1}$ is higher in the GS-hard dataset. This is likely because the GS-hard presentations have larger $n$, and larger $n$ corresponds to a higher number of occurence of $y^{\pm 1}$. Interestingly, this effect remains in the dataset even when after applying thousands of AC moves.
 
-\fixme{It might be better to merge fig2 and fig3 into one.}
+We paid special attention to generating presentations over a wide range of total lengths so as not to bias our model towards learning trends specific to a fixed length. To this end, we devised an algorithm (\autoref{alg:apply_ac_moves} in Appendix A) that creates an almost uniform distribution over the total lengths of the presentations. (See \autoref{fig:gpt_data}.) We set aside $10\%$ of the data as a validation dataset.
 
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.6]{fig/tokens_hist.png}
+	\caption{Percentage of appearance of each token in the solved/unsolved datasets.}
+	\label{fig:tokens_hist}
+\end{figure}
 
 
 \begin{figure}
@@ -108,31 +115,16 @@ We paid special attention to generating presentations over a wide range of total
 	\label{fig:gpt_data}
 \end{figure}
 
-The dataset is tokenized by adding two stop tokens that represent the end of two relators of a presentation.
-Thus there are six tokens in total: one each for $x$, $y$, $x^{-1}$, and $y^{-1}$ and the two stop tokens.
-The tokenized dataset has about 217M tokens, and the distribution of tokens is shown in \autoref{fig:tokens_hist}.
-We note that $y$ and $y^{-1}$ appear significantly more often than $x$ and $x^{-1}$ in the unsolved dataset.
-This is likely because the BFS-hard examples have higher $n$, and higher $n$ corresponds to more of a presence of $y$ and $y^{-1}$.
-Interestingly, this effect remains in the dataset even when we apply thousands of AC moves.
-I should investigate this further.
 
-We set aside 10 percent of the data as a validation dataset.
 
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.6]{fig/tokens_hist.png}
-	\caption{Percentage of appearance of each token in the solved/unsolved datasets.}
-	\label{fig:tokens_hist}
-\end{figure}
+
+
+
 
 \subsection{Results}
-We train a GPT model on the dataset described in the previous subsection.
-Given a context of $n$ tokens, a GPT model learns the probability distribution for $(n+1)$-st token.
-The extent to which it can make good predictions is measured by a cross-entropy loss defined above.
-We trained a model with embedding dimension 512 and 8 layers.
-The model is initialized with random weights that assigns an equal probability to each token, thus the initial value of the cross-entropy loss is $-\ln(1/6) \sim 1.7917$.
-As the model was trained, we were able to achieve the minimum validation loss of 0.5685.
-\footnote{insert a validation loss curve.}
+Finally, we discuss the results of training our transformer model. The hyperparameters of our model are given in Appendix C. The model is initialized with random weights that assigns an equal probability to each token, thus the initial value of the cross-entropy loss is $-\ln(1/6) \sim 1.7917$. We initialized our weights following the technique as per GPT-2 paper.
+
+We used our train model to find embeddings of the 1190 presentations of the Miller-Schupp series, i.e. the column of $W_E$
 
 We use the trained model to obtain embeddings of the 1190 Miller Schupp presentations studied above.
 To visualize these embeddings, we use t-SNE with distance measured by the cosine of the angle between two embedding vectors and project the embedding space down to two dimensions. \fixme{Try to understand how cosine similarity changes formulas for t-SNE.}  Value of perplexity? Were the results robust under the change of perplexity?
