@@ -1,5 +1,9 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Hyperparameters}
+\section{Hyperparameters\label{app:hyperparameters}}
 
-In this appendix, we provide hyperparameters for the Transformer and the Proximal Policy Optimization algorithm we trained for this work. 
+Here we discuss the hyperparameters we used to train our Proximal Policy Optimization and Transformer models discussed in the main text. 
+
+\fixme{Insert details of PPO hyperparameters here.}
+
+We used an 8-layer transformer model with the embedding space dimension of $512$ and 4 attention heads. The context window of the Transformer had length 1024. We used a batch size of $12$ and constant learning rate of $6 \times 10^{-5}$. We trained for a total of 25000 iterations. We used Adam hyperparameters $\beta_1 = 0.9$, $\beta_2 = 0.99$ and a dropout value of $0$.

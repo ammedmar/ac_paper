@@ -9,9 +9,9 @@ p(t_1 \cdots t_{N}) = \prod\limits_{i=1}^{N} p (t_{i} \mid t_{1} \cdots t_{i-1})
 
 Here $p (t_{N} \mid t_{1} \cdots t_{N-1})$, often called the $N$-gram probability distribution, is the probability of a token $t_N$ following a sequence of tokens $t_{1} \cdots t_{N-1}$. To model the language of balanced presentations, we can alternatively estimate the $N$-gram probability distributions for all $N$. 
 
-Over the last few years, Transformer models have shown great success in modeling human-understandable languages to the extent that these models can write text almost indistinguishable from human-written texts. Specifically, the architecture used for modeling language is the auto-regressive ``decoder-only" Transformer, which we review in detail in section 5.1. In section 5.2, we discuss the method with which we generate the dataset required for training the model. Finally, in section 5.3, we provide details of some insights we learn from this process. 
+Over the last few years, Transformer models have shown great success in modeling human-understandable languages to the extent that these models can write text almost indistinguishable from human-written texts. Specifically, the architecture used for modeling language is the auto-regressive ``decoder-only" Transformer, which we review in detail in \autoref{sec:transformer_review}. In \autoref{sec:transformer_datasets}, we discuss the method with which we generate the dataset required for training the model. Finally, in \autoref{sec:transformer_results}, we provide details of some insights we learn from this process. 
 
-\subsection{Transformers: a review}
+\subsection{Transformers: a review\label{sec:transformer_review}}
 
 Here, we give a short review of the architecture of a decoder-only transformer. For more detailed descriptions, see \cite{vaswani2023attention, elhage2021mathematical, douglas2023large}. 
 
@@ -76,30 +76,28 @@ is a variant of the $\softmax$ function suitable for auto-regressive tasks: it s
 $\softmax$ operation. 
 That is, future tokens --- $t_k$ for $k > i$, play no role in the prediction of $p(t_{i+1} \mid t_1, \cdots, t_i)$.
 
-We train the transformer model by minimizing the cross-entropy loss between the estimated and the true probability distributions of $p(t_{i+1} | t_1, \cdots, t_{i})$ for all $i$. The parallelism offered by the training on all tokens in a sequence at once is extremely useful for efficiently learning the language modeling task.
+We train the transformer model by minimizing the cross-entropy loss between the estimated and the true probability distributions of $p(t_{i+1} | t_1, \cdots, t_{i})$ for all $i$. The parallelism offered by the processing of all tokens in a sequence at once is extremely useful for efficient training of a model for language modeling task.
 
-Before we discuss the dataset we used to train our model, we present an important remark. In practice, the embedding matrix $W_E$ and the unembedding matrix $W_U$ are often ``tied" together, i.e. $W_E = W_U^T$.
-\footnote{Add reference to the weight-tying paper.} 
-The rows of $W_E = W_U^T$ are interpreted as the embeddings of words/sentences, to which one may apply the usual operations of a vector space \cite{Bengio:2003}. 
-For example, the cosine of the angle between two embedding vectors, also known as ``cosine similarity", is often used to measure the similarity between two texts. \fixme{add a citation here.}
-\footnote{\fixme{What is the correct reference for analyzing embeddings through cosine simiarity between vectors?}} 
+Before we discuss the dataset we used to train our model, we present an important remark. In practice, the embedding matrix $W_E$ and the unembedding matrix $W_U$ are often ``tied" together, i.e. $W_E = W_U^T$ \cite{press2017using, inan2017tying}.
+The rows of $W_E = W_U^T$ are interpreted as the embeddings of words/sentences, to which one may apply the usual operations of a vector space \cite{Bengio:2003, mikolov-etal-2013-linguistic}. 
+For example, the cosine of the angle between two embedding vectors, also known as ``cosine similarity", is often used to measure the similarity between two texts. 
 Two semantically similar texts have higher cosine similarity between them, while semantically different texts correspond to (almost) orthogonal vectors in the embedding space.
 
 
-\subsection{Training and Evaluation Datasets}
+\subsection{Training and Evaluation Datasets\label{sec:transformer_datasets}}
 
-We now discuss the training and validation datasets used to train and evaluate our Transformer model. As our main interest in this paper has been in the presentations of the Miller-Schupp series, we generated a dataset of balanced presentations that are AC-equivalent to the Miller-Schupp presentations. Specifically, we apply sequences of AC moves to the 1190 presentations with $n,\ \text{length}(w) \leq 7$ discussed in section 2, creating a dataset of about 1.8 million presentations. Approximately 1 million of these presentations are AC-equivalent to the GS-hard presentations of section 3, while the remaining are related to the GS-easy presentations. 
+We now discuss the training and validation datasets used to train and evaluate our Transformer model. As our main interest in this paper has been in the presentations of the Miller-Schupp series, we generated a dataset of balanced presentations that are AC-equivalent to the Miller-Schupp presentations. Specifically, we apply sequences of AC moves to the 1190 presentations with $n,\ \text{length}(w) \leq 7$ discussed in \autoref{sec:AC}, creating a dataset of about 1.8 million presentations. Approximately 1 million of these presentations are AC-equivalent to the GS-hard presentations of section 3, while the remaining are related to the GS-easy presentations. 
 Only a small amount (roughly 15 percent) of the original Miller-Schupp presentations were part of this dataset.
 
-The dataset is tokenized using six tokens: two stop tokens and one token each for the two generators and their inverses. The tokenized dataset had about $2.17 \times 10^8$ tokens. As our hope was to get some insights into any properties that might distinguish GS-easy and GS-hard presentations, we plot the percentage of appearance of each token separately for subsets of the dataset that are AC-equivalent to GS-easy and GS-hard presentations (see \autoref{fig:tokens_hist}). 
-Note that the ratio of frequency of $y^{\pm 1}$ to the frequency of $x^{\pm 1}$ is higher in the GS-hard dataset. This is likely because the GS-hard presentations have larger $n$, and larger $n$ corresponds to a higher number of occurence of $y^{\pm 1}$. Interestingly, this effect remains in the dataset even when after applying thousands of AC moves.
+The dataset is tokenized using six tokens: two stop tokens and one token each for the two generators and their inverses. The tokenized dataset had about $2.17 \times 10^8$ tokens. As our hope is to get insights into properties that distinguish GS-easy and GS-hard presentations, we perform an exploratory data analysis of the two subsets of data associated to these presentations. We plot the percentage of appearance of each token for these subsets in \autoref{fig:tokens_hist}. 
+Note that the ratio of frequency of $y^{\pm 1}$ to the frequency of $x^{\pm 1}$ is higher in the GS-hard dataset. This is likely because the GS-hard presentations have larger $n$, and larger $n$ corresponds to a higher number of occurence of $y^{\pm 1}$ in the Miller-Schupp presentation. Interestingly, this effect remains in the dataset even when after applying thousands of AC moves to the original presentations.
 
-We paid special attention to generating presentations over a wide range of total lengths so as not to bias our model towards learning trends specific to a fixed length. To this end, we devised an algorithm (\autoref{alg:apply_ac_moves} in Appendix A) that creates an almost uniform distribution over the total lengths of the presentations. (See \autoref{fig:gpt_data}.) We set aside $10\%$ of the data as a validation dataset.
+We paid special attention to ensure that our dataset contains presentations of a wide range of total lengths so as not to bias our model towards learning trends specific to any fixed length. To this end, we devised an algorithm (\autoref{alg:apply_ac_moves} in \autoref{app:algorithm}) that creates an almost uniform distribution over the total lengths of the presentations. (See \autoref{fig:gpt_data}.) We also remark that we set aside $10\%$ of our entire data as a validation dataset.
 
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.6]{fig/tokens_hist.png}
-	\caption{Percentage of appearance of each token in the solved/unsolved datasets.}
+	\caption{Percentage of appearance of each token in the two subsets of the training dataset that are equivalent to GS-easy and GS-hard presentations. To be clear, we computed the percentages separately for each subset of the training data, i.e. the heights of all blue (and orange) bars adds separately to 100.}
 	\label{fig:tokens_hist}
 \end{figure}
 
@@ -107,51 +105,32 @@ We paid special attention to generating presentations over a wide range of total
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.6]{fig/gpt_data_length_distribution.png}
-	\caption{Percentage of presentations in various ranges of total lengths.
-	\fixme{As it is, I computed separate percentages for each solved/unsolved case.
-                    I should clarify that if I leave the figure as it is.
-                    It is also good to change the total length.
-                    Also change the label of x-axis to something better.}}
+	\caption{Percentage of presentations in various ranges of total lengths. Percentages were computed independently for the two subsets of the dataset, corresponding to presentations that are AC-equivalent to GS-easy and GS-hard presentations. We used \autoref{alg:apply_ac_moves} from \autoref{app:algorithm} to ensure the almost-uniform distribution depicted here.}
 	\label{fig:gpt_data}
 \end{figure}
 
 
 
 
+\subsection{Results\label{sec:transformer_results}}
+Finally, we discuss the results of our experiments. We trained a Transformer model with hyperparameters given in  \autoref{app:hyperparameters}. A randomly initialized model with initialization scheme given in \cite{Radford2019LanguageMA} has a validation loss of $~1.8$, while the trained model could achieve a validation loss of $0.7337$.
+\footnote{We tuned the hyperparameters a little but it is quite likely that one can achieve a better performing model with more hyperparameter tuning. Similarly, more training data will necessarily help with the performance}
+We used the untrained (randomly initialized) and the trained model to get embeddings of all presentations of the Miller-Schupp series discussed in \autoref{sec:AC}. We used t-SNE to project these embedding vectors to a plane \cite{JMLR:v9:vandermaaten08a}. These plots are shown in a $7 \times 2$ grid in \autoref{fig:tsne_embeddings}.
+
+Each row of \autoref{fig/newplot.png} corresponds to a fixed value of $n$. The left column depicts t-SNE projections of embeddings obtained by an untrained model, while the right column shows the embeddings of a trained Transformer model. We note that the GS-easy and GS-hard presentations seem to cluster much more in the plots in the right column. This indicates that a trained Transformer model is able to distinguish between GS-easy and GS-hard presentations to a good extent, albeit not perfectly. 
+
+Note that the training dataset of Transformer contained no information about the easy of solvability of a presentation. It also did not contain many presentations of the Miller-Schupp series itself. Instead, it was made of presentations of varying lengths that are AC-equivalent to the Miller-Schupp series presentations. This indicates that a). there could likely be an invariant at the level of the ``language`` of the balanced presentations that distinguishes easy vs hard presentations, and b). this invariant survives application of thousands of AC moves which we used to generate the 
+training examples in our dataset. 
+
+ Note that t-SNE dependence on a distance measure: it learns to map the vectors that are closer together in the higher-dimensional space with respect to this distance measure, close together in the plane. We used cosine simiarity between embedding vectors as the distance measure for our plots. Note also that t-SNE admits a hyperparameter known as ``perplexity``, and the projections learned by t-SNE depend on the hyperparameter \cite{wattenberg2016how}. Thus, in general, t-SNE plots must be interpreted with care. The plots shown in \autoref{fig:tsne_embeddings} were all made with the perplexity value of $30$, though, we have checked that the clustering of GS-easy and GS-hard presentations seems to exist at a broad range of perplexity values.
 
 
 
-\subsection{Results}
-Finally, we discuss the results of training our transformer model. The hyperparameters of our model are given in Appendix C. The model is initialized with random weights that assigns an equal probability to each token, thus the initial value of the cross-entropy loss is $-\ln(1/6) \sim 1.7917$. We initialized our weights following the technique as per GPT-2 paper.
-
-We used our train model to find embeddings of the 1190 presentations of the Miller-Schupp series, i.e. the column of $W_E$
-
-We use the trained model to obtain embeddings of the 1190 Miller Schupp presentations studied above.
-To visualize these embeddings, we use t-SNE with distance measured by the cosine of the angle between two embedding vectors and project the embedding space down to two dimensions. \fixme{Try to understand how cosine similarity changes formulas for t-SNE.}  Value of perplexity? Were the results robust under the change of perplexity?
-\fixme{Should we also plot UMAPs?}
-The final result is shown in \autoref{fig:embeddings_tsne}.
-We see that the model has clustered together examples with the same $n$.
-
-\footnote{Maybe I should replace 'Solved' and 'Unsolved' with 'BFS-easy' and 'BFS-hard' in all the images.}
 
 \begin{figure}
-	\centering
-	\begin{subfigure}[b]{\textwidth}
-		\includegraphics[width=\linewidth]{fig/embeddings_n.png}
-		\caption{Scatter plot of embeddings as a function of $n$ using t-SNE}
-		\label{fig:hist_vs_n}
-	\end{subfigure}%
-	%add desired spacing between images, e. g. ~, \quad, \qquad etc.
-	%(or a blank line to force the subfigure onto a new line)
-
-	\begin{subfigure}[b]{\textwidth}
-		\centering
-		\includegraphics[width=\linewidth]{fig/embeddings_easy_vs_hard.png}
-		\caption{Scatter plot of BFS-easy and BFS-hard examples using t-SNE}
-		\label{fig:hist_vs_length}
-	\end{subfigure}
-	\caption{Projection of embeddings to a plane using t-SNE with cosine similarities}\label{fig:embeddings_tsne}
+    \centering
+    \includegraphics[scale=0.23]{fig/embeddings.png}
+    \captionsetup{width=1.1\textwidth}
+    \caption{t-SNE plots depicting embeddings of the Miller-Schupp presentations $MS(n, w)$. The left (right) column shows embeddings learned by an untrained (trained) transformer model. Each row corresponds to a value of $n$. Trained models cluster together GS-easy and GS-hard presentations indicating the possibility of a difference in the linguistic structure of the two sets of presentations.}
+    \label{fig:tsne_embeddings}
 \end{figure}
-
-
-\fixme{Is one way to interpret this result that the application of  BFS moves takes us far away from the initial presentation, but it still remembers which presentations should be hard vs easy?}

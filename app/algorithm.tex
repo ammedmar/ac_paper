@@ -1,6 +1,8 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Algorithm for Generation Language Modeling Dataset}
+\section{Algorithm for Generation Language Modeling Dataset\label{app:algorithm}}
+
+In this appendix we discuss the algorithm, \autoref{alg:apply_ac_moves}, used to generate the training dataset for our Transformer model.
 
 Algorithm  generates presentations of increasing lengths in $n$ phases.
 In the $i$-th phase, presentations with maximum relator length $l_i$ are generated, where $l_i$ is sampled from a discrete uniform distribution with bounds $l + i l_{\text{inc}} $ and $l + (i+1) l_{\text{inc}}$.
