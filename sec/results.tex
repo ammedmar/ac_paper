@@ -7,7 +7,27 @@ As a consequence,  we can achieve higher bounds on the length of sequence of AC 
 Figure 1 in Bowman-McCaul seems to show maximum depth to be around 40.
 That is, at best, we can search through sequences of 40 AC moves with BFS.
 
+
+https://arxiv.org/pdf/2110.00641.pdf
+
 What is the limit on maximum path length? What's the limit achieved by previous BFS papers?
+\fixme{Things to try: change the initial state distribution in RL to include canonic presentations of certain lengths.}
+
+\fixme{If we have a "good" policy for a small max length $k$, a new "good" policy for a larger max length $k'$ should do one of two things things: i).
+for state $s$ with length $< k$ and with $a(s) $ also of length $< k$ for all $a$, $\pi(s)$ should be the same; ii) learn new optimal policy i.e. new $\pi(s)$ for all other $s$ starting with random policy.
+This kind of states include states of length $> k$ as well as states of length $< k$ for which $a(s) $ has length $> k$ for some $a$.}
+
+\fixme{When we increase max length, value of states of type i) could still change.
+We could replace the condition in i) by the condition that states $s$ are trivializable.
+but even then, their values could change.
+In particular, an optimal policy function might become sub-optimal (restricted to states of smaller length) when max length is increased.}
+
+\fixme{Compare the performance with an ordinary BFS algorithm. I set it up to run on Feb 23 with SLURM ID: 34869100. Compare it also with a GS/BFS algorithm that applies the usual AC moves. 34869254 has GS with original AC moves and 34869256 has BFS with original AC moves. 
+Update: there was an issue with 34869254. I submitted a new run 34943081 after fixing the issue. }
+
+
+\subsection{Future directions of RL}
+Scaling?
 
 \subsection{Potential counterexamples of AC}
 

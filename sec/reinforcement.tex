@@ -1,7 +1,7 @@
 % !TEX root = ../ac_paper.tex
 
 \section{Reinforcement Learning}
-
+Why RL and not BFS? 1. memory efficient, 2. parallelizable/distributed.
 \subsection{Markov Decision Process}
 
 We will model the problem underlying the Andrews-Curtis conjecture as a Markov Decision Process (MDP).
@@ -32,29 +32,12 @@ since we restrict lengths, our AC moves are not invertible; 2.
 we use full-simplify which cyclically reduces words before returning the answer.
 For example, if we conjugate a word and it takes the form $y \cdots y^{-1}$, our conjugation operation returns $\cdots$.
 
-\fixme{Things to try: change the initial state distribution to include canonic representations of certain lengths.}
-
-\fixme{If we have a "good" policy for a small max length $k$, a new "good" policy for a larger max length $k'$ should do one of two things things: i).
-for state $s$ with length $< k$ and with $a(s) $ also of length $< k$ for all $a$, $\pi(s)$ should be the same; ii) learn new optimal policy i.e. new $\pi(s)$ for all other $s$ starting with random policy.
-This kind of states include states of length $> k$ as well as states of length $< k$ for which $a(s) $ has length $> k$ for some $a$.}
-
-\fixme{When we increase max length, value of states of type i) could still change.
-We could replace the condition in i) by the condition that states $s$ are trivializable.
-but even then, their values could change.
-In particular, an optimal policy function might become sub-optimal (restricted to states of smaller length) when max length is increased.}
 
 \subsection{Proximal Policy Optimization}
 
-https://arxiv.org/pdf/2110.00641.pdf
-
-\fixme{Maybe change the terminal state in RL to be the one where either relator is of length 1 --- as that essentially implies triviality of the presentation.
-Does that also mean the reward should be -min(lengths)?}
 
 \subsection{Results}
 
 \begin{enumerate}
 \item Shorter sequences of AC moves. 
 \end{enumerate}
-
-\subsection{Future directions}
-Scaling?
