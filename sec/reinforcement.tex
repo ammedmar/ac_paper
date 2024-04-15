@@ -11,7 +11,7 @@ This section is divided as follows: in subsection 4.1, we discuss how the proble
 A Markov Decision Process is a 5-tuple $(S, A, R, P, \rho)$ where 
 \begin{itemize}
 	\item $S$ is the space of states, 
-	\item $A$ is a set of actions, i.e. $a \colon S \to S \ \forall \ a \in A$, 
+	\item $A$ is the set of actions, i.e. $a \colon S \to S \ \forall \ a \in A$, 
 	\item $R \colon S \times A \times S \to \mathbb{R}$ is the ``reward" function, 
 	\item $P \colon S \times A \to \mathcal{P}(S)$ is the transition probability function, and 
 	\item $\rho$ is the initial probability distribution of states. 
@@ -25,46 +25,51 @@ The goal of this process is to maximize the cumulative return,
 \[
 R(\tau) = \sum\limits_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1})
 \]
-Here, $T$ is the length of the trajectory and $\gamma \in \left(0, 1 \right)$ is the ``discount factor" that assigns smaller weight to the reward values obtained in the future. 
+Here, $T$ is the length of the trajectory and $\gamma \in \left(0, 1 \right)$ is the ``discount factor" that assigns smaller weight to the reward values obtained farther in the future. 
 \newline
 
-For the problem under investigation in this paper, i.e. finding a sequence of AC transformations that trivialize a balanced presentations, 
+For a given problem at hand, we might not \textit{a priori} know the actions $\{a_t\}$ and states $\{s_{t+1}\}$ that maximize the return. Deep reinforcement learning presents a solution to this problem: we train a neural network that learns a map from states to actions with the objective of maximizing the cumulative return $R(\tau)$. More precisely, we learn a map called the ``policy" function $\pi : S \to \mathcal{P}(A)$ and sample actions from it at each time step, $a_t \sim \pi(\cdot \mid s_t)$. The specific neural network architecture and the objective function we used in this paper is reviewed in \autoref{sec:ppo}.
+\newline 
+
+In the case of the problem under investigation in this paper, i.e. finding a sequence of AC transformations that trivialize a balanced presentations, $S$ is the set of all balanced presentations of the trivial group with a fixed number of generators, and $A$ is the set of AC transformations. We need to choose a suitable reward function that assigns a larger value to the presentations that are ``closer" to the trivial state. We set it equal to the negative of the total length of the resulting presentation. A trajectory is terminated when we reach a state with reward $-2$.
+\footnote{Our choice of rewards depends only on the resulting state $s_{t+1}$ and not on the initial state $s_t$ or the action $a_t$.}
+\newline
 
 
-In the case of Andrews-Curtis conjecture, $S$ is the space of all balanced presentations with two generators, and $A$ is the set of AC transformations. We start with a presentation, of say Miller-Schupp series, and apply  Using a deep learning algorithm, we hope to learn an optimal transition probability function such that 
-$P$ is the transition probability function 
 
-We will model the problem underlying the Andrews-Curtis conjecture as a Markov Decision Process (MDP).
-An MDP is a tuple of data $(S, A, P, R, \rho)$ where
-\begin{itemize}
-	\item $S$ is a set of states called the state space.
-	\item $A$ is a set of actions that acts on $S$, called the action space.
-	That is, each element $a \in A$ is a map $a \colon S \to S$.
-	\item $P \colon S \times A \times S \to \mathbb{R}$ is the transition
-	probability function.
-	It is the probability $p (s' | a, s)$ of reaching
-	state $s'$ as we take action $a$ in state $s$.
-	\item $R \colon S \times A \times S \to \mathbb{R}$ is the 'reward' function.
-	\item $\rho$ is the initial probability distribution of states.
-\end{itemize}
+\subsection{Proximal Policy Optimization} \label{sec:ppo}
 
-In the setting of the Andrews-Curtis conjecture, $S$ is the set of all presentations of the trivial group, and $A$ is the set of AC moves.
-The transition probability function $P$ is the probability of applying a particular AC move to a given presentation.
-The choice of reward function $R$ is up to us.
-One suitable option (the only one we have worked with so far) is to take $R(s)$ for a presentation $s$ to be the negative of the total word length ---i.e., the sum of word lengths of each relator in the presentation.
-(AK(3) has a total word length of 13.)
-This choice depends only on the final state $s'$ and is independent of the initial state $s$
-or the action $a$.
-\footnote{Another good choice could be the difference in total word lengths of the final and the initial states.} It is suitable for the goal of trivializing a presentation as the trivial presentation has the maximum possible reward value: negative of the number of generators.
+The goal of our optimization process is to find a policy that maximizes the cumulative return. The most naive way to achieve this goal is through an algorithm known as the ``vanilla policy gradient" algiorithm. We perform gradient updates guided by the expected return $J(\pi_\theta) \equiv \mathbb{E}_{\tau \sim \pi_\theta} R(\tau)$, where the expectation is over a set of trajectories consisting of states and actions sampled according to our current policy, 
+\[
+\theta_{k+1} = \theta_k + \nabla_\theta J(\pi_\theta)
+\]
 
-Differences in our AC moves and the usual notion of AC moves: 1.
-since we restrict lengths, our AC moves are not invertible; 2.
-we use full-simplify which cyclically reduces words before returning the answer.
-For example, if we conjugate a word and it takes the form $y \cdots y^{-1}$, our conjugation operation returns $\cdots$.
+One can show that this update depends on the gradient of the logarithm of the policy function itself and an ``advantage function" \( A^\pi (s, a) \) which quantifies the relative benefit of taking action \( a \) in state \( s \) under policy \( \pi \).
+\footnote{
+Mathematically, the advantage function is the difference between ``on-policy action-value function" $Q^{\pi}(s, a) = \mathbb{E}_{\tau \sim \pi_\theta} [R(\tau) \mid s_0 = s, a_0 = a]$ and the ``on-policy value function, $V^{\pi}(s) = \mathbb{E}_{\tau \sim \pi_\theta} [R(\tau) \mid s_0 = s]$." These functions give the expected cumulative return if we start with a fixed initial state (as well as the action in the case of the action-value function).
+}
+\begin{align*}
+	\nabla_\theta J(\pi_\theta) &= \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum\limits_{t=0}^T \nabla_\theta \log 								\pi_\theta (a_t \mid s_t) A^{\pi_\theta} (s_t, a_t) \right]
+\end{align*}
+This is equivalent to optimizing the objective function, 
+\[
+L^{PG} = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum\limits_{t=0}^T \log 								\pi_\theta (a_t \mid s_t) A^{\pi_\theta} (s_t, a_t) \right].
+\]
+Though simple, this algorithm has the downside of potentially taking the updated policy too far from the current policy.
+
+Proximal Policy Optimization (PPO) algorithms seeks to make these updates more robust by limiting the extent to which the policy \( \pi \) can change in a single update. This is crucial to avoid destructive large updates that can destabilize the learning process. PPO implements this through a novel objective function that includes a clipped probability ratio between the new policy \( \pi_\theta \) and the old policy \( \pi_{\text{old}} \), thus constraining the updates within a predefined range. The clipped objective function is given by:
+\[
+L^{CLIP}(\theta) = \mathbb{E}_t\left[ \min(r_t(\theta) A_t, \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon) A_t) \right]
+\]
+where \( r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\text{old}}(a_t | s_t)} \) represents the probability ratio, and \( \epsilon \) is a small positive constant (commonly set around 0.1 or 0.2).
+
+The dual aspects of this function — the raw and the clipped ratio — serve to refine the policy iteratively in a way that curtails excessively large policy updates, maintaining the essential stability of the learning progression. This modification allows PPO to enjoy the benefits of larger updates when they are safe, while avoiding significant performance regressions, which are common pitfalls in earlier policy gradient methods. \fixme{Simplify this paragraph.}
 
 
-\subsection{Proximal Policy Optimization}
 
+\footnote{cite actor-critic}
+
+Include a comment about how it's distributed/parallel.
 
 \subsection{Results}
 
