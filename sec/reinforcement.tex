@@ -1,8 +1,38 @@
 % !TEX root = ../ac_paper.tex
 
 \section{Reinforcement Learning}
-Why RL and not BFS? 1. memory efficient, 2. parallelizable/distributed.
+
+While greedy search algorithm performs better than breadth first search, it has some of the same downsides. Namely, it is memory inefficient, and we cannot leverage the parallelizability of modern hardware architectures. A simple candidate for algorithms that do not have these downsides are reinforcement learning algorithms. In particular, the policy gradient algorithms, which we will review in section 4.1 are memory efficient and can be trained in a highly distributed manner. We will note that despite the use of only a fraction of compute generally available for research purposes, policy gradient algorithms seem to do well. In particular, they perform better than breadth first search algorithm in terms of the number of presentations of the Miller-Schupp series that they are able to solve, and they are able to give shorter sequences of AC moves compared to the greedy search algorithm in cases where they solve a presentation. 
+
+This section is divided as follows: in subsection 4.1, we discuss how the problem underlying Andrews-Curtis conjecture can be modelled as a Markov Decision Process. In subsection 4.2, we will discuss some details of a specific reinforcement learning algorithm, called Proximal Policy Optimization algorithm that we used to find sequences of AC moves. Finally, in subsection 4.3, we discuss the results of our work, comparing the performance of PPO with that of the classical search algorithms studied in the previous section. 
+
 \subsection{Markov Decision Process}
+
+A Markov Decision Process is a 5-tuple $(S, A, R, P, \rho)$ where 
+\begin{itemize}
+	\item $S$ is the space of states, 
+	\item $A$ is a set of actions, i.e. $a \colon S \to S \ \forall \ a \in A$, 
+	\item $R \colon S \times A \times S \to \mathbb{R}$ is the ``reward" function, 
+	\item $P \colon S \times A \to \mathcal{P}(S)$ is the transition probability function, and 
+	\item $\rho$ is the initial probability distribution of states. 
+\end{itemize}
+
+The schematic picture of how these objects interact with each other is as follows. We start with a state $s_0$ sampled from the distribution $\rho$ and take an action $a_0$. This results in a state $s_1$ with probability $P(s_1 \mid s_0, a_0) $. The transition gets a ``reward" $r_0 = R(s_0, a_0, s_1)$ which quantifies the effectiveness of the action in contributing toward achieving an ultimate goal. From state $s_1$, we repeat this process, obtaining a trajectory of states
+\[
+\tau = \left( s_0, a_0, s_1, a_1, \cdots \right)
+\]
+The goal of this process is to maximize the cumulative return,
+\[
+R(\tau) = \sum\limits_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1})
+\]
+Here, $T$ is the length of the trajectory and $\gamma \in \left(0, 1 \right)$ is the ``discount factor" that assigns smaller weight to the reward values obtained in the future. 
+\newline
+
+For the problem under investigation in this paper, i.e. finding a sequence of AC transformations that trivialize a balanced presentations, 
+
+
+In the case of Andrews-Curtis conjecture, $S$ is the space of all balanced presentations with two generators, and $A$ is the set of AC transformations. We start with a presentation, of say Miller-Schupp series, and apply  Using a deep learning algorithm, we hope to learn an optimal transition probability function such that 
+$P$ is the transition probability function 
 
 We will model the problem underlying the Andrews-Curtis conjecture as a Markov Decision Process (MDP).
 An MDP is a tuple of data $(S, A, P, R, \rho)$ where
