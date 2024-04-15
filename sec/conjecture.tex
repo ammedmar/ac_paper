@@ -11,7 +11,7 @@ can be converted to the trivial presentation
 \angles{x_1, \dots, x_n \mid x_1, \dots, x_n}
 \]
 through a series of following operations known as AC moves \cite{Andrews-Curtis}.
-\begin{enumerate}
+\begin{enumerate}[label=(AC\arabic*)]
 	\item Substitute some $r_i$ by $r_i r_j$ for $i \neq j$.
 	\item Replace some $r_i$ by $r_i^{-1}$.
 	\item Change some $r_i$ to $g r_i g^{-1}$ where $g$ is a generator or its inverse.
@@ -56,7 +56,7 @@ We reduced $x^{-1}w$ freely and cyclically and kept only one representative of e
 \newline
 
 Our implementation of AC transformations differed from the AC transformations mentioned above in two ways. First, we considered the following set of operations.
-\begin{enumerate}
+\begin{enumerate}[label=(AC$'$\arabic*)]
 	\item Substitute some $r_i$ by $r_i r_j^{\pm 1}$ for $i \neq j$.
 	\item Change some $r_i$ to $g r_i g^{-1}$ where $g$ is a generator or its inverse.
 \end{enumerate}
@@ -70,4 +70,26 @@ From here onwards in this paper, we will refer to the new transformations (inste
 
 Second, in order to make the search space finite in size, we set a maximum length that each relator is allowed to take. If an AC transformation resulted in a presentation with a relator of length greater than this maximum length, the AC transformation was set to act trivially. In the search of a sequence of AC moves that trivialize a presentations of the Miller-Schupp series $\MS(n, w)$, we set this maximum length to be $2 \times \text{max}(2 n+3, \text{length}(w)+1) + 2$. This specific choice was made to allow for at least one concatenation move followed by a conjugation move in the search process. Note that this constraint is quite restrictive: any presentation of the Miller-Schupp series that requires the length of a relator to grow to more than the set maximum length would not be trivialized. 
 
+\subsection*{The Sable Andrews-Curtis Conjecture}
+
+Andrews-Curtis conjecture has many variants at this point. We briefly explored one of those variants, namely the ``stable" or ``weak" Andrews-Curtis conjecture, in addition to the standard Andrews-Curtis conjecture in this work. 
+\footnote{\fixme{Add some citations. Look at 10, 12, 13, 19 from On the Andrews-Curtis equivalence paper.}}
+The stable version allows two more transformations in addition to the AC transformations mentioned above. 
+
+\begin{enumerate}[label=(AC\arabic*)]
+	\setcounter{enumi}{3}
+	\item Include a new generator and a trivial relator, i.e. replace $\angles{x_1, \dots, x_n \mid r_1, \dots, r_n}$ by $\angles{x_1, \dots, x_n, x_{n+1} \mid r_1, \dots, r_n, x_{n+1}}$.
+	\item Remove a trivial relator and the corresponding generator, i.e. the converse of transformation (4). 
+\end{enumerate}
+
+If two balanced presentations of the trivial group are related by a sequence of AC transformations (1) through (5), we say that they are \textit{stably} AC-equivalent. The stable Andrews-Curtis conjecture states that any balanced presentation is stably AC-trivial, i.e. it is AC-equivalent to a trivial balanced presentation. To the best of our knowledge, $\AK(3)$, which we discussed above as the shortest potential counterexample to the standard Andrews-Curtis conjecture, was not known to be stably AC-trivial at the time of writing this paper. That is, $\AK(3)$ was the shortest potential counterexample to the stable Andrews-Curtis conjecture as well.
+\newline 
+
+In \autoref{sec:search} of this paper, we show that $\AK(3)$ is in fact stably AC-trivial. We find a sequence of AC transformations (AC$'$1) - (AC$'$2) that renders the following length 25 stably AC-trivial presentation of \cite{MMS} AC-equivalent to $\AK(3)$.
+\[
+\angles{x, y \mid x y x^{-2} = y x^{-1} y, xy^2 x = y x y}
+\]
+
+This makes $\AK(3)$ the shortest balanced presentation that is stably AC-trivial but not known to be AC-trivial.
+ 
 %\footnote{\fixme{We should run some experiments that show how the use of these moves as compared to the original AC moves affects the path lengths in BFS.}}
