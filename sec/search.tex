@@ -2,6 +2,17 @@
 
 \section{Classical Search Algorithms} \label{sec:search}
 
+
+
+% Sketch of the section: We use search algorithm to get a baseline on results. We call it breadth-first search. It is able to solve less than half of the presentations we considered. We will use these presentations to generate dataset for each of the techniques used in the next two sections: for embeddings, we generate text dataset, for reinforcement learning, these states are the initial states of a Markov Decision Process. 
+
+%\fixme{Made search space finite. Perhaps this could be discussed in the previous section. Justify the BFS name.}
+
+In this section, we introduce a greedy search algorithm \autoref{alg:bfs} that searches the space of all balanced presentations for a path connecting a given presentation $P_0$ to a trivial presentation.
+$P_0$ is initially placed into a priority queue $Q$ and a set $S$. The priority queue is ordered by a tuple $(k, l)$ where $k$ is the total length of a presentation and $l$ is the path length between a state and $P_0$. The algorithm iteratively selects the top element from the priority queue and applies all possible AC moves to it to generate new states. If a state has not been seen before, the algorithm adds it to both $Q$ and $S$. This process is continued until the algorithm finds a trivial presentation, deeming the search successful, or if it has seen a million distinct states. 
+%Note that the paths found by our greedy search algorithm depend on the particular order in which AC moves are applied. 
+\newline
+
 \begin{algorithm}
 	\caption{Greedy Search Algorithm}\label{alg:bfs}
 	\begin{algorithmic}
@@ -23,15 +34,6 @@
 		\EndWhile
 	\end{algorithmic}
 \end{algorithm}
-
-% Sketch of the section: We use search algorithm to get a baseline on results. We call it breadth-first search. It is able to solve less than half of the presentations we considered. We will use these presentations to generate dataset for each of the techniques used in the next two sections: for embeddings, we generate text dataset, for reinforcement learning, these states are the initial states of a Markov Decision Process. 
-
-%\fixme{Made search space finite. Perhaps this could be discussed in the previous section. Justify the BFS name.}
-
-In this section, we introduce a greedy search algorithm, referenced as \autoref{alg:bfs}, which bears resemblance to the A* search algorithm within the context of graph theory. The algorithm searches the space of all balanced presentations for a path that connects an initial presentation $P_0$ to a trivial presentation.
-$P_0$ is initially placed into a priority queue $Q$ and a set $S$. The priority queue is ordered by a tuple $(k, l)$ where $k$ is the total length of a presentation and $l$ is the path length between a state and $P_0$. The algorithm iteratively selects the top element from the priority queue and applies all possible AC moves to it to generate new states. If a state has not been seen before, the algorithm adds it to both $Q$ and $S$. This process is continued until the algorithm finds a trivial presentation, deeming the search successful, or if it has seen a million distinct states. 
-%Note that the paths found by our greedy search algorithm depend on the particular order in which AC moves are applied. 
-\newline
 
 We place a cutoff of a million states to make the search process feasible within a practical timeframe. We will call a presentation ``GS-easy" if the greedy search algorithm successfully finds a path that trivializes the presentation; otherwise, we will call it ``GS-hard". The distributions of ``GS-easy" and ``GS-hard" presentations as functions of $n$ and lengths of the presentations of the Miller-Schupp series is given in \autoref{fig:miller_schupp_statistics}. 
 \footnote{\fixme{Is it better to use 'GS-easy'/GS-hard or GS-solved/GS-unsolved? Fix the figure accordingly, i.e. replaced 'solved' and 'unsolved' by 'GS-solved' and 'GS-unsolved'.}}
