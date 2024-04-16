@@ -93,3 +93,5 @@ As for original AC moves vs our AC moves, BFS with original AC moves also seems 
 \fixme{Be careful about full simplify vs simplify in presenting results. }
 
 \fixme{Include results on stable AC conjecture.}
+
+While greedy search algorithm performs better than breadth first search, it has some of the same downsides. Namely, it is memory inefficient, and we cannot leverage the parallelizability of modern hardware architectures. A simple candidate for algorithms that do not have these downsides are reinforcement learning algorithms. In particular, the policy gradient algorithms, which we will review in section 4.1 are memory efficient and can be trained in a highly distributed manner. We will note that despite the use of only a fraction of compute generally available for research purposes, policy gradient algorithms seem to do well. In particular, they perform better than breadth first search algorithm in terms of the number of presentations of the Miller-Schupp series that they are able to solve, and they are able to give shorter sequences of AC moves compared to the greedy search algorithm in cases where they solve a presentation. 

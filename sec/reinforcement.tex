@@ -2,11 +2,11 @@
 
 \section{Reinforcement Learning}
 
-While greedy search algorithm performs better than breadth first search, it has some of the same downsides. Namely, it is memory inefficient, and we cannot leverage the parallelizability of modern hardware architectures. A simple candidate for algorithms that do not have these downsides are reinforcement learning algorithms. In particular, the policy gradient algorithms, which we will review in section 4.1 are memory efficient and can be trained in a highly distributed manner. We will note that despite the use of only a fraction of compute generally available for research purposes, policy gradient algorithms seem to do well. In particular, they perform better than breadth first search algorithm in terms of the number of presentations of the Miller-Schupp series that they are able to solve, and they are able to give shorter sequences of AC moves compared to the greedy search algorithm in cases where they solve a presentation. 
 
-This section is divided as follows: in subsection 4.1, we discuss how the problem underlying Andrews-Curtis conjecture can be modelled as a Markov Decision Process. In subsection 4.2, we will discuss some details of a specific reinforcement learning algorithm, called Proximal Policy Optimization algorithm that we used to find sequences of AC moves. Finally, in subsection 4.3, we discuss the results of our work, comparing the performance of PPO with that of the classical search algorithms studied in the previous section. 
 
-\subsection{Markov Decision Process}
+This section is divided as follows: in \autoref{sec:mdp}, we discuss how the problem underlying Andrews-Curtis conjecture can be modelled as a Markov Decision Process. In \autoref{sec:ppo}, we will discuss some details of a specific reinforcement learning algorithm, called Proximal Policy Optimization algorithm that we used to find sequences of AC moves. Finally, in \autoref{sec:results}, we discuss the results of our work, comparing the performance of PPO with that of the classical search algorithms studied in the previous section. 
+
+\subsection{Markov Decision Process} \label{sec:mdp}
 
 A Markov Decision Process is a 5-tuple $(S, A, R, P, \rho)$ where 
 \begin{itemize}
@@ -25,13 +25,15 @@ The goal of this process is to maximize the cumulative return,
 \[
 R(\tau) = \sum\limits_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1})
 \]
-Here, $T$ is the length of the trajectory and $\gamma \in \left(0, 1 \right)$ is the ``discount factor" that assigns smaller weight to the reward values obtained farther in the future. 
+Here, $T$ is the length of the trajectory and $\gamma \in \left(0, 1 \right)$ is the ``discount factor" that assigns smaller weights to the reward values obtained farther in the future. 
 \newline
 
-For a given problem at hand, we might not \textit{a priori} know the actions $\{a_t\}$ and states $\{s_{t+1}\}$ that maximize the return. Deep reinforcement learning presents a solution to this problem: we train a neural network that learns a map from states to actions with the objective of maximizing the cumulative return $R(\tau)$. More precisely, we learn a map called the ``policy" function $\pi : S \to \mathcal{P}(A)$ and sample actions from it at each time step, $a_t \sim \pi(\cdot \mid s_t)$. The specific neural network architecture and the objective function we used in this paper is reviewed in \autoref{sec:ppo}.
+For a given problem at hand, we may not \textit{a priori} know the actions $\{a_t\}$ and states $\{s_{t+1}\}$ that maximize the return. Deep reinforcement learning presents a solution to this problem: we train a neural network that learns a map from states to actions with the objective of maximizing the cumulative return. More precisely, we learn a map called the ``policy" function $\pi : S \to \mathcal{P}(A)$ that assigns to each state a probability distribution over actions. At time step $t$, an action $a_t \sim \pi(\cdot \mid s_t)$ is sampled that gives the next state $s_{t+1}$.
+\footnote{In general, we need to specify the probability transition function $P(\cdot \mid s_t, a_t)$  from which the next state would be sampled. In this paper, we take this probability distribution to be a delta function centered at a single state, which we write as $a_t(s_t)$.} 
+The specific neural network architecture and the objective function we used in this paper is reviewed in \autoref{sec:ppo}.
 \newline 
 
-In the case of the problem under investigation in this paper, i.e. finding a sequence of AC transformations that trivialize a balanced presentations, $S$ is the set of all balanced presentations of the trivial group with a fixed number of generators, and $A$ is the set of AC transformations. We need to choose a suitable reward function that assigns a larger value to the presentations that are ``closer" to the trivial state. We set it equal to the negative of the total length of the resulting presentation. A trajectory is terminated when we reach a state with reward $-2$.
+In the case of the problem under investigation in this paper, i.e. finding a sequence of AC transformations that trivialize a balanced presentations, $S$ is the set of all balanced presentations of the trivial group with a fixed number of generators, and $A$ is the set of AC transformations. We need to choose a suitable reward function that assigns a larger value to the presentations that are ``closer" to the trivial presentation. We set it equal to the negative of the total length of a presentation with terminal states having reward value of $-2$.
 \footnote{Our choice of rewards depends only on the resulting state $s_{t+1}$ and not on the initial state $s_t$ or the action $a_t$.}
 \newline
 
@@ -71,7 +73,7 @@ The dual aspects of this function — the raw and the clipped ratio — serve to
 
 Include a comment about how it's distributed/parallel.
 
-\subsection{Results}
+\subsection{Results} \label{sec:results}
 
 \begin{enumerate}
 \item Shorter sequences of AC moves. 
