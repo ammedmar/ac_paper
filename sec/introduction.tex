@@ -2,4 +2,23 @@
 
 \section{Introduction\label{sec:intro}}
 
-In this paper, we apply various computational techniques to understand better the properties of balanced presentations of a trivial group. We will use a subset of presentations from the Miller-Schupp series as a testbed to study the efficacy of our methods. 
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
+		\includegraphics[width=1.1\textwidth]{fig/performance_vs_n.png}
+		\caption{Distribution versus $n$}
+		\label{fig:performance_vs_n}
+	\end{subfigure}
+	
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.1\textwidth]{fig/performance_vs_length.png}
+		\caption{Distribution versus total length}
+		\label{fig:performance_vs_length}
+	\end{subfigure}
+	\caption{The figure shows the number of presentations from the Miller-Schupp series that were solved using Greedy Search (GS) and Breadth-First Search (BFS) as a function of \( n \). Greedy Search consistently outperforms Breadth-First Search. Specifically, Greedy Search successfully solved all 170 presentations of the Miller-Schupp series with \( n=1 \) in our dataset.} \label{fig:performance}
+	
+\end{figure}
+
+Mention that presentations solved by PPO and BFS are a subset of those solved by GS.

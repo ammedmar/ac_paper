@@ -1,97 +1,128 @@
 % !TEX root = ../ac_paper.tex
 
 \section{Classical Search Algorithms} \label{sec:search}
+As mentioned in the previous section, breadth first search (BFS) has been applied in the past to find AC trivializations of balanced presentations. In this section, we present a greedy search (GS) algorithm. We find that this algorithm performs better than breadth-first search in finding AC trivializations of balanced presentations.
+\newline 
 
-In this section, we will discuss and compare the performance of two classical search algorithms on the problem of finding sequences of AC transformations that trivialize a given presentation. 
-
-% Sketch of the section: We use search algorithm to get a baseline on results. We call it breadth-first search. It is able to solve less than half of the presentations we considered. We will use these presentations to generate dataset for each of the techniques used in the next two sections: for embeddings, we generate text dataset, for reinforcement learning, these states are the initial states of a Markov Decision Process. 
-
-%\fixme{Made search space finite. Perhaps this could be discussed in the previous section. Justify the BFS name.}
-
-In this section, we introduce a greedy search algorithm \autoref{alg:bfs} that searches the space of all balanced presentations for a path connecting a given presentation $P_0$ to a trivial presentation.
-$P_0$ is initially placed into a priority queue $Q$ and a set $S$. The priority queue is ordered by a tuple $(k, l)$ where $k$ is the total length of a presentation and $l$ is the path length between a state and $P_0$. The algorithm iteratively selects the top element from the priority queue and applies all possible AC moves to it to generate new states. If a state has not been seen before, the algorithm adds it to both $Q$ and $S$. This process is continued until the algorithm finds a trivial presentation, deeming the search successful, or if it has seen a million distinct states. 
-%Note that the paths found by our greedy search algorithm depend on the particular order in which AC moves are applied. 
-\newline
+We first recall the breadth first search algorithm. An iterative implementation of this algorithm, adapted to the problem of Andrews-Curtis conjecture, is given in \autoref{alg:bfs}. We start with an initial state, i.e. a balanced presentation for which we would like to obtain an AC trivialization, and place it in a queue. At each iteration, a state is removed from the queue and its neighbors are added if they haven't already been visited. This continues until the sought-after state, i.e. a trivial balanced presentation is found, or a maximum number of states $N$ is visited. In our experiments, we set $N=10^6$. 
+\newline 
 
 \begin{algorithm}
-	\caption{Greedy Search Algorithm}\label{alg:bfs}
-	\begin{algorithmic}
-		\State $Q \gets P_0$ \Comment{Initialize the prioriy queue of presentations with $P_0$.}
-		\State $S \gets P_0$ \Comment{Initialize the set of seen presentations with $P_0$.}
-
-		\While{$\text{len}(S) < 10^6$} \Comment{While the number of distinct states is less than $10^6$.}
-		\State $P \gets Q[0]$ \Comment{Pop the top element of the heap.}
-		\For{$A \in \text{AC Moves}$}
-		\State $PA \gets A \cdot P$ \Comment{Act on $P$ by $A$.}
-		\If{PA is trivial}
-		\Return{True}
-		\Else{ $PA \notin S$}
-		\State $S \gets PA$
-		\State $Q \gets PA$ \Comment{Insert $PA$ to $Q$ with priority.}
-
-		\EndIf
-		\EndFor
-		\EndWhile
-	\end{algorithmic}
+\caption{Breadth-First Search Algorithm}\label{alg:bfs}
+\begin{algorithmic}[1] % The number [1] ensures lines are numbered
+\State \textbf{Input:} A balanced presentation $\pi$, maximum number of states to visit $N$
+\State \textbf{Output:} Boolean for whether an AC trivialization is found
+\State Initialize a queue $Q$ and enqueue the starting node $\pi$
+\State Mark $\pi$ as visited
+\While{Number of visited states is less than $N$}
+    \State $u \gets Q$.dequeue() \Comment{Remove the front node of $Q$}
+    \For{each neighbor $v$ of $u$}
+        \If{$v$ is a trivial state}
+            \State \Return True \Comment{Return True if $v$ is a trivial state}
+        \EndIf
+        \If{$v$ has not been visited}
+            \State Mark $v$ as visited
+            \State $Q$.enqueue($v$) \Comment{Add $v$ to the queue}
+        \EndIf
+    \EndFor
+\EndWhile
+\State \Return False \Comment{Return False if no trivial state is found}
+\end{algorithmic}
 \end{algorithm}
 
-We place a cutoff of a million states to make the search process feasible within a practical timeframe. We will call a presentation ``GS-easy" if the greedy search algorithm successfully finds a path that trivializes the presentation; otherwise, we will call it ``GS-hard". The distributions of ``GS-easy" and ``GS-hard" presentations as functions of $n$ and lengths of the presentations of the Miller-Schupp series is given in \autoref{fig:miller_schupp_statistics}. 
-\footnote{\fixme{Is it better to use 'GS-easy'/GS-hard or GS-solved/GS-unsolved? Fix the figure accordingly, i.e. replaced 'solved' and 'unsolved' by 'GS-solved' and 'GS-unsolved'.}}
-\footnote{\fixme{One issue with the bar chart is that it does not give precise numbers for solved and unsolved presentations. If we need to provide those explicit numbers, we can use heatmaps instead.}}
-Note that the number of unsolved presentations increases monotonically with $n$, but not with the total length of the presentation. This indicates that $n$ as compared to the length of the presentation is a better metric to measure the hardness of a presentation. 
-All presentations with total length up to 13 are solved. 
-There are a total of six unsolved presentations at length 14, four of which are AC-equivalent to $\AK(3)$. The other two presentations are as follows. 
+The greedy search algorithm, \autoref{alg:gs}, differs only slightly from the breadth first search algorithm in implementation. We replace the queue with a priority queue, which stores the states in the order determined by a tuple of values: $(k, l)$ where $k$ is the total length of the presentation and $l$ is the path length between the state and the initial state. Instead of dequeuing the earliest state, the algorithm dequeues the state with the smallest value of $k$. If there is more than one state in the priority queue with the same value of $k$, the state with the smallest value of $l$ is chosen. 
+
+\begin{algorithm}
+\caption{Greedy Search Algorithm}\label{alg:gs}
+\begin{algorithmic}[1] % The number [1] ensures lines are numbered
+\State \textbf{Input:} A balanced presentation $\pi$ of total length $k$, maximum number of states to visit $N$
+\State \textbf{Output:} Boolean for whether an AC trivialization is found
+\State Initialize a \textit{priority} queue $Q$ ordered by $(k, l)$ and enqueue the starting node $\pi$. $l$ is the length of the path connecting $\pi$ to the current node.
+\State Mark $\pi$ as visited
+\While{Number of visited states is less than $N$}
+    \State $u \gets Q$.dequeue() \Comment{Remove the front node of $Q$}
+    \For{each neighbor $v$ of $u$}
+        \If{$v$ is a trivial state}
+            \State \Return True \Comment{Return True if $v$ is a trivial state}
+        \EndIf
+        \If{$v$ has not been visited}
+            \State Mark $v$ as visited
+            \State $Q$.enqueue($v$) \Comment{Add $v$ to the queue}
+        \EndIf
+    \EndFor
+\EndWhile
+\State \Return False \Comment{Return False if no trivial state is found}
+\end{algorithmic}
+\end{algorithm}
+
+We find that greedy-search algorithm outperforms the breadth first search algorithm in the task of solving the presentations of Miller-Schupp series \autoref{fig:performance}. Out of 1190 presentations of the Miller-Schupp series with $n, \ \text{length}(w) \leq 7$, greedy search solved 533 while BFS solved only 278 presentations. Each algorithm was constrained to visit a maximum of 1 million nodes. The percentage of presentations solved by these algorithms decreases monotonically as a function of $n$. Remarkably, however, greedy search solved all presentations with $n=1$ or total length less than 14 successfully. There are six presentations of length 14 that greedy search could not solve. We checked that four of these,
+\[
+\angles{x, y \mid x^{-1} y^2 x = y^{3} , x = x^{-2} y^{-1} x^2 y^{\pm 1}}
+\]
+\[
+\angles{x, y \mid x^{-1} y^3 x = y^{4} , x = y^{\pm 1} x^2 y^{\pm 1}}
+\]
+are AC-equivalent to $\AK(3)$, while the other two
 \[
 \angles{x, y \mid x^{-1} y^2 x = y^{3} , x = y x^2 y^{\pm 1} x^{-2}}
 \]
-We checked that these presentations are not AC-equivalent to $\AK(3)$ by any sequence of AC moves that allows the length of each relator to increase upto 20.
+could be related neither to $\AK(3)$ nor to the trivial presentation with any sequence of moves that allowed the length of each relator to increase up to 20. 
+\newline 
 
+For presentations solved by greedy search, we plot the maximum amount by which the total length of a presentation increased in an AC trivialization path in \autoref{fig:gs_length_increase}. In most cases, there was no increase in length; and the maximum increase was only 5. This might seem surprising at first given that we allowed the relator lengths to increase by a much larger number in our search process. 
+\footnote{Recall that we permitted the length of each relator to increase up to \(2 \times \text{max}(2n+3, \text{length}(w)+1) + 2\), which is twice the maximum of the initial lengths of the two relators in a presentation, plus an additional 2.} However, the hard cutoff set by visiting a maximum of only 1 million nodes ensures that any presentation that needs to be mapped to a much longer presentation before it is trivialized would remain unsolved by the greedy search algorithm. 
+\footnote{Can I plot something to support this claim?}
+This limitation could be cured either by increasing the number of maximum nodes or by using a different criterion to order nodes in the priority queue. Such other criteria that do not necessarily select the shortest presentations first could be a useful area to explore in the future.
+\newline
 
-
-%It is listed as example 1 on page 3 of \cite{MMS}.
-%I have checked whether we can reduce the length of these examples with max length = 20.
-
-%\fixme{Compare with Table 2 of Panteleev-Ushakov.
-%They seem to have a lot more examples with $n=2$ that they could not resolve.}
-
-
-%The number of BFS-hard examples increases as a function of $n$.
-%(See \autoref{fig:hist_vs_n}.)
-%The distributions of BFS-easy and BFS-hard as a function of the total length of a presentation are also given in \autoref{fig:hist_vs_length}.
-
-
+We also plot the lengths of AC sequences discovered by greedy search as functions of $n$ and the maximum increase in the presentation length. Unsurprisingly, path length increases proportionally with increase in the the total length of the presentation (\autoref{fig:path_lengths_vs_length_increase}). A little unexpectedly though, the distributions as a function of $n$ for $n = 3, 4, 5, 6$ seem quite similar (\autoref{fig:gs_path_lengths}).
+\footnote{This perhaps says more about the greedy search algorithm with constraint of 1 million nodes than the presentations themselves.}
+The presentation with the longest path,
+\[
+\angles{x^{-1} y^5 x = y^6 \mid  x = y x^2 y^{-1}}
+\]
+required 344 AC transformations. As we will see in \autoref{sec:rl}, greedy search does not find the shortest path between a presentation and the trivial presentation.
+\footnote{Note that the longest path found by breadth first search had only 12 moves. Can I make this more interpretable in terms of what GS and BFS do?}
+	
 \begin{figure}
 	\centering
 	\begin{subfigure}[b]{0.5\textwidth}
-		\includegraphics[width=\textwidth]{fig/hist_vs_n.png}
-		\caption{Distribution versus $n$}
-		\label{fig:hist_vs_n}
+		\includegraphics[width=\textwidth]{fig/gs_length_increase_vs_length.png}
+		\caption{Distribution versus initial presentation length}
+		\label{fig:gs_length_increase_vs_length}
 	\end{subfigure}%
 	%add desired spacing between images, e. g. ~, \quad, \qquad etc.
 	%(or a blank line to force the subfigure onto a new line)
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\includegraphics[width=1.1\textwidth]{fig/hist_vs_lengths.png}
-		\caption{Distribution versus total length}
-		\label{fig:hist_vs_length}
+		\includegraphics[width=1.1\textwidth]{fig/gs_length_increase_vs_n.png}
+		\caption{Distribution versus $n$}
+		\label{fig:gs_length_increase_vs_n}
 	\end{subfigure}
-	\caption{Number of GS-solved and GS-unsolved presentations as functions of $n$ and total length of the presentation. A presentation is GS-solved (GS-unsolved) if the greedy search algorithm in  \autoref{alg:bfs} could (could not) trivialize the presentation. The subfigure on the left (right) shows the number of GS-solved and GS-unsolved presentations in the Miller-Schupp series as a function of $n$ (the total length of the presentation). The number of GS-unsolved presentations increases monotonically with $n$. } \label{fig:miller_schupp_statistics}
-	
+	\caption{
+This figure illustrates the maximum increase in the length of a presentation relative to its initial length along the AC trivialization path. The increase is plotted as a function of the initial length of the presentation on the left and as a function of $n$ on the right.} \label{fig:gs_length_increase}
 \end{figure}
-	
-I don't think I need to check BFS for all cases of $n$. Already at $n=1$, GS is able to solve all presentations while BFS is not. This is proof that GS is superior to BFS.
 
 
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.4\textwidth}
+		\includegraphics[width=\textwidth]{fig/path_lengths_vs_length_increase.png}
+		\caption{Distribution versus initial presentation length}
+		\label{fig:path_lengths_vs_length_increase}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\textwidth}
+	\centering
+		\includegraphics[width=1.1\textwidth]{fig/gs_path_lengths.png}
+		\caption{Distribution versus $n$}
+		\label{fig:gs_path_lengths}
+	\end{subfigure}%
+	\caption{Distribution of lengths of AC-trivialization paths learned by greedy search as a function of maximum increase in presentation length (left) and $n$ (right).} \label{fig:gs_path_length}
+\end{figure}
 
-As for original AC moves vs our AC moves, BFS with original AC moves also seems to be not able to solve many $n=1$ presentations. So the only comparison of interest here is GS with original AC moves vs GS with our AC moves. Since GS sorts the priority queue by the length of the presentation, I will not be surprised if GS with our AC moves does slightly better. The run of GS with original AC moves,  34869254, should be done in another day or so.
+\subsection{The Stable Andrews-Curtis Conjecture}
+We used greedy search algorithm to show that $\AK(3)$ is stably AC-trivial. The sequence of moves is given in \autoref{sec:stable_ak3}.
+\footnote{\fixme{I think it will be useful to include how the length-25 presentation was achieved in MMS. Also include how this could be used perhaps to show that other $\AK(n)$ presentations are also stably AC-trivial.}}
 
 
-\fixme{Perhaps all $n=1$ examples will be solved by finding paths using the original AC moves, i.e. the pattern will be more obvious that way.}
-
-\fixme{What's the longest length that a presentation obtains before it is trivialized? This is especially a question about $n=1$. In $n=1$, do lengths ever go above the original length?}
-
-\fixme{Be careful about full simplify vs simplify in presenting results. }
-
-\fixme{Include results on stable AC conjecture.}
-
-While greedy search algorithm performs better than breadth first search, it has some of the same downsides. Namely, it is memory inefficient, and we cannot leverage the parallelizability of modern hardware architectures. A simple candidate for algorithms that do not have these downsides are reinforcement learning algorithms. In particular, the policy gradient algorithms, which we will review in section 4.1 are memory efficient and can be trained in a highly distributed manner. We will note that despite the use of only a fraction of compute generally available for research purposes, policy gradient algorithms seem to do well. In particular, they perform better than breadth first search algorithm in terms of the number of presentations of the Miller-Schupp series that they are able to solve, and they are able to give shorter sequences of AC moves compared to the greedy search algorithm in cases where they solve a presentation. 
+\subsection{Limitations}. While greedy search algorithm performs better than breadth first search, it has some of the same limitations. Namely, it is memory inefficient, and we cannot leverage the parallelizability of modern hardware architectures. It also does not learn a general algorithm that would find an AC trivialization for any given balanced presentation. A simple candidate for algorithms that do not have these downsides are reinforcement learning algorithms. In particular, the policy gradient algorithms, which we will review in section 4.1 are memory efficient and can be trained in a highly distributed manner. We will note that despite the use of only a fraction of compute generally available for research purposes, policy gradient algorithms seem to do well. In particular, they perform better than breadth first search algorithm in terms of the number of presentations of the Miller-Schupp series that they are able to solve, and they are able to give shorter sequences of AC moves compared to the greedy search algorithm in cases where they solve a presentation. 

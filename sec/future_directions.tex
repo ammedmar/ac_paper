@@ -1,0 +1,41 @@
+% !TEX root = ../ac_paper.tex
+
+\section{Future Directions}
+
+Why RL and not BFS? 1. memory efficient, 2. parallelizable/distributed.
+As a consequence,  we can achieve higher bounds on the length of sequence of AC moves that we can apply on a presentation.
+Figure 1 in Bowman-McCaul seems to show maximum depth to be around 40.
+That is, at best, we can search through sequences of 40 AC moves with BFS.
+
+What is the limit on maximum path length? What's the limit achieved by 
+previous BFS papers?
+
+Change the initial state distribution in RL to include canonic presentations of certain lengths.
+
+Scale RL?
+
+Apply to other types of series such as Gordon's series?
+
+Does stable AC equivalence imply AC equivalence? Explore this more.
+
+It would be nice if we can also solve AK(4) for stable AC-equivalence.
+
+
+I should look at the results of my attempt to trivialize MMS-proposition-1.2 example on W\&B.
+
+Note that Theorem 1.6 of MMS says that there exist stably AC-inequivalent but AC-equivalent 2-element sets. Understand that better.
+
+There is also a length-14 presentation in \cite{MMS} for which the authors could not reduce the length of the relators using AC moves.
+\[
+\angles{x, y \mid xyx^{-2}y^{-1} xy^{-1}, x^{-1} y^{-1} x y^2 x y^{-1}}.
+\]
+
+People have noted before that the following presentation is AC-trivial. One such element is the case $n=3$, $w = y^{-1} x y x^{-1}$; this example is AC-trivializable \cite{morse}. Did we find it to be AC-trivial through GS?
+
+There also exist other generalizations of the conjecture for other kinds of groups; some of which have been proved.
+In particular, the conjecture holds true for finite groups and soluble groups \cite{Borovik, Guyot}.
+I think these versions will not be important for us but can one learn algorithmic lessons from applying RL / GS to those cases?
+
+ 
+ This paper says that either the Andrews Curtis conjecture is false or there is an algorithm to recognise balanced presentations of the trivial group: https://arxiv.org/pdf/math/0108053.pdf
+

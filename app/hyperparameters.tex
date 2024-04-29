@@ -1,9 +1,77 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Hyperparameters\label{app:hyperparameters}}
+\section{Hyperparameters}\label{app:hyperparameters}
 
 Here we discuss the hyperparameters we used to train our Proximal Policy Optimization and Transformer models discussed in the main text. 
 
-\fixme{Insert details of PPO hyperparameters here.}
+PPO uses actor-critic framework training 
+ actor and critic had unshared weights. 
+two hidden layers with tanh non-linearity. 
+
+The discount factor $\gamma$ was set to 0.999 and $\lambda_{\text{GAE}} = 0.95$. We performed linear annealing to learning rate with the initial maximum value being $10^{-4}$ and the final value being $0$.
+
+We used Adam optimizer.
+
+
+In our work, we tried a few different architectures for actor and critic networks but observed that a simple 2-layer feed forward neural network with 512 neurons and tanh non-linearities performed well. A full detail of hyperparameters is given in.
+
+Horizon length. Maximum path length. repeat solved prob. normalize advantage, normalize rewards. number of update epochs. clip vloss. target kl.
+
+We collected and trained on 1.1B examples, though we noted that the performance. 
+
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{lc}
+        \hline
+        Hyperparameter & Value \\
+        \hline
+        Horizon (T) & 200 \\
+        Number of parallel actors & 28 \\
+        Maximum Learning Rate & $1.0 \times 10^{-4}$ \\
+        Minimum Learning Rate & 0 \\
+        Num. epochs & 1 \\
+        Optimization minibatch size & 1400 \\
+        Discount ($\gamma$) & 0.99 \\
+        GAE parameter ($\lambda$) & 0.95 \\
+        Clipping parameter $\epsilon$ & 0.2 \\
+        Value Loss coefficient, $c_1$ & 0.5 \\
+        Entropy Loss coefficient, $c_2$ & 0.01 \\
+        Adam epsilon parameter & $10^{-5}$ \\
+        \hline
+    \end{tabular}
+    \caption{Table of Hyperparameters}
+    \label{tab:hyperparameters}
+\end{table}
+
+The performance of PPO can be highly sensitive to various implementation details in addition to the choice of hyperparameters \cite{shengyi2022the37implementation, engstrom2020implementation}. We used the single-file implementation of PPO in CleanRL \cite{huang2022cleanrl} which has been well-benchmarked against the results of the original PPO paper \cite{schulman2017proximal}.
+
+
+%{
+%'states_type': 'solved',
+%'repeat_solved_prob': 0.25,
+%'max_length': 36,
+%'max_env_steps': 200,
+%'nodes_counts': [512, 512],
+%'total_timesteps': 1100000000,
+%'learning_rate': 0.0001,
+%'num_envs': 28,
+%'gamma': 0.999,
+%'num_minibatches': 4,
+%'update_epochs': 1,
+%'norm_adv': True,
+%'norm_rewards': False,
+%'clip_rewards': True,
+%'min_rew': -10,
+%'max_rew': 1000,
+%'clip_coef': 0.2,
+%'clip_vloss': True,
+%'ent_coef': 0.01,
+%'vf_coef': 0.5,
+%'max_grad_norm': 0.5,
+%'target_kl': 0.01,
+%}
+
+
 
 We used an 8-layer transformer model with the embedding space dimension of $512$ and 4 attention heads. The context window of the Transformer had length 1024. We used a batch size of $12$ and constant learning rate of $6 \times 10^{-5}$. We trained for a total of 25000 iterations. We used Adam hyperparameters $\beta_1 = 0.9$, $\beta_2 = 0.99$ and a dropout value of $0$.
