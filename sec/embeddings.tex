@@ -1,6 +1,6 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Language Modeling}
+\section{Language Modeling} \label{sec:lm}
 
 In this section, we discuss a model for the ``language" of balanced presentations. Each presentation with two relators is a sequence made of six letters, also known as ``tokens" in the nomenclature of Natural Language Processing, i.e. $x$, $y$, $x^{-1}$, and $y^{-1}$, and two ``stop tokens" --- one that separates two relators of a presentation, and another that marks the end of a presentation. Given this vocabulary $V$ of six tokens, we can ask what is the probability $p(t_1, \cdots, t_N)$ for $t_i \in V$ of the occurence of a specific presentation in the space of all balanced presentations. Using the chain rule of probability theory, 
 \[

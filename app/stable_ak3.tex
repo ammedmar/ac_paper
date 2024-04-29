@@ -6,15 +6,49 @@ Here we provide a sequence of AC transformations that relates the length-25 stab
 \[
 \angles{x, y \mid xyx^{-2}y^{-1} xy^{-1}, x^{-1} y^{-1} x y^2 x y^{-1}}.
 \]
-to $\AK(3)$. This sequence of transformations was discovered using the greedy search algorithm of \autoref{sec:search}. The reader may confirm either by hand or with the help of a computer program that this sequence relates the two presentations. 
+to $\AK(3)$. We discovered this sequence of transformations using the greedy search algorithm of \autoref{sec:search}. The reader may confirm with the help of a computer program or by hand that this sequence relates the two presentations. To describe the sequence, let us first recall the definitions of AC$'$ moves discussed in \autoref{sec:search},
+\begin{enumerate}[label=(AC$'$\arabic*)]
+	\item Substitute some $r_i$ by $r_i r_j^{\pm 1}$ for $i \neq j$.
+	\item Change some $r_i$ to $g r_i g^{-1}$ where $g$ is a generator or its inverse.
+\end{enumerate}
 
+These are 12 transformations, which may be listed as follows.
 \[
-\begin{array}{cc}
-[(9, 25), (7, 25), (4, 17), (8, 17), (11, 17), (5, 17), (11, 17), (9, 17), (3, 16), (10, 16), \\
- (12, 16), (7, 16), (7, 16), (9, 16), (11, 16), (5, 16), (3, 15), (5, 15), (4, 19), (3, 14), (12, 14), \\
- (5, 14), (7, 16), (7, 18), (1, 19), (9, 19), (11, 19), (8, 19), (3, 18), (5, 18), (10, 18), (2, 15), (6, 15), \\
- (12, 15), (9, 15), (7, 15), (5, 15), (11, 15), (10, 15), (3, 15), (8, 15), (11, 15), (9, 15), (2, 16),\\
-  (10, 16), (12, 16), (5, 16), (7, 16), (9, 16), (11, 16), (1, 13), (9, 13), (8, 13)]
-\end{array}
+\begin{aligned}
+h_1 &:= \  r_2 \rightarrow r_2 r_1 \\
+h_2 &:= \ r_1 \rightarrow r_1 r_2^{-1} \\
+h_3 &:= \ r_2 \rightarrow r_2 r_1^{-1} \\
+h_4 &:= \ r_1 \rightarrow r_1 r_2 \\
+h_5 &:= \ r_2 \rightarrow x^{-1} r_2 x \\
+h_6 &:= \ r_1 \rightarrow y^{-1} r_1 y \\
+h_7 &:= \ r_2 \rightarrow y^{-1} r_2 y \\
+h_8 &:= \ r_1 \rightarrow x r_1 x^{-1} \\
+h_9 &:= \ r_2 \rightarrow x r_2 x^{-1} \\
+h_{10} &:= \ r_1 \rightarrow y r_1 y^{-1} \\
+h_{11} &:= \ r_2 \rightarrow y r_2 y^{-1} \\
+h_{12} &:= \ r_1 \rightarrow x^{-1} r_1 x 
+\end{aligned}
 \]
+
+The sequence of moves that connects the length-25 presentation to $\AK(3)$ is as follows. 
+\[
+\begin{aligned}
+& h_9 \cdot h_7 \cdot h_4 \cdot h_8 \cdot h_{11} \cdot h_5 \cdot h_{11} \cdot h_9 \cdot h_3 \cdot h_{10} \cdot h_{12} \cdot h_7 \cdot h_7 \cdot h_9 \cdot h_{11} \cdot h_5 \cdot h_3 \cdot h_5 \cdot \\
+& h_4 \cdot h_3 \cdot h_{12} \cdot h_5 \cdot h_7 \cdot h_7 \cdot h_1 \cdot h_9 \cdot h_{11} \cdot h_8 \cdot h_3 \cdot h_5 \cdot h_{10} \cdot h_2 \cdot h_6 \cdot h_{12} \cdot h_9 \cdot h_7 \cdot \\
+& h_5 \cdot h_{11} \cdot h_{10} \cdot h_3 \cdot h_8 \cdot h_{11} \cdot h_9 \cdot h_2 \cdot h_{10} \cdot h_{12} \cdot h_5 \cdot h_7 \cdot h_9 \cdot h_{11} \cdot h_1 \cdot h_9 \cdot h_8
+\end{aligned}
+\]
+This sequence should be read from left to right; first apply $h_9$, then $h_7$, and so forth. This follows the standard convention of many programming languages, which iterate over lists from left to right by default. It's important to note that the total length of the presentation did not exceed $25$ during its path to $\AK(3)$. Additionally, we have not verified if this is the shortest path between the two presentations.
+
+
+
+%\[
+%\begin{array}{cc}
+%[(9, 25), (7, 25), (4, 17), (8, 17), (11, 17), (5, 17), (11, 17), (9, 17), (3, 16), (10, 16), \\
+ %(12, 16), (7, 16), (7, 16), (9, 16), (11, 16), (5, 16), (3, 15), (5, 15), (4, 19), (3, 14), (12, 14), \\
+ %(5, 14), (7, 16), (7, 18), (1, 19), (9, 19), (11, 19), (8, 19), (3, 18), (5, 18), (10, 18), (2, 15), (6, 15), \\
+ %(12, 15), (9, 15), (7, 15), (5, 15), (11, 15), (10, 15), (3, 15), (8, 15), (11, 15), (9, 15), (2, 16),\\
+  %(10, 16), (12, 16), (5, 16), (7, 16), (9, 16), (11, 16), (1, 13), (9, 13), (8, 13)]
+%\end{array}
+%\]
 

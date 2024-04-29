@@ -77,13 +77,14 @@ Lastly, PPO adds entropy $S$ of the action-space distribution to the full loss f
 L = \mathbb{E}_{\tau \sim \pi_\theta} [L^{CLIP}(\theta) - c_1 L^{V}(\phi) + c_2 S(\pi_\theta)(s_t)]
 \]
 where $c_1$ and $c_2$ are tunable hyperparameters.
+\newline 
 
 In policy gradient algorithms such as PPO, we alternate between collecting data through the current policy in the ``rollout phase" and updating the policy weights through gradient descent in the ``optimization phase". There are various hyperparameters associated to these phases, which we briefly describe now. The rollout phase involves generating multiple trajectories of the underlying Markov Decision Process in parallel using the current policy function. The hyperparameters of this phase include the number of parallel actors $N$, the length of the trajectory $T$ (c.f. \autoref{sec:mdp}), the discount factor $\gamma$ (c.f. \autoref{sec:mdp}) and a bootstrapping hyperparameter of Generalized Advantage Estimation $\lambda_{\text{GAE}}$. The dataset of $N \times T$ examples collected in this phase is then used update the policy. In each epoch, the dataset is shuffled and split into minibatches before performing gradient descent. The number of epochs and the size of the minibatch are hyperparameters of the optimization process in addition to the optimizer hyperparameters (such as learning rate schedule) and the hyperparameters that define the loss function. We provide the list of hyperparameters we used in  \autoref{app:hyperparameters}.
 
 
 \subsection{Application to Andrews-Curtis Conjecture} \label{sec:application}
 
-Now we discuss how we use the notions of Markov Decision Process (MDP) and policy gradient algorithms to find a policy that learns to discover AC trivializations for balanced presentations. The set of all balanced presentations of the trivial group with a fixed number of generators and the set of AC transformations, (AC$'$1) - (AC$'$2), play the role of sets $S$ and $A$ in the notation of MDPs (c.f. \autoref{sec:mdp}). The choice of reward function is up to us. We tested a few different reward functions and noticed the following candidate led to high returns and stability in training.
+The set of all balanced presentations of the trivial group with a fixed number of generators and the set of AC transformations, (AC$'$1) - (AC$'$2), play the role of sets $S$ and $A$ in the notation of MDPs (c.f. \autoref{sec:mdp}). Once we choose a reward function $R$ and an initial state distribution $\rho$, we may use the Proximal Policy Optimization algorithm to learn the policy function $\pi$. We tested a few different reward functions in our experiments, observing that the following candidate led to the best performance and stability in training.
 \[
 R(s_{t}, a_{t}, s_{t+1}) = 
 \begin{cases} 
@@ -91,11 +92,19 @@ R(s_{t}, a_{t}, s_{t+1}) =
 1000 & \text{otherwise } 
 \end{cases}
 \]
-Here $\text{length}(s_{t+1})$ is the length of the presentation at timestep $t+1$. In words, this reward function assigns -$\text{length}(s_{t+1})$ to encourage the optimization process to reward shorter presentations. However, we noticed that clipping this value at $-10$ led to more stable training. We also assigned a larger reward of 1000 when a trivial balanced presentation was found to encourage the actor network towards prioritizing the action sequence taken in the trajectory. 
+Here, $\text{length}(s_{t+1})$ is the length of the presentation at timestep $t+1$. The reward function assigns $-\min(10, \text{length}(s_{t+1}))$ to a non-terminal state and $1000$ to a terminal state. We found that clipping the reward to $-10$ led to less variance in gradients of the loss function with respect to weights.
 \newline
 
-The initial distribution of states $\rho$ of the MDP was chosen to be the following. At the start of the training process, the rollout trajectories were initiated with presentation of the Miller-Schupp series dataset from \autoref{sec:conjecture} in the increasing order of $n$ and $\text{length}(w)$. We continued this until each presentation of the dataset had been chosen exactly once. Afterwards, we randomly selected a presentation that had already been solved in a rollout with probability $\frac{1}{4}$, and a presentation that had so far remained unsolved with probability $\frac{3}{4}$. These choices were made so that the policy continues to learn from and improve its performance on the presentations that had already been solved (finding shorter sequences of AC moves for them if possible) while also attempting to solve the newer presentations. 
+We define the initial state distribution as a distribution over the presentations of the Miller-Schupp series with $n, \ \text{length}(w) \leq 7$. Initially, each presentation was selected exactly once in ascending order by $n$ and $\text{length}(w)$. Following this initial sequence, we maintained an ongoing record of presentations that were either solved or unsolved at any given time. During each rollout phase, a presentation was randomly chosen from the set of solved or unsolved presentations with probabilities of  $\frac{1}{4}$ and $\frac{3}{4}$, respectively. This method was designed to allow the policy network to refine its strategies on presentations that were already solved—potentially discovering shorter sequences of AC moves—while also tackling the presentations that remained unsolved.
 \newline
+
+The results of our experiments were less impressive than expected as shown in the figure in the introduction. PPO solved 431 out of the 533 presentations solved by greedy search as it consistently underperformed over all values of $n$ and lengths of presentation. These results must, however, be placed in the context of the difficulty of training policy gradient algorithms with limited computational power.
+
+An important hyperparameter of PPO (and in general of any policy gradient algorithm) is the maximum amount of timesteps after which a rollout trajectory may be terminated.
+\footnote{Is this the same as horizon length?}
+This is an important hyperparameter in the context of our problem as any presentation that requires a sequence of AC moves of length greater than the horizon length will necessarily remain unsolved by PPO. On the other hand, choosing a horizon length that is too long can significantly slow down the training process. The slow down happens because of two reasons: 1). if a trajectory starts to go far off from the correct trajectory, it will go on for much longer. This information is not useful for gradient descent. 2). doubling the 
+
+I am confusing two things here: num steps and max env steps. 
 
 Next, we discuss the results of our experiments which should be understood in the context of some hyperparameter choices we made. 
 
@@ -106,7 +115,7 @@ We set the maximum path length at 200. Doubling this path length would need 3x m
 With these results, we can expect that PPO will have a hard time solving any of the presentations that greedy search could not solve. 
 
 
-
+\footnote{Are there strategies to work with infinite horizon problems? How would that even work in our case?}
 PPO could solve 431 out of 533 presentations solved by greedy search. It could not solve any of the presentations unsolved by greedy search. It too could solve all $n=1$ presentations and generally found it easier to solve short presentations. For presentations with short GS path lengths, PPO found even shorter paths. However, for presentations with longer GS path lengths, PPO found even longer paths. 
 
 \fixme{Perhaps these should be two different figures.}
@@ -130,7 +139,11 @@ PPO could solve 431 out of 533 presentations solved by greedy search. It could n
 This figure illustrates the maximum increase in the length of a presentation relative to its initial length along the AC trivialization path. The increase is plotted as a function of the initial length of the presentation on the left and as a function of $n$ on the right.} \label{fig:path_lengths_gs_vs_ppo_full}
 \end{figure}
 
-\subsection{Supermoves}.
+\subsection{AC Supermoves}.
+
+One possible approach to solving AC conjecture is to discover some supermoves that require much less number of moves compared to the usual AC moves. This will also help with the problem of training PPO with long horizon length discussed in the previous section as we will be able to search through a larger region of the AC graph with almost the same amount of compute. 
+
+A classical example of this is the 
 
 Finally, there exists a notion of "elementary M-transformations" which could be useful \cite{BurnsI, BurnsII}.
 Each elementary M-transformation is a composition of AC moves, such that trivializing a presentation requires dramatically less M-transformations compared to the number of AC moves.
