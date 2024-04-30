@@ -3,11 +3,11 @@
 \section{Hyperparameters}\label{app:hyperparameters}
 
 Here we discuss the hyperparameters used to train the Proximal Policy Optimization (PPO) and Transformer models of \autoref{sec:rl} and \autoref{sec:lm} respectively. 
-Some of the hyperparameters of PPO are given in \autoref{tab:ppo_hyperparameters} below, most of which are defined in the main text in \autoref{sec:ppo}. In addition, we note that we used the actor and critic networks with unshared parameters. Each network is a 2-layer feed forward neural network with 512 neurons and $tanh$ non-linearlities. We used Adam optimizer for training. 
+The hyperparameters of PPO are given in \autoref{tab:ppo_hyperparameters}. These hyperparameters were defined in the main text in \autoref{sec:ppo}. In addition, we note that we used the actor and critic networks with unshared parameters. Each network is a 2-layer feed forward neural network with 512 neurons and $tanh$ non-linearlities. We used Adam optimizer for training. 
 \newline 
 
-The performance of PPO is known be highly sensitive to various implementation details in addition to the choice of hyperparameters \cite{shengyi2022the37implementation, engstrom2020implementation}. We used the single-file implementation of PPO in CleanRL \cite{huang2022cleanrl} which has been well-benchmarked against the results of the original PPO paper \cite{schulman2017proximal}. Following  \cite{engstrom2020implementation}, we used advantage normalization and clipped value loss. If the KL divergence between the old and the updated policy exceeded the target KL divergence in a minibatch, we skipped the remaining minibatches in the optimization phase to avoid a large jump in policy. 
-We did not ablate all of the choices of hyperparameters to understand the importance of each choice.
+The performance of PPO is known be highly sensitive to various implementation details in addition to the choice of hyperparameters \cite{shengyi2022the37implementation, engstrom2020implementation}. We used the single-file implementation of PPO in CleanRL \cite{huang2022cleanrl}, which has been well-benchmarked against the results of the original PPO paper \cite{schulman2017proximal}. Following  \cite{engstrom2020implementation}, we used advantage normalization and clipped value loss. If the KL divergence between the old and the updated policy exceeded the target KL divergence in a minibatch, we skipped the remaining minibatches in the optimization phase to avoid a large jump in policy. 
+We did not ablate all of the choices of hyperparameters to investigate the importance of each choice.
 
 \begin{table}[ht]
     \centering
@@ -38,5 +38,4 @@ We did not ablate all of the choices of hyperparameters to understand the import
     \label{tab:ppo_hyperparameters}
 \end{table}
 
-\fixme{Continue from here.}
-We used an 8-layer transformer model with the embedding space dimension of $512$ and 4 attention heads. The context window of the Transformer had length 1024. We used a batch size of $12$ and constant learning rate of $6 \times 10^{-5}$. We trained for a total of 25000 iterations. We used Adam hyperparameters $\beta_1 = 0.9$, $\beta_2 = 0.99$ and a dropout value of $0$. Cite nanoGPT I think.
+The Transformer model studied in \autoref{sec:lm} is an 8-layer transformer model with the embedding space dimension of $512$ and $4$ attention heads. The context window of the Transformer had length $1024$. We used a batch size of $12$ and constant learning rate of $6 \times 10^{-5}$. We trained for a total of $25000$ iterations. We used AdamW optimizer for training with hyperparameters $\beta_1 = 0.9$ and $\beta_2 = 0.99$. We did not use any dropout during training. 
