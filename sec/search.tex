@@ -31,6 +31,7 @@ We first recall the breadth first search algorithm. An iterative implementation 
 \end{algorithm}
 
 The greedy search algorithm, \autoref{alg:gs}, differs only slightly from the breadth first search algorithm in implementation. We replace the queue with a priority queue, which stores the states in the order determined by a tuple of values: $(k, l)$ where $k$ is the total length of the presentation and $l$ is the path length between the state and the initial state. Instead of dequeuing the earliest state, the algorithm dequeues the state with the smallest value of $k$. If there is more than one state in the priority queue with the same value of $k$, the state with the smallest value of $l$ is chosen. 
+\newline 
 
 \begin{algorithm}
 \caption{Greedy Search Algorithm}\label{alg:gs}
@@ -70,19 +71,18 @@ could be related neither to $\AK(3)$ nor to the trivial presentation with any se
 \newline 
 
 For presentations solved by greedy search, we plot the maximum amount by which the total length of a presentation increased in an AC trivialization path in \autoref{fig:gs_length_increase}. In most cases, there was no increase in length; and the maximum increase was only 5. This might seem surprising at first given that we allowed the relator lengths to increase by a much larger number in our search process. 
-\footnote{Recall that we permitted the length of each relator to increase up to \(2 \times \text{max}(2n+3, \text{length}(w)+1) + 2\), which is twice the maximum of the initial lengths of the two relators in a presentation, plus an additional 2.} However, the hard cutoff set by visiting a maximum of only 1 million nodes ensures that any presentation that needs to be mapped to a much longer presentation before it is trivialized would remain unsolved by the greedy search algorithm. 
+\footnote{Recall that we permitted the length of each relator to increase up to \(2 \times \text{max}(2n+3, \text{length}(w)+1) + 2\), which is twice the maximum of the initial lengths of the two relators in a presentation, plus an additional 2. \fixme{I should refine this claim.} Look perhaps at the shortest presentation that remained unsolved and the longest presentation that was solved.} However, the hard cutoff set by visiting a maximum of only 1 million nodes ensures that any presentation that needs to be mapped to a much longer presentation before it is trivialized would remain unsolved by the greedy search algorithm. 
 \footnote{Can I plot something to support this claim?}
 This limitation could be cured either by increasing the number of maximum nodes or by using a different criterion to order nodes in the priority queue. Such other criteria that do not necessarily select the shortest presentations first could be a useful area to explore in the future.
 \newline
 
 We also plot the lengths of AC sequences discovered by greedy search as functions of $n$ and the maximum increase in the presentation length. Unsurprisingly, path length increases proportionally with increase in the the total length of the presentation (\autoref{fig:path_lengths_vs_length_increase}). A little unexpectedly though, the distributions as a function of $n$ for $n = 3, 4, 5, 6$ seem quite similar (\autoref{fig:gs_path_lengths}).
-\footnote{This perhaps says more about the greedy search algorithm with constraint of 1 million nodes than the presentations themselves.}
+\footnote{Why is it unexpected? This perhaps says more about the greedy search algorithm with constraint of 1 million nodes than the presentations themselves. \fixme{What kind of presentations are solved easily by GS? Which ones are not? It would be nice to make some concise conclusions.}}
 The presentation with the longest path,
 \[
 \angles{x^{-1} y^5 x = y^6 \mid  x = y x^2 y^{-1}}
 \]
-required 344 AC transformations. As we will see in \autoref{sec:rl}, greedy search does not find the shortest path between a presentation and the trivial presentation.
-\footnote{Note that the longest path found by breadth first search had only 12 moves. Can I make this more interpretable in terms of what GS and BFS do?}
+required 344 AC transformations. We will see in section 4 that for many presentations, shorter paths of AC moves can be found. \fixme{ but here the difference between full simplify and simplify should be mentioned. } \fixme{I can remove this confusion by comparing path lengths learned by PPO with path lengths discovered by GS with full simplify. This might require changing the plot in Fig 4b as well.}
 	
 \begin{figure}
 	\centering
@@ -122,7 +122,7 @@ This figure illustrates the maximum increase in the length of a presentation rel
 
 \subsection{The Stable Andrews-Curtis Conjecture}
 We used greedy search algorithm to show that $\AK(3)$ is stably AC-trivial. The sequence of moves is given in \autoref{sec:stable_ak3}.
-\footnote{\fixme{I think it will be useful to include how the length-25 presentation was achieved in MMS. Also include how this could be used perhaps to show that other $\AK(n)$ presentations are also stably AC-trivial.}}
 
+\fixme{Include here how they tried BFS perhaps to shorten the presentation and couldn't. Can I test it with BFS as well and see that BFS fails?}
 
 \subsection{Limitations}. While greedy search algorithm performs better than breadth first search, it has some of the same limitations. Namely, it is memory inefficient, and we cannot leverage the parallelizability of modern hardware architectures. It also does not learn a general algorithm that would find an AC trivialization for any given balanced presentation. A simple candidate for algorithms that do not have these downsides are reinforcement learning algorithms. In particular, the policy gradient algorithms, which we will review in section 4.1 are memory efficient and can be trained in a highly distributed manner. We will note that despite the use of only a fraction of compute generally available for research purposes, policy gradient algorithms seem to do well. In particular, they perform better than breadth first search algorithm in terms of the number of presentations of the Miller-Schupp series that they are able to solve, and they are able to give shorter sequences of AC moves compared to the greedy search algorithm in cases where they solve a presentation. 

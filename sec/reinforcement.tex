@@ -84,7 +84,7 @@ In policy gradient algorithms such as PPO, we alternate between collecting data 
 
 \subsection{Application to Andrews-Curtis Conjecture} \label{sec:application}
 
-The set of all balanced presentations of the trivial group with a fixed number of generators and the set of AC transformations, (AC$'$1) - (AC$'$2), play the role of sets $S$ and $A$ in the notation of MDPs (c.f. \autoref{sec:mdp}). Once we choose a reward function $R$ and an initial state distribution $\rho$, we may use the Proximal Policy Optimization algorithm to learn the policy function $\pi$. We tested a few different reward functions in our experiments, observing that the following candidate led to the best performance and stability in training.
+The set of all balanced presentations of the trivial group with a fixed number of generators and the set of AC transformations play the role of sets $S$ and $A$ in the notation of MDPs (c.f. \autoref{sec:mdp}). Once we choose a reward function $R$ and an initial state distribution $\rho$, we may use the Proximal Policy Optimization algorithm to learn the policy function $\pi$. We tested a few different reward functions in our experiments, observing that the following candidate led to the best performance and stability in training.
 \[
 R(s_{t}, a_{t}, s_{t+1}) = 
 \begin{cases} 
@@ -98,7 +98,15 @@ Here, $\text{length}(s_{t+1})$ is the length of the presentation at timestep $t+
 We define the initial state distribution as a distribution over the presentations of the Miller-Schupp series with $n, \ \text{length}(w) \leq 7$. Initially, each presentation was selected exactly once in ascending order by $n$ and $\text{length}(w)$. Following this initial sequence, we maintained an ongoing record of presentations that were either solved or unsolved at any given time. During each rollout phase, a presentation was randomly chosen from the set of solved or unsolved presentations with probabilities of  $\frac{1}{4}$ and $\frac{3}{4}$, respectively. This method was designed to allow the policy network to refine its strategies on presentations that were already solved—potentially discovering shorter sequences of AC moves—while also tackling the presentations that remained unsolved.
 \newline
 
-The results of our experiments were less impressive than expected as shown in the figure in the introduction. PPO solved 431 out of the 533 presentations solved by greedy search as it consistently underperformed over all values of $n$ and lengths of presentation. These results must, however, be placed in the context of the difficulty of training policy gradient algorithms with limited computational power.
+The results of our experiments were less impressive than expected as shown in \autoref{fig:performance} in the introduction. PPO solved 431 out of the 533 presentations solved by greedy search as it consistently underperformed over all values of $n$ and lengths of presentation. These results must, however, be placed in the context of the difficulty of training policy gradient algorithms with limited computational power.
+
+I think a comparison of the compute we use and OpenAI uses for ProcGen and DOTA will be useful.
+
+Can the trained PPO network solve the length 25 example? I checked at some point that the trained network did better than random walker on MS series.
+
+1.1B env interactions. DOTA had at least 13.6B in the scaling laws paper. 2e8 
+
+Should I include training curves?
 
 An important hyperparameter of PPO (and in general of any policy gradient algorithm) is the maximum amount of timesteps after which a rollout trajectory may be terminated.
 \footnote{Is this the same as horizon length?}
