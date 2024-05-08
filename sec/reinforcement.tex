@@ -25,7 +25,7 @@ The goal of this process is to maximize the cumulative return,
 \[
 R(\tau) = \sum\limits_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1})
 \]
-Here, $T$ is the length of the trajectory and $\gamma \in \left(0, 1 \right)$ is the ``discount factor" that assigns smaller weights to the reward values obtained farther in the future. 
+Here, $T$ is the length of the trajectory, known as the ``horizon length" and $\gamma \in \left(0, 1 \right)$ is the ``discount factor" that assigns smaller weights to the reward values obtained farther in the future. 
 \newline
 
 For a given problem at hand, we may not \textit{a priori} know the actions $\{a_t\}$ and states $\{s_{t+1}\}$ that maximize the return. Deep reinforcement learning presents a solution to this problem: we train a neural network that learns a map from states to actions with the objective of maximizing the cumulative return. More precisely, we learn a map called the ``policy" function $\pi : S \to \mathcal{P}(A)$ that assigns to each state a probability distribution over actions. At time step $t$, an action $a_t \sim \pi(\cdot \mid s_t)$ is sampled that gives the next state $s_{t+1}$.
@@ -79,7 +79,7 @@ L = \mathbb{E}_{\tau \sim \pi_\theta} [L^{CLIP}(\theta) - c_1 L^{V}(\phi) + c_2 
 where $c_1$ and $c_2$ are tunable hyperparameters.
 \newline 
 
-In policy gradient algorithms such as PPO, we alternate between collecting data through the current policy in the ``rollout phase" and updating the policy weights through gradient descent in the ``optimization phase". There are various hyperparameters associated to these phases, which we briefly describe now. The rollout phase involves generating multiple trajectories of the underlying Markov Decision Process in parallel using the current policy function. The hyperparameters of this phase include the number of parallel actors $N$, the length of the trajectory $T$ (c.f. \autoref{sec:mdp}), the discount factor $\gamma$ (c.f. \autoref{sec:mdp}) and a bootstrapping hyperparameter of Generalized Advantage Estimation $\lambda_{\text{GAE}}$. The dataset of $N \times T$ examples collected in this phase is then used update the policy. In each epoch, the dataset is shuffled and split into minibatches before performing gradient descent. The number of epochs and the size of the minibatch are hyperparameters of the optimization process in addition to the optimizer hyperparameters (such as learning rate schedule) and the hyperparameters that define the loss function. We provide the list of hyperparameters we used in  \autoref{app:hyperparameters}.
+In policy gradient algorithms such as PPO, we alternate between collecting data through the current policy in the ``rollout phase" and updating the policy weights through gradient descent in the ``optimization phase". There are various hyperparameters associated to these phases, which we briefly describe now. The rollout phase involves generating multiple trajectories of the underlying Markov Decision Process in parallel using the current policy function. The hyperparameters of this phase include the number of parallel actors $N$, the rollout length $T'$ --- i.e. the number of steps each actor takes, the discount factor $\gamma$ (c.f. \autoref{sec:mdp}) and a bootstrapping hyperparameter of Generalized Advantage Estimation $\lambda_{\text{GAE}}$. The dataset of $N \times T'$ examples collected in this phase is then used to update the policy. In each epoch, the dataset is shuffled and split into minibatches before performing gradient descent. The number of epochs and the size of the minibatch are hyperparameters of the optimization process in addition to the optimizer hyperparameters (such as learning rate schedule) and the hyperparameters that define the loss function. We provide the list of hyperparameters we used in  \autoref{app:hyperparameters}.
 
 
 \subsection{Application to Andrews-Curtis Conjecture} \label{sec:application}
@@ -98,40 +98,29 @@ Here, $\text{length}(s_{t+1})$ is the length of the presentation at timestep $t+
 We define the initial state distribution as a distribution over the presentations of the Miller-Schupp series with $n, \ \text{length}(w) \leq 7$. Initially, each presentation was selected exactly once in ascending order by $n$ and $\text{length}(w)$. Following this initial sequence, we maintained an ongoing record of presentations that were either solved or unsolved at any given time. During each rollout phase, a presentation was randomly chosen from the set of solved or unsolved presentations with probabilities of  $\frac{1}{4}$ and $\frac{3}{4}$, respectively. This method was designed to allow the policy network to refine its strategies on presentations that were already solved—potentially discovering shorter sequences of AC moves—while also tackling the presentations that remained unsolved.
 \newline
 
-The results of our experiments were less impressive than expected as shown in \autoref{fig:performance} in the introduction. PPO solved 431 out of the 533 presentations solved by greedy search as it consistently underperformed over all values of $n$ and lengths of presentation. These results must, however, be placed in the context of the difficulty of training policy gradient algorithms with limited computational power.
+We also need to choose a horizon length $T$ over which the cumulative return is calculated (c.f. \autoref{sec:mdp}). Training tasks with long horizons in reinforcement learning is often harder than those with short horizons. This is because, in long horizon tasks, it's tougher to figure out which actions are responsible for the eventual outcomes —a problem known as the credit assignment problem. There's also more uncertainty in the returns (high variance), which can slow down convergence and destabilize the learning process. The size of the exploration space also becomes a critical issue. With longer horizons, the agent needs to explore a more diverse set of actions to learn about long-term consequences without getting stuck in suboptimal regions. However, it does not mean that we cannot train well-performing agents for long-horizon tasks; rather, it indicates that with longer horizons, we might require significantly more computational power and extended training periods.
+\newline
 
-I think a comparison of the compute we use and OpenAI uses for ProcGen and DOTA will be useful.
+The horizon length $T$ is an important hyperparameter in the context of our problem as any presentation that requires a sequence of AC moves of length greater than the horizon length will necessarily remain unsolved by PPO. On the other hand, choosing a horizon length that is too long can significantly slow down the training process. Due to the limited amount of hardware available, we mostly experimented with considerably smaller values for $T$, i.e. $T=200$ and $T=400$.  With these values, PPO could solve $431$ and $402$ presentations respectively out of the $1190$ Miller-Schupp presentations of the initial state distribution.
+\footnote{
+We also experimented briefly with $T=2000$. However, we found it much slower to train due to the reasons described above. We could only solve $219$ presentations of the initial state distribution in this case. This training run had not converged, and we expect that with more computational power and extended training periods, it will be worthwhile to experiment with larger values of $T$.
+}
+In each case, these presentations formed a subset of the presentations solved by greedy search.  
+\newline 
 
-Can the trained PPO network solve the length 25 example? I checked at some point that the trained network did better than random walker on MS series.
+In the rest of this section, we will describe some observations made with the $T=200$ case.
+\footnote{
+The complete list of hyperparameters for this run are given in \autoref{app:hyperparameters}. 
+} The performance of this experiment is compared with those of greedy search and breadth first search in \autoref{fig:performance} in the introduction of the paper. PPO consistently outperformed BFS in all cases of $n$ and lengths of presentations but it consistently underperformed when compared to greedy search. In \autoref{fig:path_lengths_ppo_solved_vs_unsolved}, we plot the distribution of path lengths discovered by greedy search in the two cases of presentations that could / could not be solved by PPO. It is clear that the presentations PPO solved had, in general, smaller path lengths. In particular, all of these had greedy search path lengths less than $200$. 
+\newline 
 
-1.1B env interactions. DOTA had at least 13.6B in the scaling laws paper. 2e8 
+In \autoref{fig:path_lengths_gs_vs_ppo}, we give a scatterplot of the path lengths discovered by PPO and greedy search for all of the presentations solved by PPO. We note that in many cases, PPO found shorter paths as compared to greedy search. This is expected as PPO learns to improve its strategy during training, discovering shorter paths for presentations it may have already solved. The scatterplot shows the shortest paths discovered by PPO for each presentation. We also note that in many cases, PPO found longer paths than greedy search. This shows that our specific run exhibits a suboptimal policy. It could perhaps be improved by more hyperparameter tuning of the agent. 
 
-Should I include training curves?
-
-An important hyperparameter of PPO (and in general of any policy gradient algorithm) is the maximum amount of timesteps after which a rollout trajectory may be terminated.
-\footnote{Is this the same as horizon length?}
-This is an important hyperparameter in the context of our problem as any presentation that requires a sequence of AC moves of length greater than the horizon length will necessarily remain unsolved by PPO. On the other hand, choosing a horizon length that is too long can significantly slow down the training process. The slow down happens because of two reasons: 1). if a trajectory starts to go far off from the correct trajectory, it will go on for much longer. This information is not useful for gradient descent. 2). doubling the 
-
-I am confusing two things here: num steps and max env steps. 
-
-Next, we discuss the results of our experiments which should be understood in the context of some hyperparameter choices we made. 
-
-We made several choices of hyperparameters based on performance and compute constraints. Hence it is necessary to interpret the results in the light of the our choices.
-
-We set the maximum path length at 200. Doubling this path length would need 3x more compute as optimization process takes 2x more compute when we perform gradient updates for only one epoch. There is also a chance that the model will iterate more slowly and hence learn more slowly as it fails much later. We note from figure 3 that this is not very damaging as only 4 out of 533 presentations solved by greedy search were solved in path lengths of more than 200 moves. So we can expect that all of the other 529 presentations should be solved by PPO. However, we found this to not be the case. PPO could solve only 431 presentations. 
-
-With these results, we can expect that PPO will have a hard time solving any of the presentations that greedy search could not solve. 
-
-
-\footnote{Are there strategies to work with infinite horizon problems? How would that even work in our case?}
-PPO could solve 431 out of 533 presentations solved by greedy search. It could not solve any of the presentations unsolved by greedy search. It too could solve all $n=1$ presentations and generally found it easier to solve short presentations. For presentations with short GS path lengths, PPO found even shorter paths. However, for presentations with longer GS path lengths, PPO found even longer paths. 
-
-\fixme{Perhaps these should be two different figures.}
 \begin{figure}
 	\centering
 	\begin{subfigure}[b]{0.5\textwidth}
 		\includegraphics[width=\textwidth]{fig/path_lengths_ppo_solved_vs_unsolved.png}
-		\caption{ X}
+		\caption{}
 		%Distribution of path lengths discovered by greedy search for presentations solved / unsolved by Proximal Policy Optimization}
 		\label{fig:path_lengths_ppo_solved_vs_unsolved}
 	\end{subfigure}%
@@ -140,32 +129,15 @@ PPO could solve 431 out of 533 presentations solved by greedy search. It could n
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.1\textwidth]{fig/path_lengths_gs_vs_ppo.png}
-		\caption{Scatter plot of path lengths discovered by PPO vs path lengths discovered by greedy search}
+		\caption{}
 		\label{fig:path_lengths_gs_vs_ppo}
 	\end{subfigure}
 	\caption{
-This figure illustrates the maximum increase in the length of a presentation relative to its initial length along the AC trivialization path. The increase is plotted as a function of the initial length of the presentation on the left and as a function of $n$ on the right.} \label{fig:path_lengths_gs_vs_ppo_full}
+This figure illustrates two properties of path lengths discovered by greedy search and PPO. The left subfigure shows the distribution of lengths of AC trivialization paths discovered by greedy search in the cases solved / unsolved by PPO. The right subfigure shows the Scatter plot of path lengths discovered by PPO vs path lengths discovered by greedy search.} \label{fig:path_lengths_gs_vs_ppo_full}
 \end{figure}
 
-\subsection{AC Supermoves}.
+\subsection{AC ``Super-moves"}.
+One possible approach to making progress on AC conjecture is to discover compositions of elementary AC moves that help explore the search space much more efficiently. A classical example of such ``super-moves" are the ``elementary M-transformations" of \cite{BurnsI, BurnsII}.  The authors show that $\AK(2)$ can be trivialized in just 2 elementary M-transformations. In contrast, the shortest possible path of trivializing $\AK(2)$ with AC transformations (AC1) through (AC3) is 14. A downside of elementary M-transformations though is that they are infinite in number, which makes them harder for classical search techniques.
+\newline 
 
-One possible approach to solving AC conjecture is to discover some supermoves that require much less number of moves compared to the usual AC moves. This will also help with the problem of training PPO with long horizon length discussed in the previous section as we will be able to search through a larger region of the AC graph with almost the same amount of compute. 
-
-A classical example of this is the 
-
-Finally, there exists a notion of "elementary M-transformations" which could be useful \cite{BurnsI, BurnsII}.
-Each elementary M-transformation is a composition of AC moves, such that trivializing a presentation requires dramatically less M-transformations compared to the number of AC moves.
-For example, trivializing $\AK(2)$ requires 14 AC moves, but only 2 elementary M-transformations.
-
-
-\subsection{Limitations and further improvements}
-
-Increase path length. Find a way to stably train that. 
-
-It might be useful to try other architectures such as MCTS.
-
-While we did some hyperparameter tuning, the analysis could be done in a much more systematic way. This would require a lot more compute but could be very useful. For example, it will be nice to estimate the critical batch size for optimization. It will also be nice to use the iteration batch-size invariance, i.e. PPO-EWMA so that we can perform our experiments at one iteration batch size. If we get more compute, we can scale the number of parallel actors (wait does iteration batch size tell us about number of parallel actors or horizon length or both?)
-
-We need to strike a balance between the path length and the 
-
-Scale?
+We briefly explored the idea of finding AC super-moves by selecting some frequently occuring subsequences of AC moves in the paths found by PPO, extending the action space $A$ of the MDP by these subsequences and checking whether this improved the performance of our agents. We noticed no significant improvements. Though this is something that could be explored more in the future.

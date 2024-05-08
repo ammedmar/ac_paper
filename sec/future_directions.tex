@@ -2,4 +2,42 @@
 
 \section{Future Directions}
 
-\fixme{...}
+Our choice for maximum length that each relator is allowed to take could be enlarged. 
+
+Include Theorem 1.4 of MMS and check if we can relate other examples of Akbulut-Kirby series to the presentations by picking different choices of w.
+
+Use MCTS?
+
+Change the initial state distribution in RL to include canonic presentations of certain lengths.
+
+Scale RL?
+
+Apply to other types of series such as Gordon's series?
+
+Does stable AC equivalence imply AC equivalence? Explore this more.
+
+There is also a length-14 presentation in \cite{MMS} for which the authors could not reduce the length of the relators using AC moves.
+\[
+\angles{x, y \mid xyx^{-2}y^{-1} xy^{-1}, x^{-1} y^{-1} x y^2 x y^{-1}}.
+\]
+
+There also exist other generalizations of the conjecture for other kinds of groups; some of which have been proved.
+In particular, the conjecture holds true for finite groups and soluble groups \cite{Borovik, Guyot}.
+I think these versions will not be important for us but can one learn algorithmic lessons from applying RL / GS to those cases?
+
+ This paper says that either the Andrews Curtis conjecture is false or there is an algorithm to recognise balanced presentations of the trivial group: https://arxiv.org/pdf/math/0108053.pdf
+Can we get more insight into Andrews-Curtis by using a Transformer classifier to distinguish balanced presentations much like knots and unkots have been distinguished before?
+
+How do the number of solved presentations depend on the limit of maximum number of nodes given in the greedy search algorithm? 
+
+How do the number of solved presentations depend on the maximum path length in proximal policy optimization?
+
+Increase path length. Find a way to stably train that. 
+
+It might be useful to try other architectures such as MCTS.
+
+While we did some hyperparameter tuning, the analysis could be done in a much more systematic way. This would require a lot more compute but could be very useful. For example, it will be nice to estimate the critical batch size for optimization. It will also be nice to use the iteration batch-size invariance, i.e. PPO-EWMA so that we can perform our experiments at one iteration batch size. If we get more compute, we can scale the number of parallel actors (wait does iteration batch size tell us about number of parallel actors or horizon length or both?)
+
+We need to strike a balance between the path length and the 
+
+Scale?
