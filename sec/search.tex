@@ -71,18 +71,18 @@ could be related neither to $\AK(3)$ nor to the trivial presentation with any se
 \newline 
 
 For presentations solved by greedy search, we plot the maximum amount by which the total length of a presentation increased in an AC trivialization path in \autoref{fig:gs_length_increase}. In most cases, there was no increase in length; and the maximum increase was only 5. This seemed surprising to us at first given that we allowed the relator lengths to increase by a much larger number in our search process. 
-\footnote{Recall that we permitted the length of each relator to increase up to \(2 \times \text{max}(2n+3, \text{length}(w)+1) + 2\), which is twice the maximum of the initial lengths of the two relators in a presentation, plus an additional 2. 
+\footnote{The length of each relator was allowed to increase up to \(2 \times \text{max}(2n+3, \text{length}(w)+1) + 2\), which is twice the maximum of the initial lengths of the two relators in a presentation, plus an additional 2. 
 The maximum possible increase in presentation length is twice this number minus the original length. For $n, \ \text{length}(w) \leq 7$, this value lies in the range $[17, 53]$. 
 } 
-However, the hard cutoff set by visiting a maximum of only 1 million nodes ensures that any presentation that needs to be mapped to a much longer presentation before it is trivialized would remain unsolved by the greedy search algorithm. This limitation could be cured either by increasing the number of maximum nodes (at the cost of more memory) or by using a different criterion to order nodes in the priority queue. It will be useful to explore greedy search with other criteria in the future. 
+However, the hard cutoff set by visiting a maximum of only 1 million nodes ensures that any presentation that needs to be mapped to a much longer presentation before it is trivialized would remain unsolved by the greedy search algorithm. This limitation could be cured either by increasing the number of maximum nodes (at the cost of more memory) or by using a different criterion to order nodes in the priority queue. It will be useful to explore the latter approach perhaps by looking for a criterion itself using deep learning algorithms.
 \newline
 
-We also plot the lengths of AC sequences discovered by greedy search as functions of $n$ and the maximum increase in the presentation length. Unsurprisingly, path length increases proportionally with increase in the the total length of the presentation (\autoref{fig:path_lengths_vs_length_increase}). 
+We also plot the lengths of AC sequences discovered by greedy search as functions of $n$ and the maximum increase in the presentation length (\autoref{fig:gs_path_length}). Unsurprisingly, path lengths increase proportionally with the increase in the total length of the presentation (\autoref{fig:path_lengths_vs_length_increase}). 
 The following presentation with $n=5$ had the longest AC trivialization path,
 \[
 \angles{x^{-1} y^5 x = y^6 \mid  x = y x^2 y^{-1}}
 \]
-requiring a sequence of 344 AC moves. Note that greedy search does not necessarily find the shortest paths of trivialization. We will see in \autoref{sec:application} that a Reinforcement Learning algorithm finds shorter trivializing sequences for many examples of the Miller-Schupp series. This again hints that it will perhaps be useful to find a different, more efficient criterion to order nodes in the priority queue.  
+requiring a sequence of 344 AC moves. Note that greedy search does not necessarily find the shortest paths of trivialization. We will see in \autoref{sec:application} that a Reinforcement Learning algorithm finds shorter trivializing sequences for many examples of the Miller-Schupp series. This again hints at the potential utility of exploring more efficient critera for ordering nodes in the priority queue.  
 	
 \begin{figure}
 	\centering
@@ -121,7 +121,7 @@ This figure illustrates the maximum increase in the length of a presentation rel
 \end{figure}
 
 \subsection{The Stable Andrews-Curtis Conjecture}
-We applied the greedy search and breadth first search algorithms to trivialize the length 25 presentation mentioned in \autoref{sec:stable_ac},
+We applied the greedy and breadth first search algorithms to trivialize the length 25 presentation mentioned in \autoref{sec:stable_ac},
 \[
 \angles{ x, y \mid 
 x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y, 

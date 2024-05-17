@@ -8,26 +8,27 @@ p(t_1 \cdots t_{N}) = \prod\limits_{i=1}^{N} p (t_{i} \mid t_{1} \cdots t_{i-1})
 \]
 
 Here $p (t_{N} \mid t_{1} \cdots t_{N-1})$, often called the $N$-gram probability distribution, is the probability of a token $t_N$ following a sequence of tokens $t_{1} \cdots t_{N-1}$. To model the language of balanced presentations, we can alternatively estimate the $N$-gram probability distributions for all $N$. 
+\newline 
 
-Over the last few years, Transformer models have shown great success in modeling human-understandable languages to the extent that these models can write text almost indistinguishable from human-written texts. Specifically, the architecture used for modeling language is the auto-regressive ``decoder-only" Transformer, which we review in detail in \autoref{sec:transformer_review}. In \autoref{sec:transformer_datasets}, we discuss the method with which we generate the dataset required for training the model. Finally, in \autoref{sec:transformer_results}, we provide details of some insights we learn from this process. 
+Over the last few years, Transformer models have shown great success in modeling human-understandable languages to the extent that these models can write text almost indistinguishable from human-written texts. Specifically, the architecture used for modeling language is the auto-regressive ``decoder-only" Transformer, which we review in detail in \autoref{sec:transformer_review}. In \autoref{sec:transformer_datasets}, we discuss the method with which we generate the dataset required for training the model. Finally, in \autoref{sec:transformer_results}, we share details of some insights we learned from this process. 
 
 \subsection{Transformers: a review\label{sec:transformer_review}}
 
-Here, we give a short review of the architecture of a decoder-only transformer. For more detailed descriptions, see \cite{vaswani2023attention, elhage2021mathematical, douglas2023large}. 
+Here, we give a short review of the architecture of a decoder-only transformer. For more details, see \cite{vaswani2023attention, elhage2021mathematical, douglas2023large}. 
+\newline 
 
 Given an input sequence $t_1, t_2, \cdots, t_{N}$, a decoder-only transformer predicts the probability distribution $p(t \mid t_1, t_2, \cdots, t_{N})$ over the set $V$ of tokens of size $n_{\text{vocab}}$. The probability is computed by applying the softmax function to the logits $T(t)$, which are estimated by applying the following sequence of operations.
-\footnote{The softmax function, $\softmax: \mathbb{R}^n \to (0, 1)^{n}$, is defined as $\softmax(x)_i = e^{x_i} / \sum\limits_{j=1}^n e^{x_j}$.}
-
-First, assign to each token in the vocabulary a distinct label in the range $1, 2, \cdots, n_{\text{vocab}}$; re-writing the original sequence as a sequence of integers, which we also label as $t_i$. Next, write the sequence in terms of ``one-hot encoded vectors", i.e. a matrix $t  \in \R^{N \times n_{\text{vocab}}}$ such that 
+\footnote{The softmax function, $\softmax: \mathbb{R}^n \to (0, 1)^{n}$, is defined as $\softmax(x)_i = e^{x_i} / \sum\limits_{j=1}^n e^{x_j}$.} First, assign to each token in the vocabulary a distinct label in the range $1, 2, \cdots, n_{\text{vocab}}$; re-writing the original sequence as a sequence of integers. We will label these integers also as $t_i$. Next, write the sequence in terms of ``one-hot encoded vectors", i.e. a matrix $t  \in \R^{N \times n_{\text{vocab}}}$ such that 
 \[
 t_{ij} = \delta_{i t_i}
 \]
-and embed the sequence in a $\dm$-dimensional vector space, \fixme{I think this should be $(W_P \otimes 1 + 1 \otimes W_E) t$}
+and embed the sequence in a $\dm$-dimensional vector space, 
+\footnote{Here, $t$ and all $x_j$ are two-dimensional tensors. Hence, it is appropriate to apply tensors of linear transformations to them. Often in a transformer architecture, these operations are of the form $\mathbb{1} \otimes \cdots$; in these cases, we drop the identity transformation and simply write the operation as $\cdots$. For example, $\mathbb{1} \otimes W_U$, $\mathbb{1} \otimes W^m_I$, $\mathbb{1} \otimes W^m_O$, etc.. In this case, we will sometimes write $W_U$, $W^m_I$, $W^m_O$ respectively, assuming it is clear from the context and the dimensionality of these matrices that they are tensored with identity transformations.}
 \[
-x_0 = (W_P \otimes W_E) t
+x_0 = (W_P \otimes \mathbb{1} + \mathbb{1} \otimes W_E) t
 \]
-Here, $W_P \in \R^{\dm \times N}$ and $W_E \in \R^{\dm \times n_{\text{vocab}} }$ are positional and token embedding matrices, which are learned by gradient descent. 
-\footnote{Note that $t$ and all $x_j$ are two-dimensional tensors, so it is appropriate to apply tensors of linear transformations to them. Often in a transformer architecture, these operations are of the form $\mathbb{1} \otimes \cdots$; in these cases, we drop the identity transformation and simply write the operation as $\cdots$. For example, $\mathbb{1} \otimes W_U$, $\mathbb{1} \otimes W^m_I$, $\mathbb{1} \otimes W^m_O$, etc. are all often simply written as $W_U$, $W^m_I$, $W^m_O$ respectively. It is clear from the dimensionality of these matrices that they are tensored with identity transformations.}
+Here, $W_P \in \R^{\dm \times N}$ and $W_E \in \R^{\dm \times n_{\text{vocab}} }$ are matrices of learnable parameters, known as the ``positional embedding" and ``token embedding" matrices. 
+
 An $L$-layer transformer alternates between applying a ``multi-head attention layer" ($\sum\limits_{h \in H} h$) and an ``MLP-layer" ($m$) $L$ times. For $i=0, \cdots, L-1$,
 \[
 \begin{aligned}
@@ -42,57 +43,61 @@ T(t) &= W_U x_{2L-1} \\
 p(t) &=\softmax (T(t))
 \end{aligned}
 \]
+\newline 
 
-The functions $\LN$, $m$ and $h$ are defined as follows. $\LN$ is the "Layer-Norm" operation intended to normalize the input of each layer to make the optimization process more feasible,
+The functions $\LN$, $m$ and $h$ are defined as follows. $\LN$ is the LayerNorm operation that normalizes the input of each layer to make the optimization process more stable \cite{ba2016layer}.
 \[
-LN(x) = \left(\mathbb{1} \otimes \text{diag}(\gamma) \right) \frac{(x-\overline{x})}{\sqrt{\text{var}(x)}} + \mathbb{1} \otimes \beta
+\LN(x) = \left(\mathbb{1} \otimes \text{diag}(\gamma) \right) \frac{(x-\overline{x})}{\sqrt{\text{var}(x)}} + \mathbb{1} \otimes \beta
 \]
-Here, $\gamma, \beta \in \mathbb{R}^{\dm}$ are learnable parameters. $\overline{x}$ and $\text{var}(x)$ are mean and variance of each row of $x$.
-
-The MLP-layer $m$ is a non-linear operation, 
+Here, $\overline{x}$ and $\text{var}(x)$ are mean and variance of each row of $x$, and $\gamma, \beta \in \mathbb{R}^{\dm}$ are learnable parameters. The MLP-layer $m$ is a non-linear operation, 
 \[
 m(x) =W^m_O \ \text{max}(W_I^m x, 0)
 \]
 with learnable parameters $W^m_I \in \mathbb{R}^{d_{\text{MLP}} \times \dm}$, $W^m_O \in \mathbb{R}^{\dm \times d_{\text{MLP}}}$. It is standard to set $d_{\text{MLP}} = 4 \dm$.
+\newline 
 
-Finally, the multi-headed attention-layer $\sum_{h \in H} h$ is a sum of $n_{\text{heads}}$ ``attention-head" operations $h$, 
+Finally, the multi-headed attention-layer $\sum_{h \in H} h$ is a sum of $n_{\text{heads}}$ ``attention-head" operations $h$, where
 \[
-h(x) = (A^h(x) \otimes W^h_O W^h_V) x
+h(x) = (A^h(x) \otimes W^h_O W^h_V) x.
 \]
-where $W^h_V \in \R^{d_{\text{head}} \times \dm}$, 
+Here, $W^h_V \in \R^{d_{\text{head}} \times \dm}$, 
 $W^h_O \in \R^{\dm \times d_{\text{head}}}$ 
-are matrices of learnable parameters. 
-$d_{\text{head}}$ is the ``attention-head dimension" that satisfies $d_{\text{head}} \times n_{\text{head}} = d_{\text{model}}$. 
-The attention matrix $A^h$ is computed with the help of learnable matrices 
+are matrices of learnable parameters; 
+$d_{\text{head}}$ is the ``attention-head dimension" that satisfies $d_{\text{head}} \times n_{\text{head}} = d_{\text{model}}$; and the attention matrix $A^h$ is computed with the help of learnable matrices 
 $W^h_Q, W^h_K \in \R^{d_{\text{head}} \times \dm}$,
 \[
-A^h(x) = \softmax^\star \left(\frac{x^T (W^h_Q)^T W^h_K x}{\sqrt{d_{\text{head}}}}\right)
+A^h(x) = \softmax^\star \left(\frac{x^T (W^h_Q)^T W^h_K x}{\sqrt{d_{\text{head}}}}\right).
 \] 
-The attention-head is an $N \times N$ matrix. The element $A^h(x)_{ij}$ 
-is interpreted as the ``attention" paid to the token 
+The attention-head is an $N \times N$ matrix, with the interpretation that $A^h(x)_{ij}$ 
+is the ``attention" paid to the token 
 $t_j$ in estimating 
 $p(t_{i+1} \mid t_1, \cdots, t_i)$. $\softmax^\star$
 is a variant of the $\softmax$ function suitable for auto-regressive tasks: it sets the upper triangular part of its input to zeros before applying the 
 $\softmax$ operation. 
 That is, future tokens --- $t_k$ for $k > i$, play no role in the prediction of $p(t_{i+1} \mid t_1, \cdots, t_i)$.
+\newline 
 
-We train the transformer model by minimizing the cross-entropy loss between the estimated and the true probability distributions of $p(t_{i+1} | t_1, \cdots, t_{i})$ for all $i$. The parallelism offered by the processing of all tokens in a sequence at once is extremely useful for efficient training of a model for language modeling task.
+We train the transformer model by minimizing the cross-entropy loss between the distributions of predicted and correct labels for the next tokens in a sequence. The parallelism offered by the processing of all tokens in a sequence at once is extremely beneficial for efficient training of the model for the language modeling task.
+\newline 
 
-Before we discuss the dataset we used to train our model, we present an important remark. In practice, the embedding matrix $W_E$ and the unembedding matrix $W_U$ are often ``tied" together, i.e. $W_E = W_U^T$ \cite{press2017using, inan2017tying}.
+In practice, the embedding matrix $W_E$ and the unembedding matrix $W_U$ are often ``tied" together, i.e. $W_E = W_U^T$ \cite{press2017using, inan2017tying}.
 The rows of $W_E = W_U^T$ are interpreted as the embeddings of words/sentences, to which one may apply the usual operations of a vector space \cite{Bengio:2003, mikolov-etal-2013-linguistic}. 
-For example, the cosine of the angle between two embedding vectors, also known as ``cosine similarity", is often used to measure the similarity between two texts. 
+For example, the cosine of the angle between two embedding vectors, also known as the ``cosine similarity", is often used to measure the similarity between two texts. 
 Two semantically similar texts have higher cosine similarity between them, while semantically different texts correspond to (almost) orthogonal vectors in the embedding space.
 
 
 \subsection{Training and Evaluation Datasets\label{sec:transformer_datasets}}
 
-We now discuss the training and validation datasets used to train and evaluate our Transformer model. As our main interest in this paper has been in the presentations of the Miller-Schupp series, we generated a dataset of balanced presentations that are AC-equivalent to the Miller-Schupp presentations. Specifically, we apply sequences of AC moves to the 1190 presentations with $n,\ \text{length}(w) \leq 7$ discussed in \autoref{sec:AC}, creating a dataset of about 1.8 million presentations. Approximately 1 million of these presentations are AC-equivalent to the GS-hard presentations of section 3, while the remaining are related to the GS-easy presentations. 
+We now discuss the training and validation datasets used to train and evaluate our Transformer model. As our main interest in this paper has been in the presentations of the Miller-Schupp series, we generated a dataset of balanced presentations that are AC-equivalent to the Miller-Schupp presentations. Specifically, we apply sequences of AC moves to the 1190 presentations with $n,\ \text{length}(w) \leq 7$ discussed in \autoref{sec:AC}, creating a dataset of about 1.8 million presentations. Approximately 1 million of these presentations are AC-equivalent to the presentations that remained unsolved by greedy search (c.f. \autoref{sec:search}).
 Only a small amount (roughly 15 percent) of the original Miller-Schupp presentations were part of this dataset.
+\newline
 
-The dataset is tokenized using six tokens: two stop tokens and one token each for the two generators and their inverses. The tokenized dataset had about $2.17 \times 10^8$ tokens. As our hope is to get insights into properties that distinguish GS-easy and GS-hard presentations, we perform an exploratory data analysis of the two subsets of data associated to these presentations. We plot the percentage of appearance of each token for these subsets in \autoref{fig:tokens_hist}. 
-Note that the ratio of frequency of $y^{\pm 1}$ to the frequency of $x^{\pm 1}$ is higher in the GS-hard dataset. This is likely because the GS-hard presentations have larger $n$, and larger $n$ corresponds to a higher number of occurence of $y^{\pm 1}$ in the Miller-Schupp presentation. Interestingly, this effect remains in the dataset even when after applying thousands of AC moves to the original presentations.
+The dataset is tokenized using six tokens: two stop tokens and one token each for the two generators and their inverses. The tokenized dataset had about $2.17 \times 10^8$ tokens. As our goal is to get insights into properties that distinguish presentations that were easy / hard to solve, we performed an exploratory data analysis of the two subsets of data associated to these presentations. We plot the percentage of appearance of each token for these subsets in \autoref{fig:tokens_hist}. 
+The ratio of frequency of $y^{\pm 1}$ to the frequency of $x^{\pm 1}$ is higher in the GS-hard dataset. This is likely because the GS-hard presentations have larger $n$, and larger $n$ corresponds to a higher number of occurence of $y^{\pm 1}$ in the Miller-Schupp presentation. Interestingly, this effect remains in the dataset even when after applying thousands of AC moves to the original presentations.
+\newline 
 
-We paid special attention to ensure that our dataset contains presentations of a wide range of total lengths so as not to bias our model towards learning trends specific to any fixed length. To this end, we devised an algorithm (\autoref{alg:apply_ac_moves} in \autoref{app:algorithm}) that creates an almost uniform distribution over the total lengths of the presentations. (See \autoref{fig:gpt_data}.) We also remark that we set aside $10\%$ of our entire data as a validation dataset.
+We paid special attention to ensure that our dataset contains presentations of a wide range of total lengths so as not to bias our model towards learning trends specific to any fixed length. To this end, we devised an algorithm (\autoref{alg:apply_ac_moves} in \autoref{app:algorithm}) that creates an almost uniform distribution over the total lengths of the presentations. (See \autoref{fig:gpt_data}.) We set aside $10\%$ of our entire data for validation.
+\newline 
 
 \begin{figure}
 	\centering
@@ -113,16 +118,29 @@ We paid special attention to ensure that our dataset contains presentations of a
 
 
 \subsection{Results\label{sec:transformer_results}}
-Finally, we discuss the results of our experiments. We trained a Transformer model with hyperparameters given in  \autoref{app:hyperparameters}. A randomly initialized model with initialization scheme given in \cite{Radford2019LanguageMA} has a validation loss of $~1.8$, while the trained model could achieve a validation loss of $0.7337$.
-\footnote{We tuned the hyperparameters a little but it is quite likely that one can achieve a better performing model with more hyperparameter tuning. Similarly, more training data will necessarily help with the performance}
-We used the untrained (randomly initialized) and the trained model to get embeddings of all presentations of the Miller-Schupp series discussed in \autoref{sec:AC}. We used t-SNE to project these embedding vectors to a plane \cite{JMLR:v9:vandermaaten08a}. These plots are shown in a $7 \times 2$ grid in \autoref{fig:tsne_embeddings}.
+A randomly initialized model with the initialization scheme given in \cite{Radford2019LanguageMA} has a cross entropy loss of 
+%$- \ln \left(\frac{1}{n_{\text{vocab}}} \right) \approx - 1.7918$, 
+$-\ln (1/n_{\text{vocab}}) \approx  1.7918$.
+With training, we could achieve a validation loss of $0.7337$.
+\footnote{We tuned the hyperparameters a little but it is quite likely that one can achieve a better performing model with more hyperparameter tuning. Similarly, more training data will necessarily help with the performance. We trained a Transformer model with hyperparameters given in  \autoref{app:hyperparameters}.}
+We used the untrained and the trained model to get the embeddings of all $1190$ presentations of the Miller-Schupp series with $n, \ \text{length}(w) \leq 7$. 
+We used t-SNE to project these embedding vectors to a plane \cite{JMLR:v9:vandermaaten08a}. The plots are shown in grid in \autoref{fig:tsne_embeddings}.
+\newline 
 
-Each row of \autoref{fig:tsne_embeddings} corresponds to a fixed value of $n$. The left column depicts t-SNE projections of embeddings obtained by an untrained model, while the right column shows the embeddings of a trained Transformer model. We note that the GS-easy and GS-hard presentations seem to cluster much more in the plots in the right column. This indicates that a trained Transformer model is able to distinguish between GS-easy and GS-hard presentations to a good extent, albeit not perfectly. 
 
-Note that the training dataset of Transformer contained no information about the easy of solvability of a presentation. It also did not contain many presentations of the Miller-Schupp series itself. Instead, it was made of presentations of varying lengths that are AC-equivalent to the Miller-Schupp series presentations. This indicates that a). there could likely be an invariant at the level of the ``language`` of the balanced presentations that distinguishes easy vs hard presentations, and b). this invariant survives application of thousands of AC moves which we used to generate the 
+Each row of \autoref{fig:tsne_embeddings} corresponds to a fixed value of $n$. The left (right) column depicts t-SNE projections of embeddings obtained by an untrained (a trained) model. t-SNE dependence on a distance measure: it learns to map vectors that are closer together in the higher-dimensional space, with respect to this distance measure, close together in the plane \cite{JMLR:v9:vandermaaten08a}. We used cosine simiarity between embedding vectors as the distance measure for our plots. 
+We note that the GS-easy and GS-hard presentations seem to cluster much more in the plots in the right column. This indicates that a trained Transformer model is able to distinguish between GS-easy and GS-hard presentations to a good extent, albeit not perfectly. 
+\footnote{Note also that t-SNE admits a hyperparameter known as ``perplexity", and the projections learned by t-SNE depend on the hyperparameter \cite{wattenberg2016how}. Thus, in general, t-SNE plots must be interpreted with care. The plots shown in \autoref{fig:tsne_embeddings} were all made with the perplexity value of $30$. We checked however that the clusters of GS-easy and GS-hard presentations  continue to exists at a broad range of perplexity values.}
+\newline 
+
+Note that the training dataset contained no information about the ease of solvability of a presentation. It also did not contain many presentations of the Miller-Schupp series itself. Instead, it contained presentations that are AC-equivalent to the Miller-Schupp series presentations. Our observation that a Transformer model trained on this dataset can distinguish between the easy and hard presentations indicates that
+\begin{enumerate}[label=\alph*)]
+    \item there likely exists an invariant at the level of the ``language`` of the balanced presentations that distinguishes easy vs hard presentations, and
+    \item this invariant survives application of thousands of AC moves we used to generate the 
 training examples in our dataset. 
+\end{enumerate}
 
- Note that t-SNE dependence on a distance measure: it learns to map the vectors that are closer together in the higher-dimensional space with respect to this distance measure, close together in the plane. We used cosine simiarity between embedding vectors as the distance measure for our plots. Note also that t-SNE admits a hyperparameter known as ``perplexity", and the projections learned by t-SNE depend on the hyperparameter \cite{wattenberg2016how}. Thus, in general, t-SNE plots must be interpreted with care. The plots shown in \autoref{fig:tsne_embeddings} were all made with the perplexity value of $30$, though, we have checked that the clustering of GS-easy and GS-hard presentations seems to exist at a broad range of perplexity values.
+
 
 
 
