@@ -2,16 +2,16 @@
 
 \section{Language Modeling Dataset Generation \label{app:algorithm}}
 
-This appendix describes the method, \autoref{alg:apply_ac_moves}, used to generate the training and evaluation datasets for the Transformer model, as referenced in \autoref{sec:lm}. Our aim was to create datasets featuring presentations of varying lengths. We began with a presentation \(P_0\) from the Miller-Schupp series, where \(n, \text{length}(w) \leq 7\), setting a maximum relator length \(l_{\text{max}} = 128\). Presentations were generated in \(n=128\) phases, each phase allowing a maximum relator length \(l_i \sim \mathcal{U}(l + i \cdot l_{\text{inc}}, l + (i+1) \cdot l_{\text{inc}})\). Here, \(l\) represents the longest relator length in \(P_0\) and \(l_{\text{inc}} = (l_{\text{max}} - l)/n\) is the incremental increase per phase. In each phase, we selected a presentation \(P\) from the previous phase and applied \(N=1000\) AC$'$ moves. Any AC$'$ move that exceeded the length \(l_i\) resulted in no change.
-\newline 
+This appendix describes the method, \autoref{alg:apply_ac_moves}, used to generate the training and evaluation datasets for the Transformer model, as referenced in \autoref{sec:lm}. Our aim was to create datasets featuring presentations of varying lengths. We began with a presentation \(P_0\) from the Miller--Schupp series, where \(n, \length(w) \leq 7\), setting a maximum relator length \(l_{\text{max}} = 128\). Presentations were generated in \(n=128\) phases, each phase allowing a maximum relator length \(l_i \sim \mathcal{U}(l + i \cdot l_{\text{inc}}, l + (i+1) \cdot l_{\text{inc}})\). Here, \(l\) represents the longest relator length in \(P_0\) and \(l_{\text{inc}} = (l_{\text{max}} - l)/n\) is the incremental increase per phase. In each phase, we selected a presentation \(P\) from the previous phase and applied \(N=1000\) AC$'$ moves. Any AC$'$ move that exceeded the length \(l_i\) resulted in no change.
+\newline
 
-We repeated this for all 1190 presentations in the Miller-Schupp series, ultimately producing approximately 1.8 million balanced presentations. The length distribution of these presentations is detailed in \autoref{fig:gpt_data}.
+We repeated this for all 1190 presentations in the Miller--Schupp series, ultimately producing approximately 1.8 million balanced presentations. The length distribution of these presentations is detailed in \autoref{fig:gpt_data}.
 
 \begin{algorithm}
     \caption{Transformer Dataset Generation}
     \label{alg:apply_ac_moves}
     \begin{algorithmic}[1]
-        \State \textbf{Input:} 
+        \State \textbf{Input:}
      	\begin{itemize}
 	\item[]     $P_0$  --- an initial presentation with $l$ as the length of the longest relator
           \item[]   $n$  --- number of phases
@@ -19,7 +19,7 @@ We repeated this for all 1190 presentations in the Miller-Schupp series, ultimat
            \item[]  $N$  --- number of AC$'$ moves to apply in each phase
          \item[]    $l_{\text{max}}$  --- upper bound on presentation lengths in the dataset
           \end{itemize}
-         \State \textbf{Output:} 
+         \State \textbf{Output:}
          \begin{itemize}
          \item[]         Dataset (the final collection of presentations)
          \end{itemize}

@@ -1,6 +1,6 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Isolation components and values}\label{s:isolation}
+\section{Isolated components and isolation values}\label{s:isolation}
 
 Lets recall that in the AC conjecture one focuses on ($k$-balanced) presentations and their AC simplifications.
 That is, for an an arbitrary presentation $\pi$, a sequence $(\pi_0,\dots,\pi)$ with $\pi_0$ the trivial presentation and such that any two consecutive presentations in the sequence are related by an AC move.
@@ -45,7 +45,7 @@ Given a filtered based graph $(\Gamma, v_0)$.
 The \textit{filtration value} $\Filt(v)$ of a vertex $v$ is the smallest $n \in \N$ such that $v$ is a vertex in $\Gamma_n$.
 Similarly, its \textit{connectivity value} $\Conn(v)$ is the smallest $n \in \N$ such that $v$ and $v_0$ can be joined by a path in $\Gamma_n$ or is set to $\infty$ if such path does not exist in $\Gamma$.
 
-\subsubsection{Isolation value and components}
+\subsubsection{Isolation value and isolation components}
 
 The \textit{isolation value} of a vertex $v$ in a filtered based graph is defined as
 \[
@@ -92,6 +92,6 @@ The following table summarizes our results:
 The number of isolated components with isolation value $k$ in a connected filtered based graph $\Gamma$ is one less than the number of bars in the 0-barcode of its persistent homology.
 Since by construction our approximations $\Gamma(\ell)$ are all connected, it suffices to compute said invariant.
 For this task we used \texttt{giotto-TDA} version 5.1 \cite{tauzin2021giotto}.
-Specifically, its binding of the \texttt{SimplexTree} data structure \cite{boissonnat2014simplex} present in \texttt{GUDHI} \cite{maria2014gudhi}.
+Specifically, its binding of the \texttt{SimplexTree} data structure introduced in \cite{boissonnat2014simplex} and implemented in \texttt{GUDHI} \cite{maria2014gudhi}.
 
 To compute the approximation $\Gamma(\ell)$ an store it as a \text{SimplexTree} we proceeded as follows: \anibal{(@Jessica)}.
