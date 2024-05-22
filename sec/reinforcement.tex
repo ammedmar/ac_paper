@@ -2,9 +2,9 @@
 
 \section{Reinforcement Learning}\label{sec:rl}
 
+%In this paper, we trained these learning algorithms with limited computation power but noticed that they easily outperform breadth-first search and often find shorter sequences of AC moves compared to the greedy search when they solve a presentation.
 
-
-This section is divided as follows: in \autoref{sec:mdp}, we discuss how the problem underlying Andrews--Curtis conjecture can be modelled as a Markov Decision Process. In \autoref{sec:ppo}, we will discuss some details of a specific reinforcement learning algorithm, called Proximal Policy Optimization algorithm that we used to find AC trivializations of balanced presentations. Finally, in \autoref{sec:application}, we discuss the results of our work, comparing the performance of PPO with that of the classical search algorithms studied in the previous section.
+This section is divided as follows: in \autoref{sec:mdp}, we discuss how the problem underlying Andrews--Curtis conjecture can be modeled as a Markov Decision Process. In \autoref{sec:ppo}, we will discuss some details of a specific reinforcement learning algorithm, called Proximal Policy Optimization algorithm that we used to find AC trivializations of balanced presentations. Finally, in \autoref{sec:application}, we discuss the results of our work, comparing the performance of PPO with that of the classical search algorithms studied in the previous section.
 
 \subsection{Markov Decision Process} \label{sec:mdp}
 
@@ -110,7 +110,7 @@ In each case, these presentations formed a subset of the presentations solved by
 In the rest of this section, we will describe some observations made with the case $T=200$.
 \footnote{
 The complete list of hyperparameters for this experiment are given in \autoref{app:hyperparameters}.
-} The performance of this experiment is compared with those of greedy search and breadth first search in \autoref{fig:performance} in the introduction of the paper. PPO consistently outperformed BFS in all cases of $n$ and lengths of presentations but it consistently underperformed when compared to greedy search. In \autoref{fig:path_lengths_ppo_solved_vs_unsolved}, we plot the distribution of path lengths discovered by greedy search in the two cases of presentations that could / could not be solved by PPO. It is clear that the presentations PPO solved had, in general, smaller path lengths. In particular, all of these had greedy search path lengths less than $200$.
+} The performance of this experiment is compared with those of greedy search and breadth-first search in \autoref{fig:performance} in the introduction of the paper. PPO consistently outperformed BFS in all cases of $n$ and lengths of presentations but it consistently underperformed when compared to greedy search. In \autoref{fig:path_lengths_ppo_solved_vs_unsolved}, we plot the distribution of path lengths discovered by greedy search in the two cases of presentations that could / could not be solved by PPO. It is clear that the presentations PPO solved had, in general, smaller path lengths. In particular, all of these had greedy search path lengths less than $200$.
 \newline
 
 In \autoref{fig:path_lengths_gs_vs_ppo}, we give a scatterplot of the path lengths discovered by PPO and greedy search for all of the presentations solved by PPO. We note that in many cases, PPO found shorter paths as compared to greedy search. This is expected as PPO learns to improve its strategy during training, discovering shorter paths for presentations it may have already solved. The scatterplot shows the shortest paths discovered by PPO for each presentation. We also note that in many cases, PPO found longer paths than greedy search. This shows that our specific run exhibits a suboptimal policy. It could perhaps be improved by performing more hyperparameter tuning on the training process.
