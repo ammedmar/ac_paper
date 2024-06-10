@@ -2,11 +2,13 @@
 
 \section{Introduction\label{sec:intro}}
 
+\TBW
+
+\subsection*{Outline}
+
 This paper is structured as follows. In \autoref{sec:AC}, we review the Andrews--Curtis conjecture. In \autoref{sec:search}, we use classical search algorithms to study the presentations of Miller--Schupp series. We devise a greedy search algorithm and show that it performs significantly better than the breadth-first search algorithm widely used to study this problem in the literature. We discover that the previously-known shortest potential counterexample to the stable AC conjecture, i.e. $\AK(3)$, is in fact stably AC-trivial.
-\newline
 
 In \autoref{sec:rl}, we use reinforcement learning to search through the space of balanced presentations. Specifically, we focus on the Proximal Policy Optimization algorithm. We find that while this algorithm performs significantly better than breadth-first search, it does not outperform greedy search. (See \autoref{fig:performance}.)
-\newline
 
 In \autoref{sec:lm}, we use a decoder-only Transformer model to study the language structure of balanced presentations. We find that easy and hard presentations form their own clusters inside the embedding space of the Transformer model.
 

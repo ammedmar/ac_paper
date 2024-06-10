@@ -28,7 +28,7 @@ To investigate a given presentation, one may systematically explore the entire s
 This space grows exponentially with the length of the sequence.
 For a presentation with $n$ generators, there are $3n^2$ AC moves, and the total number of sequences of AC moves of length $k$ is $(3n^2)^k$.
 Even for a modest case like $n=2$ and $k=20$, the number of possible sequences is on the order of $10^{21}$, making a brute-force approach impractical.
-\newline
+
 
 Classical search algorithms such as genetic algorithms \cite{genetic}, and breadth-first search \cite{bfs-ac} have been employed to search through this space and achieved success in trivializing balanced presentations with two generators and lengths less than 13.
 The following presentation of length 13,
@@ -41,7 +41,7 @@ This presentation is a part of an infinite series of potential counterexamples b
 \AK(n) = \angles{x, y \mid x^n = y^{n+1}, xyx = yxy}, \quad n \geq 2.
 \]
 $\AK(2)$ has length 11 and has been established as AC-trivial \cite{genetic} whereas $\AK(3)$ is the aforementioned presentation with length 13.
-\newline
+
 
 In over two decades since the first utilization of search algorithms \cite{genetic, bfs-ac}, only unsuccessful attempts have been made to trivialize $\AK(3)$ with different variants of breadth-first search algorithm using an increased amount of computational resources \cite{Bowman-McCaul, krawiec2016distance, Panteleev-Ushakov}.
 Notably, \cite{Panteleev-Ushakov} found that no sequence of AC moves that allows relator lengths to increase up to 20 trivializes $\AK(3)$.
@@ -51,10 +51,10 @@ Roughly speaking, for these presentations, if the sum of word lengths is $k$, th
 In particular, $\Delta (\lfloor \log_2 (13) \rfloor) = 65536$, whereas presentations trivialized by the aforementioned search algorithms have AC sequences of length less than $1000$.
 While $\AK(3)$ is itself not a member of the family of examples studied by Boris and Lishak, their findings challenge the inclination to view it as a counterexample.
 Their work also underscores the necessity of employing search methods that are more efficient than breadth-first search.
-\newline
+
 
 In this paper, we will consider a variety of computational tools to better understand the properties of balanced presentations of the trivial group.
-We will test the efficacy of our approaches on a subset of presentations from the Miller--Schupp series of potential counterexamples \cite{Miller--Schupp}.
+We will test the efficacy of our approaches on a subset of presentations from the Miller--Schupp series of potential counterexamples \cite{Miller--Schupp}:
 \[
 \MS(n, w) = \angles{x, y \mid x^{-1} y^n x = y^{n+1}, x = w}.
 \]
@@ -71,7 +71,7 @@ Our selection criteria aimed to strike a balance: we sought a dataset of present
 Additionally, we reduced $x^{-1}w$ freely and cyclically and kept only one representative of each orbit under the action of cyclic permutations.\anibal{What is the action?}
 After these simplifications, we were left with $170$ choices for $x^{-1} w$.
 This resulted in a dataset of $7 \times 170 = 1190$ presentations from the Miller--Schupp series.
-\newline
+
 
 Our implementation of AC transformations differed from the AC transformations mentioned above in two ways.
 First, we considered the following set of operations.
@@ -95,55 +95,3 @@ If an AC transformation resulted in a presentation with a relator of length grea
 In the search of a sequence of AC moves that trivialize a presentations of the Miller--Schupp series $\MS(n, w)$, we set this maximum length to be $2 \times \text{max}(2 n+3, \length(w)+1) + 2$.
 This specific choice was made to allow for at least one concatenation move followed by a conjugation move in the search process.
 %Note that this constraint is quite restrictive: any presentation of the Miller--Schupp series that requires the length of a relator to grow to more than the set maximum length would not be trivialized.
-
-\subsection*{The Stable Andrews--Curtis Conjecture}\label{sec:stable_ac}
-
-The Andrews--Curtis conjecture has many known variants.
-\fixme{include references} We briefly explored one of these variants, namely the ``stable" or ``weak" Andrews--Curtis conjecture.
-The stable version allows two more transformations in addition to the usual AC moves:.
-
-\begin{enumerate}[label=(AC\arabic*)]
-	\setcounter{enumi}{3}
-	\item Include a new generator and a trivial relator, i.e. replace $\angles{x_1, \dots, x_n \mid r_1, \dots, r_n}$ by $\angles{x_1, \dots, x_n, x_{n+1} \mid r_1, \dots, r_n, x_{n+1}}$.
-	\item Remove a trivial relator and the corresponding generator, i.e. the inverse of transformation (4).
-\end{enumerate}
-If two balanced presentations of the trivial group are related by a sequence of AC transformations (AC1) through (AC5), we say that they are \textit{stably AC-equivalent}.
-The stable Andrews--Curtis conjecture states that any balanced presentation is stably AC-equivalent to the trivial presentation.
-\newline
-
-To the best of our knowledge, the shortest potential counterexample to the standard Andrews--Curtis conjecture, $\AK(3)$, was also believed to be a potential counterexample to the stable Andrews--Curtis conjecture before this work.
-We show in \autoref{sec:search} that $\AK(3)$ is in fact stably AC-trivial.
-Our proof builds on the following result.
-
-\begin{theorem*}[Myasnikov, Myasnikov, and Shpilrain, \cite{MMS}]\label{theorem:MMS}
-	Using the notation $[a, b] = a b a^{-1} b^{-1}$ and $[a, b, c] = [[a, b], c]$, any presentation of the following form is a presentation of the trivial group:
-	\[
-	\langle x, y, z \mid x = z \cdot [y^{-1}, x^{-1}, z], y = x \cdot [y^{-1}, x^{-1}, z^{-1}] \cdot [z^{-1}, x], w \rangle,
-	\]
-	where $w$ is a word in $x$, $y$, and $z$ whose exponent sum on $x$, $y$, and $z$ equals $\pm 1$.
-\end{theorem*}
-
-They obtained these presentations by applying Reidemeister moves to the knot diagram of the unknot.
-Reidemeister moves applied to a knot diagram are known to give stably AC-equivalent Wirtinger presentations of the knot group.\anibal{Is there a reference?}
-Thus the presentations in the theorem are all stably AC-trivial.
-
-For $w = x^{-1}yz$, they reduced the presentation to the following length 25 presentation with two generators by eliminating $z$,
-%\footnote{
-%They used a computer program to further reduce this presentation to a length 14 presentation,
-%\[
-%\angles{x, y \mid x y x^{-2} = y x^{-1} y, xy^2 x = y x y}.
-%\]
-%We focus on the length 25 presentation as it follows clearly from the presentations in the theorem.
-%}
-\[
-\angles{ x, y \mid
-x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y,
-y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x }.
-\]
-We discovered a sequence of AC transformations that relates this presentation to $\AK(3)$.
-(See \autoref{sec:stable_ak3} for this sequence of moves.)
-This also makes $\AK(3)$ the shortest stably AC-trivial presentation that is not yet known to be AC-trivial.
-\newline
-
-It is plausible that by varying $w$ one can show that other presentations of the Akbulut--Kirby series (or the Miller--Schupp series) are also stably AC-trivial.
-We leave this question for future work.

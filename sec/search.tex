@@ -11,7 +11,9 @@ Additionally, using the greedy search algorithm, we determine that, in the stabl
 We first recall the breadth-first search algorithm.
 An iterative implementation of this algorithm, adapted to the problem of the Andrews--Curtis conjecture, is provided in \autoref{alg:bfs}.
 
-We start with an initial state, which is a balanced presentation we wish to AC-trivialize, and place it in a queue. At each iteration, a state is removed from the queue, and its neighbors are added if they haven't already been visited. This process continues until the sought-after state, i.e., a trivial balanced presentation, is found or a maximum number of states $N$ is visited. In our experiments, we set $N = 10^6$.
+We start with an initial state, which is a balanced presentation we wish to AC-trivialize, and place it in a queue.
+At each iteration, a state is removed from the queue, and its neighbors are added if they have not already been visited.
+This process continues until the sought-after state, i.e., a trivial balanced presentation, is found or a maximum number of states $N$ is visited. In our experiments, we set $N = 10^6$.
 
 \begin{algorithm}
 	\caption{Breadth-First Search Algorithm}\label{alg:bfs}
@@ -38,7 +40,8 @@ We start with an initial state, which is a balanced presentation we wish to AC-t
 
 \subsection{Greedy search}
 
-The greedy search algorithm, described in \autoref{alg:gs}, differs only slightly from the breadth-first search algorithm in implementation. We replace the queue with a priority queue, which stores the states in order determined by a tuple of values $(k, l)$, where $k$ is the length of the presentation and $l$ is the path length between the state and the initial state.
+The greedy search algorithm, described in \autoref{alg:gs}, differs only slightly from the breadth-first search algorithm in implementation.
+We replace the queue with a priority queue, which stores the states in order determined by a tuple of values $(k, l)$, where $k$ is the length of the presentation and $l$ is the path length between the state and the initial state.
 
 Instead of dequeuing the earliest state, the algorithm dequeues the state with the smallest value of $k$. If there is more than one state in the priority queue with the same value of $k$, the state with the smallest value of $l$ is chosen.
 
@@ -86,7 +89,7 @@ are AC-equivalent to $\AK(3)$, while the other two
 \angles{x, y \mid x^{-1} y^2 x = y^{3} , x = y x^2 y^{\pm 1} x^{-2}}
 \]
 could be related neither to $\AK(3)$ nor to the trivial presentation with any sequence of moves that allowed the length of each relator to increase up to 20.
-\newline
+
 
 For presentations solved by greedy search, we plot the maximum amount by which the length of a presentation increased in an AC trivialization path in \autoref{fig:gs_length_increase}.
 In most cases, there was no increase in length; and the maximum increase was only 5.
@@ -98,7 +101,7 @@ For $n, \ \length(w) \leq 7$, this value lies in the range $[17, 53]$.
 However, the hard cutoff set by visiting a maximum of only 1 million nodes ensures that any presentation that needs to be mapped to a much longer presentation before it is trivialized would remain unsolved by the greedy search algorithm.
 This limitation could be cured either by increasing the number of maximum nodes (at the cost of more memory) or by using a different criterion to order nodes in the priority queue.
 It will be useful to explore the latter approach perhaps by looking for a criterion itself using deep learning algorithms.
-\newline
+
 
 We also plot the lengths of AC sequences discovered by greedy search as functions of $n$ and the maximum increase in the presentation length (\autoref{fig:gs_path_length}).
 Unsurprisingly, path lengths increase proportionally with the increase in the length of the presentation (\autoref{fig:path_lengths_vs_length_increase}).
@@ -109,7 +112,7 @@ The following presentation with $n=5$ had the longest AC trivialization path,
 requiring a sequence of 344 AC moves.
 Note that greedy search does not necessarily find the shortest paths of trivialization.
 We will see in \autoref{sec:application} that a Reinforcement Learning algorithm finds shorter trivializing sequences for many examples of the Miller--Schupp series.
-This again hints at the potential utility of exploring more efficient critera for ordering nodes in the priority queue.
+This again hints at the potential utility of exploring more efficient criteria for ordering nodes in the priority queue.
 
 \begin{figure}
 	\centering
@@ -146,20 +149,6 @@ This again hints at the potential utility of exploring more efficient critera fo
 	\end{subfigure}%
 	\caption{Distribution of lengths of AC-trivialization paths learned by greedy search as a function of maximum increase in presentation length (left) and $n$ (right).} \label{fig:gs_path_length}
 \end{figure}
-
-\subsection{The Stable Andrews--Curtis Conjecture}
-
-We applied the greedy and breadth-first search algorithms to trivialize the length 25 presentation mentioned in \autoref{sec:stable_ac}:
-\[
-\angles{ x, y \mid
-	x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y,
-	y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x }.
-\]
-We placed a cutoff of a maximum of 1 million nodes to visit for each of our search algorithms and allowed the length of each relator to increase up to $15$.
-Greedy search found a path connecting this presentation to $\AK(3)$, while breadth-first search could only reduce the presentation's length to $14$.
-We repeated the search process with breadth-first search with a cutoff of 5 million nodes.
-It failed to reduce the presentation length any further.
-The sequence of moves discovered by greedy search is given in \autoref{sec:stable_ak3}.
 
 \subsection{Limitations}
 

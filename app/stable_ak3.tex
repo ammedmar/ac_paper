@@ -2,6 +2,75 @@
 
 \section{Stable AC-trivialization of $\AK(3)$}\label{sec:stable_ak3}
 
+\subsection*{Moved from S2: The Stable Andrews--Curtis Conjecture}\label{sec:stable_ac}\anibal{I would move this to a section on its own after the classical comparison section, and afterwards move the appendix about $\AK(3)$ to follow this section.}
+
+The Andrews--Curtis conjecture has many known variants.
+\fixme{include references} We briefly explored one of these variants, namely the ``stable" or ``weak" Andrews--Curtis conjecture.
+The stable version allows two more transformations in addition to the usual AC moves:.
+
+\begin{enumerate}[label=(AC\arabic*)]
+	\setcounter{enumi}{3}
+	\item Include a new generator and a trivial relator, i.e. replace $\angles{x_1, \dots, x_n \mid r_1, \dots, r_n}$ by $\angles{x_1, \dots, x_n, x_{n+1} \mid r_1, \dots, r_n, x_{n+1}}$.
+	\item Remove a trivial relator and the corresponding generator, i.e. the inverse of transformation (4).
+\end{enumerate}
+If two balanced presentations of the trivial group are related by a sequence of AC transformations (AC1) through (AC5), we say that they are \textit{stably AC-equivalent}.
+The stable Andrews--Curtis conjecture states that any balanced presentation is stably AC-equivalent to the trivial presentation.
+
+To the best of our knowledge, the shortest potential counterexample to the standard Andrews--Curtis conjecture, $\AK(3)$, was also believed to be a potential counterexample to the stable Andrews--Curtis conjecture before this work.
+We show in \autoref{sec:search} that $\AK(3)$ is in fact stably AC-trivial.
+Our proof builds on the following result.
+
+\begin{theorem*}[Myasnikov, Myasnikov, and Shpilrain, \cite{MMS}]\label{theorem:MMS}
+	Using the notation $[a, b] = a b a^{-1} b^{-1}$ and $[a, b, c] = [[a, b], c]$, any presentation of the following form is a presentation of the trivial group:
+	\[
+	\langle x, y, z \mid x = z \cdot [y^{-1}, x^{-1}, z], y = x \cdot [y^{-1}, x^{-1}, z^{-1}] \cdot [z^{-1}, x], w \rangle,
+	\]
+	where $w$ is a word in $x$, $y$, and $z$ whose exponent sum on $x$, $y$, and $z$ equals $\pm 1$.
+\end{theorem*}
+
+They obtained these presentations by applying Reidemeister moves to the knot diagram of the unknot.
+Reidemeister moves applied to a knot diagram are known to give stably AC-equivalent Wirtinger presentations of the knot group.\anibal{Is there a reference?}
+Thus the presentations in the theorem are all stably AC-trivial.
+
+For $w = x^{-1}yz$, they reduced the presentation to the following length 25 presentation with two generators by eliminating $z$,
+%\footnote{
+	%They used a computer program to further reduce this presentation to a length 14 presentation,
+	%\[
+	%\angles{x, y \mid x y x^{-2} = y x^{-1} y, xy^2 x = y x y}.
+	%\]
+	%We focus on the length 25 presentation as it follows clearly from the presentations in the theorem.
+	%}
+\[
+\angles{ x, y \mid
+	x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y,
+	y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x }.
+\]
+We discovered a sequence of AC transformations that relates this presentation to $\AK(3)$.
+(See \autoref{sec:stable_ak3} for this sequence of moves.)
+This also makes $\AK(3)$ the shortest stably AC-trivial presentation that is not yet known to be AC-trivial.
+
+
+It is plausible that by varying $w$ one can show that other presentations of the Akbulut--Kirby series (or the Miller--Schupp series) are also stably AC-trivial.
+We leave this question for future work.
+
+\subsection{Moved from S3}
+
+\subsection{The Stable Andrews--Curtis Conjecture}
+
+We applied the greedy and breadth-first search algorithms to trivialize the length 25 presentation mentioned in \autoref{sec:stable_ac}:
+\[
+\angles{ x, y \mid
+	x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y,
+	y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x }.
+\]
+We placed a cutoff of a maximum of 1 million nodes to visit for each of our search algorithms and allowed the length of each relator to increase up to $15$.
+Greedy search found a path connecting this presentation to $\AK(3)$, while breadth-first search could only reduce the presentation's length to $14$.
+We repeated the search process with breadth-first search with a cutoff of 5 million nodes.
+It failed to reduce the presentation length any further.
+The sequence of moves discovered by greedy search is given in \autoref{sec:stable_ak3}.
+
+\subsection{Old appendix}
+
 Here we provide a sequence of AC transformations that relates the length-25 stably AC-trivial example of \cite{MMS},
 \[
 \angles{x, y \mid xyx^{-2}y^{-1} xy^{-1}, x^{-1} y^{-1} x y^2 x y^{-1}}.
@@ -39,8 +108,6 @@ The sequence of moves that connects the length-25 presentation to $\AK(3)$ is as
 \end{aligned}
 \]
 This sequence should be read from left to right; first apply $h_9$, then $h_7$, and so forth. This follows the standard convention of many programming languages, which iterate over lists from left to right by default. The length of the presentation did not exceed $25$ during its path to $\AK(3)$. We have not verified if this is the shortest path between the two presentations.
-
-
 
 %\[
 %\begin{array}{cc}
