@@ -90,18 +90,15 @@ are AC-equivalent to $\AK(3)$, while the other two
 \]
 could be related neither to $\AK(3)$ nor to the trivial presentation with any sequence of moves that allowed the length of each relator to increase up to 20.
 
-
 For presentations solved by greedy search, we plot the maximum amount by which the length of a presentation increased in an AC trivialization path in \autoref{fig:gs_length_increase}.
 In most cases, there was no increase in length; and the maximum increase was only 5.
 This seemed surprising to us at first given that we allowed the relator lengths to increase by a much larger number in our search process.\footnote{
 The length of each relator was allowed to increase up to \(2 \times \text{max}(2n+3, \length(w)+1) + 2\), which is twice the maximum of the initial lengths of the two relators in a presentation, plus an additional 2.
 The maximum possible increase in presentation length is twice this number minus the original length.
-For $n, \ \length(w) \leq 7$, this value lies in the range $[17, 53]$.
-}
+For $n, \ \length(w) \leq 7$, this value lies in the range $[17, 53]$.}
 However, the hard cutoff set by visiting a maximum of only 1 million nodes ensures that any presentation that needs to be mapped to a much longer presentation before it is trivialized would remain unsolved by the greedy search algorithm.
 This limitation could be cured either by increasing the number of maximum nodes (at the cost of more memory) or by using a different criterion to order nodes in the priority queue.
 It will be useful to explore the latter approach perhaps by looking for a criterion itself using deep learning algorithms.
-
 
 We also plot the lengths of AC sequences discovered by greedy search as functions of $n$ and the maximum increase in the presentation length (\autoref{fig:gs_path_length}).
 Unsurprisingly, path lengths increase proportionally with the increase in the length of the presentation (\autoref{fig:path_lengths_vs_length_increase}).
