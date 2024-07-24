@@ -1,0 +1,45 @@
+We define the $n$-neighbourhood of a balanced presentation $\pi$ as the set of all balanced presentations that can be obtained by applying at most $n$ AC-moves to $\pi$. We used Algorithm \ref{alg:bfs_neigh}, a variation of the Breadth-First Search (BFS) algorithm, to generate $5$-neighbourhoods of presentations in the Miller–Schupp series. We did this in two settings: in the first, we considered the presentation as a tuple of relators (meaning that the order of relators is important), and in the second, we considered the presentation as a set of relators (meaning that the order of relators is not important; implemented as a tuple of relators in lexicographic order).
+
+\begin{algorithm}
+	\caption{Breadth-First Search Algorithm Bounded by Size}\label{alg:bfs_1}
+	\begin{algorithmic}[1]
+		\State \textbf{Input:} A balanced presentation $\pi$, maximal size of presentation $n$
+		\State \textbf{Output:} Set of enumerated presentations connected to the starting presentation that are achievable without exceeding the size limit, and set of edges with filtrations
+		\State Initialize a queue $Q$, set of visited nodes $visited$, and numerical map $name$ that will enumerate presentations
+		\State Mark $\pi$ as visited, put it into queue $Q$, and assign it the number $0$
+		\While{$Q$ is not empty}
+		\State $u \gets $ top of $Q$ \Comment{Remove the front node of $Q$}
+		\For{every AC move $m$}
+		\State $child \gets m(u)$
+		\If{$child$'s size $\leq n$ and $child$ is not visited}
+		\State Put $child$ in $Q$ and mark it as visited
+		\State Assign $child$ the next available number
+		\EndIf
+		\If{$child$'s size $\leq n$ and $u$'s number is smaller than $child$'s number}
+		\State Return edge $(u, child)$ with proper filtration
+		\EndIf
+		\EndFor
+		\EndWhile
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{Breadth-First Search Algorithm Bounded by Number of Steps}\label{alg:bfs_neigh}
+	\begin{algorithmic}[1]
+		\State \textbf{Input:} A balanced presentation $\pi$, positive integer $n$
+		\State \textbf{Output:} $n$-neighborhood of $\pi$
+		\State Initialize a queue $Q$, set of visited nodes $visited$, and numerical map $dist$ that represents the minimal number of AC-moves needed to transform $\pi$ into a given presentation
+		\State Mark $\pi$ as visited, put it into queue $Q$, and set its distance to $0$
+		\While{$Q$ is not empty}
+		\State $u \gets $ top of $Q$ \Comment{Remove the front node of $Q$}
+		\For{every AC move $m$}
+		\State $child \gets m(u)$
+		\If{$dist[u] < n$ and $child$ is not in $visited$}
+		\State Put $child$ in $Q$ and mark it as visited
+		\State Set $dist[child] := dist[u] + 1$
+		\EndIf
+		\EndFor
+		\EndWhile
+		\Return set $visited$
+	\end{algorithmic}
+\end{algorithm}
