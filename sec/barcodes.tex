@@ -2,19 +2,17 @@
 
 \section{Isolated components and isolation values}\label{s:isolation}
 
-Lets recall that in the AC conjecture one focuses on ($k$-balanced) presentations and their AC simplifications.
-That is, for an an arbitrary presentation $\pi$, a sequence $(\pi_0,\dots,\pi)$ with $\pi_0$ the trivial presentation and such that any two consecutive presentations in the sequence are related by an AC move.
-Since $\pi_0$ minimizes length among all balanced presentations, in attempting to simplify a given $\pi$ one might adopt a greedy strategy: given $\pi_k$, select $\pi_{k-1}$ such that the length of $\pi_{k-1}$ is either reduced or, at the very least, not increased relative to $\pi_k$.
+Let's recall that in the AC conjecture, the focus is on $k$-balanced presentations and their AC simplifications.
+An AC simplification of a presentation $\pi$ is a sequence $(\pi_0, \dots, \pi)$ of presentations, with $\pi_0$ being the trivial presentation, such that all consecutive pairs in the sequence are related by an AC move.
+Since $\pi_0$ minimizes length among all balanced presentations, one might adopt a greedy strategy when attempting to simplify a given $\pi$: given $\pi_k$, select $\pi_{k-1}$ such that the length of $\pi_{k-1}$ is either reduced or, at the very least, not increased relative to $\pi_k$.
+
 While this approach proves useful in numerous instances, it is not universally applicable.
-A more nuanced perspective involves considering simplifications $(\pi_0,\dots,\pi_m)$ where the length of each $\pi_k$ does not exceed that of $\pi$.
+A more nuanced perspective involves considering simplifications $(\pi_0, \dots, \pi_m)$ where the length of each $\pi_k$ does not exceed that of $\pi$.
 Our focus will be on this scenario, referring to presentations that resist such simplifications as \textit{isolated}.
+To quantify the degree of isolation, we introduce an \textit{isolation value} for each presentation, an integer that in extreme cases is $0$ for presentations that are not isolated and $\infty$ for counterexamples to the AC conjecture, if any exist.
+Since isolated presentations are not necessarily isolated from each other, we introduce an equivalence relation that allows us to better count these isolated components and their isolation values.
 
-To quantify the degree of isolation, we introduce an \textit{isolation value} for each presentation,
-an integer that in the extreme cases is $0$ for presentations that are not isolated and $\infty$ for counterexamples to the AC conjecture, if any.
-Since isolated presentations are not necessarily isolated from each other, we introduce an equivalence relation that allows us to better count these isolated component and their isolation values.
-
-Employing methodologies from topological data analysis, our objective in this section is to empirically count isolated components and compute their isolation value.
-%Our analysis will be conducted through finite approximations of the AC problem, providing insights into the structural intricacies and challenges inherent in the AC conjecture.
+Employing methodologies from topological data analysis, our objective in this section is to empirically count isolated components and compute their isolation values in increasing neighborhoods of the identity presentation.
 
 \subsection{Formalization}
 
@@ -64,28 +62,69 @@ Let $\Gamma(\ell)$ be the full subgraph of $\Gamma^{\text{AC(2)}}$, with the ind
 Naturally, for any $\ell$ and $n$ we have that $\Gamma(\ell)_n$ is a full subgraph of $\Gamma(\ell+1)_n$.
 We will denote by $v(\ell)$ and $e(\ell)$ the number of vertices and edges of $\Gamma(\ell)$.
 Let us denote by $ic(\ell)_k$ the number of isolated components with isolation value $k$.
-The following table summarizes our results:
+Tables \ref{fig:classical_persistence} and \ref{fig:prime_persistence} summarize our results.
 
-\[
-\begin{tabular}{|c|c|c|c|c|c|}
-	\hline
-	$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ & $ic(\ell,3)$ \\ \hline
-	2 & 4 & 4 & 0 & 0 & 0 \\ \hline
-	3 & 36 & 76 & 0 & 0 & 0 \\ \hline
-	4 & 100 & 241 & 0 & 0 & 0 \\ \hline
-	5 & 388 & 1027 & 0 & 0 & 0 \\ \hline
-	6 & 876 & 2224 & 0 & 0 & 0 \\ \hline
-	7 & 3844 & 10057 & 0 & 0 & 0 \\ \hline
-	8 & 8992 & 23726 & 0 & 0 & 0 \\ \hline
-	9 & 35844 & 97243 & 0 & 0 & 0 \\ \hline
-	10 & 81004 & 216412 & 1 & 0 & 0 \\ \hline
-	11 & 338020 & 920347 & 6 & 3 & 0 \\ \hline
-	12 & 762116 & 2043028 & 12 & 8 & 1 \\ \hline
-	13 & 3115928 & 8478633 & 32 & 21 & 2 \\ \hline
-\end{tabular}
-\]
+\begin{figure}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ \\ \hline
+		3 & 36 & 72 & 0 & 0 \\ \hline
+		4 & 100 & 248 & 0 & 0 \\ \hline
+		5 & 388 & 1072 & 0 & 0 \\ \hline
+		6 & 884 & 2376 & 0 & 0 \\ \hline
+		7 & 3892 & 10775 & 0 & 0 \\ \hline
+		8 & 9172 & 25675 & 0 & 0 \\ \hline
+		9 & 37428 & 106513 & 0 & 0 \\ \hline
+		10 & 84996 & 239733 & 0 & 0 \\ \hline
+		11 & 350356 & 1002439 & 4 & 0 \\ \hline
+		12 & 791140 & 2251375 & 16 & 0 \\ \hline
+		13 & 3238052 & 9321629 & 72 & 4 \\ \hline
+		14 & 7199908 & 20573343 & 144 & 4 \\ \hline
+	\end{tabular}
+	\caption{Classical AC moves}
+	\label{fig:classical_persistence}
+\end{figure}
 
-\medskip We can see that in our approximations $\Gamma(\ell)$ of $\Gamma^{\text{AC(2)}}$ there are no isolated components for values of $\ell$ less than or equal to $9$, and that their number grows rapidly afterwards.
+\begin{figure}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ \\ \hline
+		3 & 36 & 40 & 3 & 0 \\ \hline
+		4 & 100 & 152 & 3 & 0 \\ \hline
+		5 & 388 & 712 & 3 & 0 \\ \hline
+		6 & 884 & 1528 & 3 & 0 \\ \hline
+		7 & 3892 & 6984 & 3 & 0 \\ \hline
+		8 & 9172 & 16728 & 3 & 0 \\ \hline
+		9 & 37428 & 69752 & 3 & 0 \\ \hline
+		10 & 84996 & 155752 & 3 & 0 \\ \hline
+		11 & 350356 & 655928 & 19 & 0 \\ \hline
+		12 & 791140 & 1467080 & 67 & 0 \\ \hline
+		13 & 3238052 & 6107112 & 243 & 16 \\ \hline
+		14 & 7199908 & 13414744 & 483 & 16 \\ \hline
+	\end{tabular}
+	\caption{Prime AC moves}
+	\label{fig:prime_persistence}
+\end{figure}
+
+%\[
+%%OLD
+%\begin{tabular}{|c|c|c|c|c|c|}
+%	\hline
+%	$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ & $ic(\ell,3)$ \\ \hline
+%	2 & 4 & 4 & 0 & 0 & 0 \\ \hline
+%	3 & 36 & 76 & 0 & 0 & 0 \\ \hline
+%	4 & 100 & 241 & 0 & 0 & 0 \\ \hline
+%	5 & 388 & 1027 & 0 & 0 & 0 \\ \hline
+%	6 & 876 & 2224 & 0 & 0 & 0 \\ \hline
+%	7 & 3844 & 10057 & 0 & 0 & 0 \\ \hline
+%	8 & 8992 & 23726 & 0 & 0 & 0 \\ \hline
+%	9 & 35844 & 97243 & 0 & 0 & 0 \\ \hline
+%	10 & 81004 & 216412 & 1 & 0 & 0 \\ \hline
+%	11 & 338020 & 920347 & 6 & 3 & 0 \\ \hline
+%	12 & 762116 & 2043028 & 12 & 8 & 1 \\ \hline
+%	13 & 3115928 & 8478633 & 32 & 21 & 2 \\ \hline
+%\end{tabular}
+%\]
 
 \subsection{Methods}
 
@@ -93,6 +132,4 @@ The number of isolated components with isolation value $k$ in a connected filter
 Since by construction our approximations $\Gamma(\ell)$ are all connected, it suffices to compute said invariant.
 For this task we used \texttt{giotto-TDA} version 5.1 \cite{tauzin2021giotto}.
 Specifically, its binding of the \texttt{SimplexTree} data structure introduced in \cite{boissonnat2014simplex} and implemented in \texttt{GUDHI} \cite{maria2014gudhi}.
-
-To compute the approximation $\Gamma(\ell)$ an store it as a \text{SimplexTree} we proceeded as follows.
-\input{sec/bartek}
+The construction of $\Gamma(\ell)$ is described described in more detail in \cref{s:neighborhoods}. 

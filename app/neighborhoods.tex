@@ -1,4 +1,14 @@
-We define the $n$-neighbourhood of a balanced presentation $\pi$ as the set of all balanced presentations that can be obtained by applying at most $n$ AC-moves to $\pi$. We used Algorithm \ref{alg:bfs_neigh}, a variation of the Breadth-First Search (BFS) algorithm, to generate $5$-neighbourhoods of presentations in the Miller–Schupp series. We did this in two settings: in the first, we considered the presentation as a tuple of relators (meaning that the order of relators is important), and in the second, we considered the presentation as a set of relators (meaning that the order of relators is not important; implemented as a tuple of relators in lexicographic order).
+% !TEX root = ../ac_paper.tex
+
+\section{Construction of neighborhoods}\label{s:neighborhoods}
+
+\subsection{$n$-neighborhoods}
+
+We define the $n$-neighborhood of a balanced presentation $\pi$ as the set of all balanced presentations that can be obtained by applying at most $n$ AC-moves to $\pi$.
+We used Algorithm \ref{alg:bfs_neigh}, a variation of the Breadth-First Search (BFS) algorithm, to generate $5$-neighborhoods of presentations in the Miller–Schupp series.
+We did this in two settings: in the first, we considered the presentation as a tuple of relators (meaning that the order of relators is important), and in the second, we considered the presentation as a set of relators (meaning that the order of relators is not important; implemented as a tuple of relators in lexicographic order).
+
+\subsection{$\Gamma(\ell)$} ...
 
 \begin{algorithm}
 	\caption{Breadth-First Search Algorithm Bounded by Size}\label{alg:bfs_1}
