@@ -1,0 +1,27 @@
+% !TEX root = ../ac_paper.tex
+
+\begin{algorithm}
+	\caption{Breadth-First Search Algorithm}\label{alg:bfs}
+	\begin{algorithmic}[1] % The number [1] ensures lines are numbered
+		\State \textbf{Input:} A balanced presentation $\pi$, maximal size of presentation $n$
+		\State \textbf{Output:} set of enumerated presentations connected to starting presentations that are achievable without exceeding size limit; and set of egdes with filtrations
+		\State Initialize a queue $Q$, set of visited nodes $visited$, numerical map $name$ that will enumerate presentations
+		\State Put $\pi$ as visited, into queue $Q$ and give it number $0$.
+		\While{$Q$ is not empty}
+		\State $u \gets $ top of $Q$
+  \Comment{Remove the front node of $Q$}
+		\For{every AC move $m$}
+  \State $child \gets m(u)$
+		\If{$child$'s size $\leq n$ and $child$ is not visited}
+		\State put $child$ in $Q$ and into $visited$
+  \State give $child$ next available number
+		\EndIf
+	\If{$child$ size $\leq n$ and $u$ number is smaller then the $child$'s number }
+		\State return edge $(u, child)$ with proper filtration\EndIf
+ 
+		\EndIf
+		\EndFor
+		\EndWhile
+		
+	\end{algorithmic}
+\end{algorithm}
