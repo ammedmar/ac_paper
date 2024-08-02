@@ -2,13 +2,13 @@
 
 \section{Construction of neighborhoods}\label{s:neighborhoods}
 
-\subsection{$n$-neighborhoods}
+\subsection{Neighborhoods for MS series}
 
 We define the $n$-neighborhood of a balanced presentation $\pi$ as the set of all balanced presentations that can be obtained by applying at most $n$ AC-moves to $\pi$.
 We used Algorithm \ref{alg:bfs_neigh}, a variation of the Breadth-First Search (BFS) algorithm, to generate $5$-neighborhoods of presentations in the Miller–Schupp series.
 We did this in two settings: in the first, we considered the presentation as a tuple of relators (meaning that the order of relators is important), and in the second, we considered the presentation as a set of relators (meaning that the order of relators is not important; implemented as a tuple of relators in lexicographic order).
 
-\subsection{$\Gamma(\ell)$} ...
+\subsection{Neighborhoods of the identity} For any $\ell \in \{3, \dots, 14\}$, we constructed a neighborhood of the identity using the same BFS algorithm. This neighborhood contains all presentations that can be connected to the identity via a path of AC moves, where each presentation in the path has a length less than or equal to $\ell$.
 
 \begin{algorithm}
 	\caption{Breadth-First Search Algorithm Bounded by Size}\label{alg:bfs_1}
