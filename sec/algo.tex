@@ -1,0 +1,12 @@
+\section{The Cure: New Algorithms}\label{sec:algo}
+
+As explained in the previous sections, the Andrews--Curtis conjecture is a good illustration of hard mathematical problems with extremely sparse rewards, where the search for mathematically interesting instances (AC paths) has a lower bound that is hyperexponential in the size of the input (length of AC presentation).
+
+
+\subsection{Supermoves}
+
+One promising approach to making progress on the AC conjecture is to discover compositions of elementary AC moves that can explore the search space more efficiently. A classical example of such ``super-moves" are the ``elementary M-transformations" \cite{BurnsI, BurnsII}. These transformations trivialize $\AK(2)$ in just two steps, even though it is known to admit the shortest AC trivialization path of length 14.
+
+However, a downside of elementary M-transformations is that they are infinite in number, which complicates their application in classical search techniques. We briefly explored the idea of finding AC super-moves by selecting some frequently occurring subsequences of AC moves in the paths discovered by Proximal Policy Optimization (PPO). By extending the action space $A$ of the Markov Decision Process (MDP) with these subsequences and checking whether this enhanced action space helps our agent discover shorter paths of trivialization, we noticed no significant improvements with our preliminary experiments. However, we believe this approach should be explored further.
+
+\subsection{New algorithms}
