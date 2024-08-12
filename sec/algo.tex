@@ -1,6 +1,11 @@
 \section{The Cure: New Algorithms}\label{sec:algo}
 
-As explained in the previous sections, the Andrews--Curtis conjecture is a good illustration of hard mathematical problems with extremely sparse rewards, where the search for mathematically interesting instances (AC paths) has a lower bound that is hyperexponential in the size of the input (length of AC presentation).
+In previous sections we explained from a variety of different perspectives that the Andrews-Curtis conjecture is a good example of a mathematical problem where the length of a solution can be much greater than the length of the initial presentation, in some cases with purely analytical lower bounds that are hyperexponential in the size of the input. In particular, we saw that small increases in presentation length under 20 quickly lead to solution lengths in the range of hundreds and higher, quickly exceeding the number of moves in the longest game of chess.
+
+If solving a mathematical problem required finding a path of length $N$, say with $N=10^6$, an RL agent would be pretty much out of luck under typical circumstances, such as the exponential growth of the number of possible paths with their lengths, etc. The good news is that in mathematics --- and in many other domains --- such hard search problems never come in isolation. Rather, there is a distribution of problems such that generic ones are ``easy'' and a small fraction is ``hard.'' Learning this distribution for smaller values of $N$ contains the crucial information for solving new cases at the next increment of $N$.
+
+
+
 
 
 \subsection{Supermoves}
