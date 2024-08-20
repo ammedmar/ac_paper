@@ -46,6 +46,47 @@ While supermoves clearly need to be a part of the solution in hard problems like
 
 Specifically, suppose $N$ is one of the characteristics of either the algorithm or the architecture that has non-trivial impact on performance. In practice, there can be several such parameters, but for simplicity we explain the idea as if there is only one.\footnote{Analyzing a multi-dimensional landscape is generally a good idea, as it can yield better performance improvements, but the price to pay is that changes of different characteristics become correlated, as illustrated in \autoref{fig:env_vs_horizon}.} Then, from the practical standpoint, a natural notion of hardness is such that \textit{hard instances} are defined to be those which the model can solve at the current setting of $N$ and not with the lower value of the resource $N$. In addition, in search problems we include the length of the path in the notion of hardness, i.e. select a subset of the instances that the model could solve through especially long paths. Note, by the very nature of the search problem we are interested in, there can not be too many such hard instances at each step of increasing $N$, for otherwise the problem would be easy, not hard. Collecting the information about the hardest instances at each increment in $N$ can be used to select supermoves, e.g. as subsequences of the sequences of moves that solve the hard instances.
 
+\begin{algorithm}
+    \caption{Adaptive AI Model Training and Path Discovery}
+    \label{alg:adaptive_ai_model}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:}
+        \begin{itemize}
+            \item[] A family of AI models $\pi(N)$ parametrized by $N$ that have a common state space $S$ and action space $A_0$
+            \item[] Initial setting $N_0$ for the family of AI models $\pi(N)$
+            \item[] Ordered range of settings $\{N_1, N_2, \ldots, N_{\text{max}}\}$ to be explored
+            \item[] Number of epochs for training at each setting
+            \item[] Validation set $V \subset S$
+            \item[] A distinguished state $s_0 \in S$
+            \item[] A positive integer $n$
+        \end{itemize}
+        
+        \State \textbf{Output:}
+        \begin{itemize}
+            \item[] For each setting $N_i$ in the list $\{N_1, N_2, \ldots, N_{\text{max}}\}$, a set of pairs $\{v, P\}$ where $v \in V$ and $P$ is the sequence of actions (a string of elements from $A_0$) that connect $v$ to $s_0$
+        \end{itemize}
+        
+        \State $A(N_1) \gets A_0$ \Comment{Initialize the action set for the first model setting}
+        
+        \For{each $N_i$ in the list $\{N_1, N_2, \ldots, N_{\text{max}}\}$}
+            \State Train the model $\pi(N_i)$ on states in $S$ for the given number of epochs
+            \State Evaluate the model $\pi(N_i)$ on states in $V$ to discover paths that connect states in $V$ to $s_0$ using actions from $A(N_i)$
+            
+            \State $V(N_i) \gets \{ v \in V \mid v$ can be connected to $s_0$ using actions from $A(N_i)$, but not by any previous model $\pi(N_j)$ with $j < i\}$ \Comment{Identify new connectable states}
+            
+            \State $W(N_i) \gets \{ v \in V(N_i) \mid$ the sequence of actions that connect $v$ to $s_0$ is the longest when expressed in terms of $A_0 \}$ \Comment{Select states with the longest action sequences}
+            
+            \If{$i \geq n$} \Comment{Adjust the action set $A(N_{i+1})$ based on the last $n$ settings}
+                \State Compare $W(N_{i-n+1}), W(N_{i-n+2}), \ldots, W(N_i)$
+                \State Adjust $A(N_{i+1})$ by adding or removing combinations of actions based on the comparison
+            \Else
+                \State $A(N_{i+1}) \gets A(N_i)$ \Comment{If fewer than $n$ settings, carry forward the current action set}
+            \EndIf
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+
 In the context of the AC conjecture, examples of the metric $N$ can be the horizon length or the number of interactions with the environment. As \autoref{fig:scaling_env} illustrates, increasing the number of environment interactions leads to a larger number of non-trivial presentations from the Miller-Schupp series being solved (i.e. AC-trivialized). Moreover, the length of the AC trivialization path also grows for some of the solutions (but not all).
 %
 Therefore, in order to implement the program outlined above in the specific context of the AC conjecture, we can focus on the longest AC trivialization paths that the model is able to find at each value of $N$.
