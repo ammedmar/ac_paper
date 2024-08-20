@@ -28,7 +28,7 @@ Not following these empirical rules, e.g. introducing too few supermoves initial
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.45]{fig/scaling_env.png}
-	\caption{Number of AC presentations solved by our PPO agent as a function of the number of environment interactions. Here, \textit{solved} (a.k.a. \textit{GS-easy}) refers to a subset of the Miller-Schupp dataset of \autoref{sec:search} that was solved by the greedy search algorithm.}
+	\caption{Number of AC presentations solved by our PPO agent as a function of the number of environment interactions. Here, \textit{solved} (or, \textit{GS-solved}) refers to a subset of the Miller-Schupp dataset of \autoref{sec:search} that was solved by the greedy search algorithm.}
 	\label{fig:scaling_env}
 \end{figure}
 
@@ -44,7 +44,7 @@ While supermoves clearly need to be a part of the solution in hard problems like
 	\label{fig:env_vs_horizon}
 \end{figure}
 
-Specifically, suppose $N$ is one of the characteristics of either the algorithm or the architecture that has non-trivial impact on performance. In practice, there can be several such parameters, but for simplicity we explain the idea as if there is only one. Then, from the practical standpoint, a natural notion of hardness is such that \textit{hard instances} are defined to be those which the model can solve at the current setting of $N$ and not with the lower value of the resource $N$. In addition, in search problems we include the length of the path in the notion of hardness, i.e. select a subset of the instances that the model could solve through especially long paths. Note, by the very nature of the search problem we are interested in, there can not be too many such hard instances at each step of increasing $N$, for otherwise the problem would be easy, not hard. Collecting the information about the hardest instances at each increment in $N$ can be used to select supermoves, e.g. as subsequences of the sequences of moves that solve the hard instances.
+Specifically, suppose $N$ is one of the characteristics of either the algorithm or the architecture that has non-trivial impact on performance. In practice, there can be several such parameters, but for simplicity we explain the idea as if there is only one.\footnote{Analyzing a multi-dimensional landscape is generally a good idea, as it can yield better performance improvements, but the price to pay is that changes of different characteristics become correlated, as illustrated in \autoref{fig:env_vs_horizon}.} Then, from the practical standpoint, a natural notion of hardness is such that \textit{hard instances} are defined to be those which the model can solve at the current setting of $N$ and not with the lower value of the resource $N$. In addition, in search problems we include the length of the path in the notion of hardness, i.e. select a subset of the instances that the model could solve through especially long paths. Note, by the very nature of the search problem we are interested in, there can not be too many such hard instances at each step of increasing $N$, for otherwise the problem would be easy, not hard. Collecting the information about the hardest instances at each increment in $N$ can be used to select supermoves, e.g. as subsequences of the sequences of moves that solve the hard instances.
 
 In the context of the AC conjecture, examples of the metric $N$ can be the horizon length or the number of interactions with the environment. As \autoref{fig:scaling_env} illustrates, increasing the number of environment interactions leads to a larger number of non-trivial presentations from the Miller-Schupp series being solved (i.e. AC-trivialized). Moreover, the length of the AC trivialization path also grows for some of the solutions (but not all).
 %
@@ -76,7 +76,7 @@ For example, if $N$ denotes the number of interactions with the environment, we 
 \begin{figure}[h]
     \centering
 	\includegraphics[scale=0.6]{fig/anatomy_all.png}
-	\caption{Types of AC moves that appear in trivialization paths of 5 presentations solved by all 5 agents at $N=80$M. The move $\# 2$ occurs disproportionately more frequently.}
+	\caption{Types of AC moves that appear in trivialization paths of 5 presentations solved by all 5 agents at $N=80$M. The move $\# 2$ occurs disproportionately more frequently. There are 12 different types of moves in total.}
 	\label{fig:anatomy_all}
 \end{figure}
 
@@ -89,8 +89,21 @@ Note that moves $\# 4$ and $\# 8$ are least common in the examples presented in 
 \begin{figure}[h]
     \centering
 	\includegraphics[scale=0.6]{fig/anatomy_some.png}
-	\caption{Types of AC moves in the 5 longest trivialization paths --- of length 200, 190, 189, 184, and 179 --- found by at least one agent at $N=80$M. The most frequent moves are $\# 5$, $\# 7$, $\# 9$, and $\# 11$.}
+	\caption{Types of AC moves in the 5 longest trivialization paths --- of length 200, 190, 189, 184, and 179 --- found by at least one agent at $N=80$M. The most frequent moves are $\# 5$, $\# 7$, $\# 9$, and $\# 11$. There are 12 different types of moves in total.}
 	\label{fig:anatomy_some}
 \end{figure}
 
+As in other parts of this paper, we performed the analysis on two datasets of sizes 1190 and 533 that, respectively, contain all members of the Miller–Schupp family with $n \leq 7 \, \land \, \length(w) \leq 7$ and only those solved by the greedy search. The results are qualitatively similar, as we already saw in \autoref{fig:path_length_80M} that illustrates length distributions of the successful AC paths in the two cases. Similarly, a closer look at the anatomy of the successful paths --- successful for the RL agent --- reveals no qualitative differences between the two datasets and, importantly, consistency of our notion of \textit{hardness} based on the path length. The largest level of stochasticity that one may expect perhaps can be illustrated by an example of the presentation
+\[
+\angles{x, y \mid x^{-1} y^2 x y^{-3} =1 \,, \; x^{-2} y^{-1} x y^{-4} =1 }
+\]
+that an RL agent was able to solve at $N=40$M with 62 moves in one case and at $N=80$M with 200 moves in the other case. Despite considerable variance, in both cases successful AC paths are dominated by the move $\# 11$, interlaced with moves $\# 3$, $\# 5$, $\# 7$, and $\# 9$ according to patterns described above (cf. \autoref{fig:anatomy200}). This can serve as evidence for robustness of the supermove selection process proposed here.
 
+\begin{figure}[h]
+    \centering
+	\includegraphics[scale=0.55]{fig/anatomy200.png}
+	\caption{An example illustrating anatomy of successful AC paths found by an RL agent in different runs working on different datasets, both of which contain the same hard instance. Even though the total number of moves can vary, e.g. in this example we had to rescale one of the distributions by a factor of 3, curiously, the proportion of moves and combinations used are quite similar. In both cases, RL agents used the same opening move.}
+	\label{fig:anatomy200}
+\end{figure}
+
+In the following sections we explore the anatomy of successful AC paths further using the tools of unsupervised learning and topological data analysis. These tools offer a complementary perspective on hard-to-find AC paths and ways to find them.
