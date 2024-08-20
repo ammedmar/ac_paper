@@ -3,17 +3,16 @@
 \section{Language Modeling} \label{sec:lm}
 
 In this section, we discuss a model for the ``language" of balanced presentations.
-Each presentation with two relators is a sequence made of six letters, also known as ``tokens" in the nomenclature of Natural Language Processing, i.e. $x$, $y$, $x^{-1}$, and $y^{-1}$, and two ``stop tokens" --one that separates two relators of a presentation, and another that marks the end of a presentation.
+Each presentation with two relators is a sequence made of six letters, also known as ``tokens" in the nomenclature of Natural Language Processing, i.e. $x$, $y$, $x^{-1}$, and $y^{-1}$, and two ``stop tokens": one that separates two relators of a presentation and another that marks the end of a presentation.
 Given this vocabulary $V$ of six tokens, we can ask what is the probability $p(t_1, \dots, t_N)$ for $t_i \in V$ of the occurrence of a specific presentation in the space of all balanced presentations.
 Using the chain rule of probability theory,
 \[
 p(t_1 \cdots t_{N}) = \prod \limits_{i=1}^{N} p (t_{i} \mid t_{1} \cdots t_{i-1})
 \]
-
 Here $p (t_{N} \mid t_{1} \cdots t_{N-1})$, often called the $N$-gram probability distribution, is the probability of a token $t_N$ following a sequence of tokens $t_{1} \cdots t_{N-1}$.
 To model the language of balanced presentations, we can alternatively estimate the $N$-gram probability distributions for all $N$.
 
-Over the last few years, Transformer models have shown great success in modeling human-understandable languages to the extent that these models can write text almost indistinguishable from human-written texts.
+Over the last few years, Transformer models have shown great success in modeling human-understandable languages to the extent that these models can create text almost indistinguishable from that of a human expert.
 Specifically, the architecture used for modeling language is the auto-regressive ``decoder-only" Transformer, which we review in detail in \autoref{sec:transformer_review}.
 In \autoref{sec:transformer_datasets}, we discuss the method with which we generate the dataset required for training the model.
 Finally, in \autoref{sec:transformer_results}, we share details of some insights we learned from this process.
@@ -105,7 +104,7 @@ Two semantically similar texts have higher cosine similarity between them, while
 
 We now discuss the training and validation datasets used to train and evaluate our Transformer model.
 As our main interest in this paper has been in the presentations of the Miller--Schupp series, we generated a dataset of balanced presentations that are AC-equivalent to the Miller--Schupp presentations.
-Specifically, we apply sequences of AC moves to the 1190 presentations with $n,\ \length(w) \leq 7$ discussed in \autoref{sec:AC}, creating a dataset of about 1.8 million presentations.
+Specifically, we apply sequences of AC moves to the 1190 presentations with $n \leq 7$ and $\length(w) \leq 7$ discussed in \autoref{sec:AC}, creating a dataset of about 1.8 million presentations.
 Approximately 1 million of these presentations are AC-equivalent to the presentations that remained unsolved by greedy search (c.f. \autoref{sec:search}).
 Only a small amount (roughly 15 percent) of the original Miller--Schupp presentations were part of this dataset.
 
@@ -147,7 +146,7 @@ With training, we could achieve a validation loss of $0.7337$.\footnote{
 We tuned the hyperparameters a little but it is quite likely that one can achieve a better performing model with more hyperparameter tuning.
 Similarly, more training data will necessarily help with the performance.
 We trained a Transformer model with hyperparameters given in  \autoref{app:hyperparameters}.}
-We used the untrained and the trained model to get the embeddings of all $1190$ presentations of the Miller--Schupp series with $n, \ \length(w) \leq 7$.
+We used the untrained and the trained model to get the embeddings of all $1190$ presentations of the Miller--Schupp series with $n \leq 7$ and $\length(w) \leq 7$.
 We used t-SNE to project these embedding vectors to a plane \cite{JMLR:v9:vandermaaten08a}.
 The plots are shown in grid in \autoref{fig:tsne_embeddings}.
 

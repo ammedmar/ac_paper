@@ -72,12 +72,12 @@ Instead of dequeuing the earliest state, the algorithm dequeues the state with t
 \subsection{Comparison}
 
 We find that greedy-search algorithm outperforms the breadth-first search algorithm in the task of solving the presentations of Miller--Schupp series \autoref{fig:performance}.
-Out of 1190 presentations of the Miller--Schupp series with $n, \ \length(w) \leq 7$, greedy search solved 533 while BFS solved only 278 presentations.
+Out of 1190 presentations of the Miller--Schupp series with $n \leq 7$ and $\length(w) \leq 7$, greedy search solved 533 while BFS solved only 278 presentations.
 Each algorithm was constrained to visit a maximum of 1 million nodes.
 The percentage of presentations solved by these algorithms decreases monotonically as a function of $n$.
-Remarkably, however, greedy search solved all presentations with $n=1$ or length less than 14 successfully.
-There are six presentations of length 14 that greedy search could not solve.
-We checked that four of these,
+Remarkably, the greedy search was able to solve all presentations with $n=1$ or length less than 14.
+There are, however, six presentations of length 14 that greedy search could not solve.
+We verified that four of these,
 \[
 \angles{x, y \mid x^{-1} y^2 x = y^{3} , x = x^{-2} y^{-1} x^2 y^{\pm 1}}
 \]
@@ -92,12 +92,11 @@ could be related neither to $\AK(3)$ nor to the trivial presentation with any se
 
 For presentations solved by greedy search, we plot the maximum amount by which the length of a presentation increased in an AC trivialization path in \autoref{fig:gs_length_increase}.
 In most cases, there was no increase in length; and the maximum increase was only 5.
-This seemed surprising to us at first given that we allowed the relator lengths to increase by a much larger number in our search process.\footnote{
-The length of each relator was allowed to increase up to \(2 \times \text{max}(2n+3, \length(w)+1) + 2\), which is twice the maximum of the initial lengths of the two relators in a presentation, plus an additional 2.
+At first glance, this seemed surprising to us, given that we allowed the relator lengths to increase by a much larger amount in our search process.\footnote{The length of each relator was allowed to increase up to \(2 \times \text{max}(2n+3, \length(w)+1) + 2\), which is twice the maximum of the initial lengths of the two relators in a presentation, plus an additional 2.
 The maximum possible increase in presentation length is twice this number minus the original length.
-For $n, \ \length(w) \leq 7$, this value lies in the range $[17, 53]$.}
+For $n \leq 7$ and $\length(w) \leq 7$, this value lies in the range $[17, 53]$.}
 However, the hard cutoff set by visiting a maximum of only 1 million nodes ensures that any presentation that needs to be mapped to a much longer presentation before it is trivialized would remain unsolved by the greedy search algorithm.
-This limitation could be cured either by increasing the number of maximum nodes (at the cost of more memory) or by using a different criterion to order nodes in the priority queue.
+This limitation could be cured either by increasing the number of maximum nodes (at the cost of higher memory use) or by using a different criterion to order nodes in the priority queue.
 It will be useful to explore the latter approach perhaps by looking for a criterion itself using deep learning algorithms.
 
 We also plot the lengths of AC sequences discovered by greedy search as functions of $n$ and the maximum increase in the presentation length (\autoref{fig:gs_path_length}).
@@ -126,9 +125,7 @@ This again hints at the potential utility of exploring more efficient criteria f
 		\caption{Distribution versus $n$}
 		\label{fig:gs_length_increase_vs_n}
 	\end{subfigure}
-	\caption{
-		This figure illustrates the maximum increase in the length of a presentation relative to its initial length along the AC trivialization path.
-		The increase is plotted as a function of the initial length of the presentation on the left and as a function of $n$ on the right.} \label{fig:gs_length_increase}
+	\caption{The maximum increase in the length of a presentation relative to its initial length along the AC trivialization path. The increase is plotted as a function of the initial length of the presentation on the left and as a function of $n$ on the right.} \label{fig:gs_length_increase}
 \end{figure}
 
 \begin{figure}
@@ -149,7 +146,7 @@ This again hints at the potential utility of exploring more efficient criteria f
 
 \subsection{Limitations}
 
-While greedy search algorithm performs better than breadth-first search, it has some of the same limitations.
+While the greedy search algorithm performs better than the breadth-first search, it has some of the same limitations.
 Namely, it is memory inefficient, and we cannot leverage the parallelizability of modern hardware architectures.
 It also does not learn a general algorithm that would find an AC trivialization for any given balanced presentation.
 

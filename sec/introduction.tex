@@ -20,15 +20,30 @@ Our approach to problems of this type involves endowing the RL model with the ab
 
 In this paper, we initiate a systematic implementation of this approach by carefully analyzing the distribution of hardness in potential counterexamples to a long-standing conjecture, the Andrews-Curtis conjecture. As is the case in many other hard problems, one natural measure of hardness is the number of steps an RL agent needs to make. And, what makes the Andrews-Curtis conjecture particularly suitable for our study is that it includes numerous examples that require a hyper-exponential number of steps, offering an effective testbed for exploring the aforementioned questions through the lens of RL, search algorithms, and topological data analysis.
 
+We should emphasize that this entire project was done with relatively modest computational resources that a small academic research group can easily afford. As a result, we put more emphasis on theoretical tools and techniques that, when combined with scaling of computational resources, can lead to further improvements.
+
 While our primary focus is on exploring the distribution of hardness with an eye toward algorithm development, along the way we resolve a particularly intriguing open case (potential counterexample) that has eluded direct mathematical approaches for decades:
 
+\begin{theorem}\label{thm:stableAK3}
+The following potential counterexample introduced by Akbulut and Kirby \cite{Akbulut--Kirby} is stably AC-trivial:
+\[
+\AK(3) = \angles{x, y \mid x^3 = y^{4}, xyx = yxy}
+\]
+\end{theorem}
 
+\noindent
+The proof of this theorem is presented in \autoref{sec:stable_ak3}.
+%
+The rest of the paper is organized as follows.
 
-\subsection*{Outline}
+%\subsection*{Outline}
 
-This paper is structured as follows. In \autoref{sec:AC}, we review the Andrews--Curtis conjecture. In \autoref{sec:search}, we use classical search algorithms to study the presentations of Miller--Schupp series. We devise a greedy search algorithm and show that it performs significantly better than the breadth-first search algorithm widely used to study this problem in the literature. We discover that the previously-known shortest potential counterexample to the stable AC conjecture, i.e. $\AK(3)$, is in fact stably AC-trivial.
+In \autoref{sec:AC}, we review the Andrews--Curtis conjecture. In \autoref{sec:search}, we use classical search algorithms to study the presentations of Miller--Schupp series. We devise a greedy search algorithm and show that it performs significantly better than the breadth-first search algorithm widely used to study this problem in the literature.
+%We discover that the previously-known shortest potential counterexample to the stable AC conjecture, i.e. $\AK(3)$, is in fact stably AC-trivial.
 
-In \autoref{sec:rl}, we use reinforcement learning to search through the space of balanced presentations. Specifically, we focus on the Proximal Policy Optimization algorithm. We find that while this algorithm performs significantly better than breadth-first search, it does not outperform greedy search. (See \autoref{fig:performance}.)
+In \autoref{sec:rl}, we use reinforcement learning to search through the space of balanced presentations. Specifically, we implement the Proximal Policy Optimization (PPO) algorithm \cite{schulman2017proximal}. We find that while this algorithm performs significantly better than breadth-first search, it does not outperform greedy search. (See \autoref{fig:performance}.)
+
+In \autoref{sec:algo}, we present some ideas for algorithm development based on the lessons learned in our case study. Specifically, we propose a strategy to overcome the unbearable complexity of instances an RL agent must find in especially challenging problems, such as very long proofs or extremely long and rare sequences of moves in search tasks.
 
 In \autoref{sec:lm}, we use a decoder-only Transformer model to study the language structure of balanced presentations. We find that easy and hard presentations form their own clusters inside the embedding space of the Transformer model.
 
@@ -45,7 +60,7 @@ In \autoref{sec:lm}, we use a decoder-only Transformer model to study the langua
 		\caption{Distribution versus length}
 		\label{fig:performance_vs_length}
 	\end{subfigure}
-	\caption{The figure shows a comparison of three algorithms --- breadth-first search, greedy search, and Proximal Policy Optimization (PPO) --- that we used to search through the space of balanced presentations. The number of presentations of the Miller--Schupp series, $\MS(n, w)$, solved by an algorithm is given on the vertical axis. We compare the performance as a function of $n$ (above) and the length of the presentation (below). Greedy Search consistently outperforms Breadth-First Search and Proximal Policy Optimization.}
+	\caption{A comparison of three algorithms --- breadth-first search, greedy search, and Proximal Policy Optimization (PPO) --- that we used to search through the space of balanced presentations. The number of presentations of the Miller--Schupp series, $\MS(n, w)$, solved by an algorithm is given on the vertical axis. We compare the performance as a function of $n$ (above) and the length of the presentation (below). Greedy Search consistently outperforms Breadth-First Search and Proximal Policy Optimization.}
 	\label{fig:performance}\anibal{It would be better to include a PDF version of this pictures instead of a (compressed) PNG.}
 \end{figure}
 
