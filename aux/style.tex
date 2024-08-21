@@ -1,7 +1,6 @@
 % !TEX root = ../ac_paper.tex
 
 \usepackage{microtype}
-%\usepackage{amssymb}
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{mathtools}
 \usepackage{tikz-cd}
@@ -67,8 +66,8 @@
 	urlcolor=blue
 }
 
-\usepackage[capitalize, noabbrev]{cleveref}
-\crefname{subsection}{\S\!\!}{subsections}
+\renewcommand{\sectionautorefname}{Section}
+\renewcommand{\subsectionautorefname}{Subsection}
 
 % layout
 \addtolength{\textwidth}{0in}

@@ -3,12 +3,12 @@
 \subsection{Neighborhoods}
 
 In this subsection we consider the size of neighborhoods of presentations.
-A presentation is considered to be in the $k$-step neighborhood of another if they can be connected by applying at most $k$ AC moves.\footnote{For the experiments below we use the ``prime" AC moves as defined in \cref{?}. The results obtained using the classic AC moves are similar.}
+A presentation is considered to be in the $k$-step neighborhood of another if they can be connected by applying at most $k$ AC moves.\footnote{For the experiments below we use the ``prime" AC moves as defined in \autoref{?}. The results obtained using the classic AC moves are similar.}
 
 In the previous subsections we explained how, using Proximal Policy Optimization, we labeled each of the presentations in the Miller–Schupp series for $n \leq 7$ and $\length(w) \leq 7$ as either ``solved" or ``unsolved," resulting in a total of 417 and 773 presentations respectively.
 Our goal here is to analyze the relationship between these labels and the sizes of their respective 5-step neighborhoods.
 
-There are 131 distinct neighborhood sizes in our data --consult \cref{s:neighborhoods} for a detailed description of their construction-- their basic statistics are
+There are 131 distinct neighborhood sizes in our data --consult \autoref{s:neighborhoods} for a detailed description of their construction-- their basic statistics are
 \[
 \begin{tabular}{cccccc}
 	\toprule
@@ -18,7 +18,7 @@ There are 131 distinct neighborhood sizes in our data --consult \cref{s:neighbor
 	\bottomrule
 \end{tabular}
 \]
-A more detailed description of the frequency of values is presented in \cref{fig:prime_combined_pie}.
+A more detailed description of the frequency of values is presented in \autoref{fig:prime_combined_pie}.
 
 \begin{figure}
 	\includegraphics[scale=.4]{fig/prime_combined_pie_rl_cropped.pdf}
@@ -28,10 +28,10 @@ A more detailed description of the frequency of values is presented in \cref{fig
 
 The largest neighborhood size accounts for nearly a third of all considered presentations.
 Yet, it represents only 2.4\% of solved presentations and almost half of the unsolved presentations, 48.3\% to be exact.
-Please consult \cref{fig:prime_pies} for more details.
+Please consult \autoref{fig:prime_pies} for more details.
 We contrast to the situation using BFS, where these numbers are 7.1\% and 52.5\% respectively.
 
-Another notable feature visible in \cref{fig:prime_pies} is that only three neighborhood sizes account for over three-quarters of all unsolved presentations.
+Another notable feature visible in \autoref{fig:prime_pies} is that only three neighborhood sizes account for over three-quarters of all unsolved presentations.
 Additionally, considering six sizes, this proportion reaches 96.9\%.
 In fact, only twelve neighborhood sizes are featured among unsolved presentations, whereas all 131 sizes appear among neighborhoods of solved presentations.
 The most numerous neighborhood size for solved presentations is 89,560, accounting for only 17.3\% of these.
@@ -64,7 +64,7 @@ Furthermore, 54.2\% of all solved presentations have a neighborhood size that is
 As we saw, having maximal neighborhood size provides significant information about the solved/unsolved label of a presentation.
 Additionally, the minimum neighborhood size among unsolved presentations --89,573-- is also quite informative since 54\% of solved presentations have neighborhood sizes less than that.
 We can improve this percentage using that neighborhood sizes of unsolved presentations concentrate in three bands.
-Please consult \cref{fig:prime_histogram}.
+Please consult \autoref{fig:prime_histogram}.
 We have that 64.3\% of the solved presentations lie outside of the three bands $[89575, 89575]\ \& \ [89715, 89831]\ \& \ [89844, 89872]$ which contain over 99\% of the unsolved presentations.
 
 By replacing the last band with $[89859,89872]$, the union of these three bands now encompasses the neighborhood sizes of over 90\% of unsolved presentations, while its complement includes 77.2\% of those associated with solved presentations.
