@@ -33,20 +33,7 @@ While our primary focus is on exploring the distribution of hardness with an eye
 
 \noindent
 The proof of this theorem is presented in \autoref{sec:stable_ak3}.
-%
-The rest of the paper is organized as follows.
-
-In \autoref{sec:AC}, we provide an overview of the Andrews--Curtis conjecture describing precisely the version we study in this work.
-
-In \autoref{sec:search}, we apply classical search algorithms to analyze examples in the Miller--Schupp series. We devise a greedy search algorithm and demonstrate that it significantly outperforms the breadth-first search algorithm, which is widely used in the literature to study this problem.
-
-In \autoref{sec:rl}, we employ reinforcement learning to explore the space of balanced presentations. Specifically, we implement the Proximal Policy Optimization (PPO) algorithm \cite{schulman2017proximal}. We find that, although this algorithm performs significantly better than breadth-first search, it does not surpass the performance of the greedy search algorithm (see \autoref{fig:performance}).
-
-In \autoref{sec:algo}, we present several ideas for algorithm development based on insights gained from our case study. In particular, we propose a strategy to mitigate the overwhelming complexity faced by an RL agent in especially challenging problems, such as extremely long and rare sequences of moves in search tasks or finding very long proofs.
-
-In \autoref{sec:lm}, we utilize a decoder-only Transformer model to examine the linguistic structure of balanced presentations. We observe that the presentations explicitly solved and unsolved by the greedy search algorithm in \autoref{sec:search} form distinct clusters within the embedding space of the Transformer model.
-
-In \autoref{sec:isolated}, we employ topological methods to assess the complexity of presentations. Specifically, we utilize persistent homology to define the \textit{isolation value} of a presentation. This value is infinite for counterexamples to the AC conjecture and serves as a measure of a presentation's resistance to being trivialized.
+The rest of the paper is organized as follows. In \autoref{sec:AC}, we provide an overview of the Andrews--Curtis conjecture, describing the specific version studied in this work. We then apply classical search algorithms to examples in the Miller--Schupp series in \autoref{sec:search}, where we devise a greedy search algorithm that significantly outperforms the widely used breadth-first search algorithm. In \autoref{sec:rl}, we employ reinforcement learning, specifically implementing the Proximal Policy Optimization (PPO) algorithm \cite{schulman2017proximal}, and find that while it performs better than breadth-first search, it does not surpass the greedy search algorithm (see \autoref{fig:performance}). Building on these insights, \autoref{sec:algo} presents several ideas for algorithm development, proposing strategies to mitigate the overwhelming complexity faced by an RL agent in challenging problems. In \autoref{sec:isolated}, we employ topological methods to assess the complexity of presentations. Specifically, we utilize persistent homology to define the \textit{isolation value} of a presentation. This value is infinite for counterexamples to the AC conjecture and serves as a measure of a presentation's resistance to being trivialized. Finally, in \autoref{sec:lm}, we examine the linguistic structure of balanced presentations using a decoder-only Transformer model, observing distinct clusters within the embedding space corresponding to presentations solved and unsolved by the greedy search algorithm.
 
 \begin{figure}
 	\centering
