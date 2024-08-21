@@ -1,8 +1,8 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Isolated components and isolation values}\label{s:isolation}
+\section{Isolated components and isolation values}\label{sec:isolated}
 
-Let's recall that in the AC conjecture, the focus is on $k$-balanced presentations and their AC simplifications.
+Let us recall that in the AC conjecture, the focus is on $k$-balanced presentations and their AC simplifications.
 An AC simplification of a presentation $\pi$ is a sequence $(\pi_0, \dots, \pi)$ of presentations, with $\pi_0$ being the trivial presentation, such that all consecutive pairs in the sequence are related by an AC move.
 Since $\pi_0$ minimizes length among all balanced presentations, one might adopt a greedy strategy when attempting to simplify a given $\pi$: given $\pi_k$, select $\pi_{k-1}$ such that the length of $\pi_{k-1}$ is either reduced or, at the very least, not increased relative to $\pi_k$.
 
@@ -86,22 +86,23 @@ Tables \ref{fig:classical_persistence} and \ref{fig:prime_persistence} summarize
 \end{figure}
 
 \begin{figure}
-	\begin{tabular}{|c|c|c|c|c|}
+	\begin{tabular}{|c|c|c|c|c|c|}
 		\hline
-		$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ \\ \hline
-		3 & 36 & 40 & 3 & 0 \\ \hline
-		4 & 100 & 152 & 3 & 0 \\ \hline
-		5 & 388 & 712 & 3 & 0 \\ \hline
-		6 & 884 & 1528 & 3 & 0 \\ \hline
-		7 & 3892 & 6984 & 3 & 0 \\ \hline
-		8 & 9172 & 16728 & 3 & 0 \\ \hline
-		9 & 37428 & 69752 & 3 & 0 \\ \hline
-		10 & 84996 & 155752 & 3 & 0 \\ \hline
-		11 & 350356 & 655928 & 19 & 0 \\ \hline
-		12 & 791140 & 1467080 & 67 & 0 \\ \hline
-		13 & 3238052 & 6107112 & 243 & 16 \\ \hline
-		14 & 7199908 & 13414744 & 483 & 16 \\ \hline
-	\end{tabular}
+		$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ & $ic(\ell,3)$ \\ \hline
+		3 & 36 & 40 & 3 & 0 & 0 \\ \hline
+		4 & 100 & 152 & 3 & 0 & 0 \\ \hline
+		5 & 388 & 712 & 3 & 0 & 0 \\ \hline
+		6 & 884 & 1528 & 3 & 0 & 0 \\ \hline
+		7 & 3892 & 6984 & 3 & 0 & 0 \\ \hline
+		8 & 9172 & 16728 & 3 & 0 & 0 \\ \hline
+		9 & 37428 & 69752 & 3 & 0 & 0 \\ \hline
+		10 & 84996 & 155752 & 3 & 0 & 0 \\ \hline
+		11 & 350356 & 655928 & 19 & 0 & 0 \\ \hline
+		12 & 791140 & 1467080 & 67 & 0 & 0 \\ \hline
+		13 & 3238052 & 6107112 & 243 & 16 & 0 \\ \hline
+		14 & 7199908 & 13414744 & 483 & 16 & 0 \\ \hline
+        15 & 29243812 & 55306744 & 1819 & 136 & 32 \\ \hline
+\end{tabular}
 	\caption{Prime AC moves}
 	\label{fig:prime_persistence}
 \end{figure}

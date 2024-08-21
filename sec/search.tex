@@ -71,8 +71,8 @@ Instead of dequeuing the earliest state, the algorithm dequeues the state with t
 
 \subsection{Comparison}
 
-We find that greedy-search algorithm outperforms the breadth-first search algorithm in the task of solving the presentations of Miller--Schupp series \autoref{fig:performance}.
-Out of 1190 presentations of the Miller--Schupp series with $n \leq 7$ and $\length(w) \leq 7$, greedy search solved 533 while BFS solved only 278 presentations.
+We find that greedy-search algorithm outperforms the breadth-first search algorithm in the task of AC-trivializing Miller--Schupp presentations \autoref{fig:performance}.
+Out of the 1190 presentations in the Miller--Schupp series with $n \leq 7$ and $\length(w) \leq 7$, greedy search solved 533 while BFS solved only 278 presentations.
 Each algorithm was constrained to visit a maximum of 1 million nodes.
 The percentage of presentations solved by these algorithms decreases monotonically as a function of $n$.
 Remarkably, the greedy search was able to solve all presentations with $n=1$ or length less than 14.
@@ -91,7 +91,7 @@ are AC-equivalent to $\AK(3)$, while the other two
 could be related neither to $\AK(3)$ nor to the trivial presentation with any sequence of moves that allowed the length of each relator to increase up to 20.
 
 For presentations solved by greedy search, we plot the maximum amount by which the length of a presentation increased in an AC trivialization path in \autoref{fig:gs_length_increase}.
-In most cases, there was no increase in length; and the maximum increase was only 5.
+In most cases, there was no increase in length; and the maximum increase was only~5.
 At first glance, this seemed surprising to us, given that we allowed the relator lengths to increase by a much larger amount in our search process.\footnote{The length of each relator was allowed to increase up to \(2 \times \text{max}(2n+3, \length(w)+1) + 2\), which is twice the maximum of the initial lengths of the two relators in a presentation, plus an additional 2.
 The maximum possible increase in presentation length is twice this number minus the original length.
 For $n \leq 7$ and $\length(w) \leq 7$, this value lies in the range $[17, 53]$.}
@@ -110,10 +110,12 @@ Note that greedy search does not necessarily find the shortest paths of triviali
 We will see in \autoref{sec:application} that a Reinforcement Learning algorithm finds shorter trivializing sequences for many examples of the Miller--Schupp series.
 This again hints at the potential utility of exploring more efficient criteria for ordering nodes in the priority queue.
 
+In the remainder of this paper, we will refer to the presentations from the Miller-Schupp series, that were solved and unsolved by greedy search as ``GS-solved" and ``GS-unsolved" presentations, respectively.
+
 \begin{figure}
 	\centering
 	\begin{subfigure}[b]{0.5\textwidth}
-		\includegraphics[width=\textwidth]{fig/gs_length_increase_vs_length.png}
+		\includegraphics[width=\textwidth]{fig/gs_length_increase_vs_length.pdf}
 		\caption{Distribution versus initial presentation length}
 		\label{fig:gs_length_increase_vs_length}
 	\end{subfigure}%
@@ -121,7 +123,7 @@ This again hints at the potential utility of exploring more efficient criteria f
 	%(or a blank line to force the subfigure onto a new line)
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\includegraphics[width=1.1\textwidth]{fig/gs_length_increase_vs_n.png}
+		\includegraphics[width=1.1\textwidth]{fig/gs_length_increase_vs_n.pdf}
 		\caption{Distribution versus $n$}
 		\label{fig:gs_length_increase_vs_n}
 	\end{subfigure}
@@ -131,13 +133,13 @@ This again hints at the potential utility of exploring more efficient criteria f
 \begin{figure}
 	\centering
 	\begin{subfigure}[b]{0.4\textwidth}
-		\includegraphics[width=\textwidth]{fig/path_lengths_vs_length_increase.png}
+		\includegraphics[width=\textwidth]{fig/path_lengths_vs_length_increase.pdf}
 		\caption{Distribution versus initial presentation length}
 		\label{fig:path_lengths_vs_length_increase}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
-		\includegraphics[width=1.1\textwidth]{fig/gs_path_lengths.png}
+		\includegraphics[width=1.1\textwidth]{fig/gs_path_lengths.pdf}
 		\caption{Distribution versus $n$}
 		\label{fig:gs_path_lengths}
 	\end{subfigure}%

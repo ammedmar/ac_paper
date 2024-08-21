@@ -21,11 +21,11 @@ A \textit{Markov Decision Process} (MDP) is a 5-tuple $(S, A, R, P, \rho)$ where
 
 The schematic picture of how these objects interact with each other is as follows. We start with a state $s_0$ sampled from the distribution $\rho$ and take an action $a_0$. This results in a state $s_1$ with probability $P(s_1 \mid s_0, a_0) $. The transition gets a ``reward" $r_0 = R(s_0, a_0, s_1)$ which quantifies the effectiveness of the action in contributing toward achieving an ultimate goal. From state $s_1$, we repeat this process, obtaining a trajectory of states
 \[
-\tau = \left( s_0, a_0, s_1, a_1, \dots \right)
+\tau = \left( s_0, a_0, s_1, a_1, \dots \right).
 \]
 The goal of this process is to maximize the cumulative return,
 \[
-R(\tau) = \sum\limits_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1})
+R(\tau) = \sum\limits_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1}).
 \]
 Here, $T$ is the length of the trajectory, known as the ``horizon length'' and $\gamma \in \left(0, 1 \right)$ is the ``discount factor'' that assigns smaller weights to the reward values obtained farther in the future.
 
@@ -109,7 +109,7 @@ In \autoref{fig:path_lengths_gs_vs_ppo}, we give a scatterplot of the path lengt
 \begin{figure}
 	\centering
 	\begin{subfigure}[b]{0.5\textwidth}
-		\includegraphics[width=\textwidth]{fig/path_lengths_ppo_solved_vs_unsolved.png}
+		\includegraphics[width=\textwidth]{fig/path_lengths_ppo_solved_vs_unsolved.pdf}
 		\caption{}
 		%Distribution of path lengths discovered by greedy search for presentations solved / unsolved by Proximal Policy Optimization}
 	\label{fig:path_lengths_ppo_solved_vs_unsolved}
@@ -118,7 +118,7 @@ In \autoref{fig:path_lengths_gs_vs_ppo}, we give a scatterplot of the path lengt
 	%(or a blank line to force the subfigure onto a new line)
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\includegraphics[width=1.1\textwidth]{fig/path_lengths_gs_vs_ppo.png}
+		\includegraphics[width=1.1\textwidth]{fig/path_lengths_gs_vs_ppo.pdf}
 		\caption{}
 		\label{fig:path_lengths_gs_vs_ppo}
 	\end{subfigure}
@@ -126,5 +126,5 @@ In \autoref{fig:path_lengths_gs_vs_ppo}, we give a scatterplot of the path lengt
 	\label{fig:path_lengths_gs_vs_ppo_full}
 \end{figure}
 
-\subsection{Neighborhood sizes}
+% subsection
 \input{sec/local}

@@ -110,10 +110,10 @@ Only a small amount (roughly 15 percent) of the original Miller--Schupp presenta
 
 The dataset is tokenized using six tokens: two stop tokens and one token each for the two generators and their inverses.
 The tokenized dataset had about $2.17 \times 10^8$ tokens.
-As our goal is to get insights into properties that distinguish presentations that were easy / hard to solve, we performed an exploratory data analysis of the two subsets of data associated to these presentations.
+As our goal is to get insights into properties that distinguish GS-solved and GS-unsolved presentations, we performed an exploratory data analysis of the two subsets of data associated to these presentations.
 We plot the percentage of appearance of each token for these subsets in \autoref{fig:tokens_hist}.
-The ratio of frequency of $y^{\pm 1}$ to the frequency of $x^{\pm 1}$ is higher in the GS-hard dataset.
-This is likely because the GS-hard presentations have larger $n$, and larger $n$ corresponds to a higher number of occurrence of $y^{\pm 1}$ in the Miller--Schupp presentation.
+The ratio of frequency of $y^{\pm 1}$ to the frequency of $x^{\pm 1}$ is higher in the GS-unsolved dataset.
+This is likely because the GS-unsolved presentations have larger $n$, and larger $n$ corresponds to a higher number of occurrence of $y^{\pm 1}$ in the Miller--Schupp presentation.
 Interestingly, this effect remains in the dataset even when after applying thousands of AC moves to the original presentations.
 
 We paid special attention to ensure that our dataset contains presentations of a wide range of lengths so as not to bias our model towards learning trends specific to any fixed length.
@@ -122,17 +122,17 @@ To this end, we devised an algorithm (\autoref{alg:apply_ac_moves} in \autoref{a
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.6]{fig/tokens_hist.png}
-	\caption{Percentage of appearance of each token in the two subsets of the training dataset that are equivalent to GS-easy and GS-hard presentations.
+	\includegraphics[scale=0.15]{fig/tokens_hist.pdf}
+	\caption{Percentage of appearance of each token in the two subsets of the training dataset that are equivalent to GS-solved and GS-unsolved presentations.
 	To be clear, we computed the percentages separately for each subset of the training data, i.e. the heights of all blue (and orange) bars adds separately to 100.}
 	\label{fig:tokens_hist}
 \end{figure}
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.6]{fig/gpt_data_length_distribution.png}
+	\includegraphics[scale=0.15]{fig/gpt_data_length_distribution.pdf}
 	\caption{Percentage of presentations in various ranges of lengths.
-	Percentages were computed independently for the two subsets of the dataset, corresponding to presentations that are AC-equivalent to GS-easy and GS-hard presentations.
+	Percentages were computed independently for the two subsets of the dataset, corresponding to presentations that are AC-equivalent to GS-solved and GS-unsolved presentations.
 	We used \autoref{alg:apply_ac_moves} from \autoref{app:algorithm} to ensure the almost-uniform distribution depicted here.}
 	\label{fig:gpt_data}
 \end{figure}
@@ -154,29 +154,29 @@ Each row of \autoref{fig:tsne_embeddings} corresponds to a fixed value of $n$.
 The left (right) column depicts t-SNE projections of embeddings obtained by an untrained (a trained) model.
 t-SNE dependence on a distance measure: it learns to map vectors that are closer together in the higher-dimensional space, with respect to this distance measure, close together in the plane \cite{JMLR:v9:vandermaaten08a}.
 We used cosine simiarity between embedding vectors as the distance measure for our plots.
-We note that the GS-easy and GS-hard presentations seem to cluster much more in the plots in the right column.
-This indicates that a trained Transformer model is able to distinguish between GS-easy and GS-hard presentations to a good extent, albeit not perfectly.\footnote{
+We note that the GS-solved and GS-unsolved presentations seem to cluster much more in the plots in the right column.
+This indicates that a trained Transformer model is able to distinguish between GS-solved and GS-unsolved presentations to a good extent, albeit not perfectly.\footnote{
 Note also that t-SNE admits a hyperparameter known as ``perplexity", and the projections learned by t-SNE depend on the hyperparameter \cite{wattenberg2016how}.
 Thus, in general, t-SNE plots must be interpreted with care.
 The plots shown in \autoref{fig:tsne_embeddings} were all made with the perplexity value of $30$.
-We checked however that the clusters of GS-easy and GS-hard presentations  continue to exists at a broad range of perplexity values.}
+We checked however that the clusters of GS-solved and GS-unsolved presentations continue to exists at a broad range of perplexity values.}
 
 Note that the training dataset contained no information about the ease of solvability of a presentation.
 It also did not contain many presentations of the Miller--Schupp series itself.
 Instead, it contained presentations that are AC-equivalent to the Miller--Schupp series presentations.
-Our observation that a Transformer model trained on this dataset can distinguish between the easy and hard presentations indicates that:
+Our observation that a Transformer model trained on this dataset can distinguish between the GS-solved and GS-unsolved presentations indicates that:
 \begin{enumerate}[label=\alph*)]
-	\item There likely exists an invariant at the level of the ``language`` of the balanced presentations that distinguishes easy vs hard presentations.
+	\item There likely exists an invariant at the level of the ``language`` of the balanced presentations that distinguishes GS-solved vs GS-unsolved presentations.
 	\item This invariant survives application of thousands of AC moves we used to generate the training examples in our dataset.
 \end{enumerate}
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.23]{fig/embeddings.png}
+	\includegraphics[scale=0.16]{fig/embeddings.pdf}
 	\captionsetup{width=1.1\textwidth}
 	\caption{t-SNE plots depicting embeddings of the Miller--Schupp presentations $MS(n, w)$.
 	The left (right) column shows embeddings learned by an untrained (trained) transformer model.
 	Each row corresponds to a value of $n$.
-	Trained models cluster together GS-easy and GS-hard presentations indicating the possibility of a difference in the linguistic structure of the two sets of presentations.}
+	Trained models cluster together GS-solved and GS-unsolved presentations indicating the possibility of a difference in the linguistic structure of the two sets of presentations.}
 	\label{fig:tsne_embeddings}
 \end{figure}

@@ -4,7 +4,7 @@
 
 The Andrews--Curtis conjecture concerns the study of \textit{balanced presentations} of the trivial group, i.e.
 presentations of the trivial group with an equal number of generators and relators.
-The conjecture proposes that any balanced presentation
+The conjecture proposes that any balanced presentation of the trivial group
 \[
 \angles{x_1, \dots, x_n \mid r_1, \dots, r_n}
 \]
@@ -12,12 +12,13 @@ can be converted to the trivial presentation
 \[
 \angles{x_1, \dots, x_n \mid x_1, \dots, x_n}
 \]
-through a series of the following operations known as \textit{AC moves} \cite{Andrews--Curtis}.
+through a series of the following operations known as \textit{AC moves} \cite{Andrews--Curtis}:
 \begin{enumerate}[label=(AC\arabic*)]
 	\item Substitute some $r_i$ by $r_i r_j$ for $i \neq j$.
 	\item Replace some $r_i$ by $r_i^{-1}$.
 	\item Change some $r_i$ to $g r_i g^{-1}$ where $g$ is a generator or its inverse.
 \end{enumerate}
+
 We will refer to the sum of the word lengths of all relators as the \textit{length} of a presentation.
 Two presentations that can be transformed into each other by a sequence of AC moves are said to be \textit{AC-equivalent}.
 A presentation that is AC-equivalent to the trivial presentation is referred to as \textit{AC-trivial}.
@@ -44,10 +45,10 @@ $\AK(2)$ has length 11 and has been established as AC-trivial \cite{genetic} whe
 In over two decades since the first utilization of search algorithms \cite{genetic, bfs-ac}, only unsuccessful attempts have been made to trivialize $\AK(3)$ with different variants of breadth-first search algorithm using an increasing amount of computational resources \cite{Bowman-McCaul, krawiec2016distance, Panteleev-Ushakov}.
 Notably, \cite{Panteleev-Ushakov} found that no sequence of AC moves that allows relator lengths to increase up to 20 trivializes $\AK(3)$.
 This lack of success could be interpreted as suggestive evidence that $\AK(3)$ might be a counterexample to the Andrews--Curtis conjecture.
-However, recent works by Bridson and Lishak have shown that there exist AC-trivializable balanced presentations of the trivial group, for which the number of AC moves in a trivializing sequence is bounded below by a superexponential function of the length of the presentation \cite{Bridson, Lishak}.
+However, recent works by Bridson and Lishak have shown that there exist AC-trivializable balanced presentations, for which the number of AC moves in a trivializing sequence is bounded below by a superexponential function of the length of the presentation \cite{Bridson, Lishak}.
 Roughly speaking, for these presentations, if the sum of word lengths is $k$, the number of AC moves required to trivialize the presentation is at least $\Delta (\lfloor \log_2 k \rfloor)$ where $\Delta \colon \mathbb{N} \to \mathbb{N}$ is defined recursively as $\Delta(0) = 2$ and $\Delta (j) = 2^{\Delta(j-1)}$ for $j \geq 1$.
 In particular, $\Delta (\lfloor \log_2 (13) \rfloor) = 65536$, whereas presentations trivialized by the aforementioned search algorithms have AC sequences of length less than $1000$.
-While $\AK(3)$ is itself not a member of the family of examples studied by Bridson and Lishak, their findings challenge the inclination to view it as a counterexample.
+While $\AK(3)$ is itself not a member of the family of examples studied by Bridson and Lishak, their findings challenge the view it as a counterexample.
 Their work also underscores the necessity of employing search methods that are more efficient than breadth-first search.
 
 In this paper, we will consider a variety of computational tools to better understand the properties of balanced presentations of the trivial group.
@@ -64,10 +65,9 @@ In particular, the presentation
 of length 15 is AC-equivalent to $\AK(3)$.
 
 We will only consider presentations with $n \leq 7$ and $\length(w) \leq 7$.
-Our selection criteria aimed to strike a balance: we sought a dataset of presentations large enough to allow for meaningful analysis, yet small enough to ensure all computations are feasible within a practical timeframe.
-Additionally, we reduced $x^{-1}w$ freely and cyclically and kept only one representative of each orbit under the action of a cyclic group.\anibal{What is the action?}
-After these simplifications, we were left with $170$ choices for $x^{-1} w$.
-This resulted in a dataset of $7 \times 170 = 1190$ presentations from the Miller--Schupp series.
+Our selection criteria aims to strike a balance: we seek a dataset of presentations large enough to allow for meaningful analysis, yet small enough to ensure all computations are feasible within a practical timeframe.
+We reduce $x^{-1}w$ freely and cyclically,\anibal{What does freely means? Doesn't cycliccally here mean what you explain next?} and if two presentations have the same fixed $n$, but different words $w$ and $w'$ such that letters of $x^{-1} w$ can be cyclically permuted to obtain $x^{-1} w'$, we keep only one of these presentations.
+After these simplifications, we find $170$ choices of presentations for each fixed $n$, resulting in a dataset of $7 \times 170 = 1190$ presentations for our analysis.
 
 
 Our implementation of AC transformations differed from the AC transformations mentioned above in two ways.

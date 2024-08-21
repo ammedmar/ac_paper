@@ -6,7 +6,7 @@ We live in an extraordinary time where artificial intelligence (AI) is transform
 
 Mathematics seems like a very natural step on a path toward Artificial General Intelligence (AGI) due to its universal syntactic and logical structure, akin to natural language. Moreover, mathematics allows for the quantitative evaluation of logical and analytical reasoning, making it an ideal domain for self-improving AI systems on the path to AGI. Momentarily, we will explain yet another reason why mathematics can play a useful role for AGI development, but first we need to introduce one more key element: reinforcement learning (RL).
 
-Machine learning, a subfield of AI, involves developing algorithms and statistical models that enable computers to learn and make predictions from data. Among the three primary areas of machine learning --- supervised learning, unsupervised learning, and reinforcement learning --- RL focuses on learning through interaction with an environment and receiving feedback in the form of rewards or penalties. It is this aspect of machine learning, which can be characterized as having its focus on AI models 'playing games,' that will be central to our discussion.
+Machine learning, a subfield of AI, involves developing algorithms and statistical models that enable computers to learn and make predictions from data. Among the three primary areas of machine learning --- supervised learning, unsupervised learning, and reinforcement learning --- RL focuses on learning through interaction with an environment and receiving feedback in the form of rewards or penalties. It is this aspect of machine learning, which can be characterized as having its focus on AI models `playing games,' that will be central to our discussion.
 
 A typical chess game lasts about 30-40 moves, with the longest recorded professional game reaching 269 moves, ending in a draw between Ivan Nikolic and Goran Arsovic in 1989. Note, the number of moves in a typical chess game is relatively consistent, with the longest professional game having only an order of magnitude more steps than the average. Similarly, a typical game of Go involves a few hundred moves, with the longest recorded professional game, played by Go Seigen and Kitani Minoru in 1933, lasting 411 moves.
 
@@ -14,7 +14,7 @@ At first glance, many mathematical problems --- such as proving or disproving co
 
 In addition, in hard research-level mathematics problems one is faced with yet another challenge: the sought-after instance can be so rare and hard to find that the problem can effectively be a search of a needle in a haystack, i.e. it can be a problem with ultra-sparse rewards. For example, in the context of theorem proving, one can think of an extremely hard theorem\footnote{A proxy for such a problem could be the Riemann hypothesis, or any other unsolved Millennium Prize Problem.} that may require a very large number of steps; if there aren't many alternative proofs, finding a small number of very long ones then becomes a search for a needle in a haystack or, depending on preference, a search for a unicorn.
 
-Fortunately, mathematics provides a robust framework for developing and testing new algorithms with adaptive capabilities that 'learn how to learn' dynamically. Testing these algorithms on mathematical problems, rather than directly on societal issues like market crash predictions or extreme weather events, offers a risk-free and cost-effective approach. And, the benefits are that hard mathematical problems can be solved and long-standing conjectures can be resolved in the process of implementing this approach.
+Fortunately, mathematics provides a robust framework for developing and testing new algorithms with adaptive capabilities that `learn how to learn' dynamically. Testing these algorithms on mathematical problems, rather than directly on societal issues like market crash predictions or extreme weather events, offers a risk-free and cost-effective approach. And, the benefits are that hard mathematical problems can be solved and long-standing conjectures can be resolved in the process of implementing this approach.
 
 Our approach to problems of this type involves endowing the RL model with the ability to assess hardness of problems during the training process. First and foremost, this requires a practically useful notion of {\it hardness}, a concept we thoroughly explore. By learning the distribution of problems based on their difficulty, one can augment existing off-the-shelf algorithms with new self-improvement strategies, identifying key features that facilitate solving the most challenging problems.
 
@@ -36,32 +36,33 @@ The proof of this theorem is presented in \autoref{sec:stable_ak3}.
 %
 The rest of the paper is organized as follows.
 
-%\subsection*{Outline}
+In \autoref{sec:AC}, we provide an overview of the Andrews--Curtis conjecture describing precisely the version we study in this work.
 
-In \autoref{sec:AC}, we review the Andrews--Curtis conjecture. In \autoref{sec:search}, we use classical search algorithms to study the presentations of Miller--Schupp series. We devise a greedy search algorithm and show that it performs significantly better than the breadth-first search algorithm widely used to study this problem in the literature.
-%We discover that the previously-known shortest potential counterexample to the stable AC conjecture, i.e. $\AK(3)$, is in fact stably AC-trivial.
+In \autoref{sec:search}, we apply classical search algorithms to analyze examples in the Miller--Schupp series. We devise a greedy search algorithm and demonstrate that it significantly outperforms the breadth-first search algorithm, which is widely used in the literature to study this problem.
 
-In \autoref{sec:rl}, we use reinforcement learning to search through the space of balanced presentations. Specifically, we implement the Proximal Policy Optimization (PPO) algorithm \cite{schulman2017proximal}. We find that while this algorithm performs significantly better than breadth-first search, it does not outperform greedy search. (See \autoref{fig:performance}.)
+In \autoref{sec:rl}, we employ reinforcement learning to explore the space of balanced presentations. Specifically, we implement the Proximal Policy Optimization (PPO) algorithm \cite{schulman2017proximal}. We find that, although this algorithm performs significantly better than breadth-first search, it does not surpass the performance of the greedy search algorithm (see \autoref{fig:performance}).
 
-In \autoref{sec:algo}, we present some ideas for algorithm development based on the lessons learned in our case study. Specifically, we propose a strategy to overcome the unbearable complexity of instances an RL agent must find in especially challenging problems, such as very long proofs or extremely long and rare sequences of moves in search tasks.
+In \autoref{sec:algo}, we present several ideas for algorithm development based on insights gained from our case study. In particular, we propose a strategy to mitigate the overwhelming complexity faced by an RL agent in especially challenging problems, such as extremely long and rare sequences of moves in search tasks or finding very long proofs.
 
-In \autoref{sec:lm}, we use a decoder-only Transformer model to study the language structure of balanced presentations. We find that easy and hard presentations form their own clusters inside the embedding space of the Transformer model.
+In \autoref{sec:lm}, we utilize a decoder-only Transformer model to examine the linguistic structure of balanced presentations. We observe that the presentations explicitly solved and unsolved by the greedy search algorithm in \autoref{sec:search} form distinct clusters within the embedding space of the Transformer model.
+
+In \autoref{sec:isolated}, we employ topological methods to assess the complexity of presentations. Specifically, we utilize persistent homology to define the \textit{isolation value} of a presentation. This value is infinite for counterexamples to the AC conjecture and serves as a measure of a presentation's resistance to being trivialized.
 
 \begin{figure}
 	\centering
 	\begin{subfigure}[b]{0.5\textwidth}
-		\includegraphics[width=1.1\textwidth]{fig/performance_vs_n.png}
+		\includegraphics[width=1.1\textwidth]{fig/performance_vs_n.pdf}
 		\caption{Distribution versus $n$}
 		\label{fig:performance_vs_n}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\includegraphics[width=1.1\textwidth]{fig/performance_vs_length.png}
+		\includegraphics[width=1.1\textwidth]{fig/performance_vs_length.pdf}
 		\caption{Distribution versus length}
 		\label{fig:performance_vs_length}
 	\end{subfigure}
 	\caption{A comparison of three algorithms --- breadth-first search, greedy search, and Proximal Policy Optimization (PPO) --- that we used to search through the space of balanced presentations. The number of presentations of the Miller--Schupp series, $\MS(n, w)$, solved by an algorithm is given on the vertical axis. We compare the performance as a function of $n$ (above) and the length of the presentation (below). Greedy Search consistently outperforms Breadth-First Search and Proximal Policy Optimization.}
-	\label{fig:performance}\anibal{It would be better to include a PDF version of this pictures instead of a (compressed) PNG.}
+	\label{fig:performance}
 \end{figure}
 
 %We compare the performance of Greedy Search (GS), Breadth First Search and Proximal Policy Optimization on the presentations of Miller--Schupp series with $n, \ \length(w) \leq 7$ in \autoref{fig:performance}.

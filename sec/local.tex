@@ -1,5 +1,7 @@
 % !TEX root = ../ac_paper.tex
 
+\subsection{Neighborhoods}
+
 In this subsection we consider the size of neighborhoods of presentations.
 A presentation is considered to be in the $k$-step neighborhood of another if they can be connected by applying at most $k$ AC moves.\footnote{For the experiments below we use the ``prime" AC moves as defined in \cref{?}. The results obtained using the classic AC moves are similar.}
 
@@ -27,7 +29,7 @@ A more detailed description of the frequency of values is presented in \cref{fig
 The largest neighborhood size accounts for nearly a third of all considered presentations.
 Yet, it represents only 2.4\% of solved presentations and almost half of the unsolved presentations, 48.3\% to be exact.
 Please consult \cref{fig:prime_pies} for more details.
-We contrast to the situation using BFF, where these numbers are 7.1\% and 52.5\% respectively.
+We contrast to the situation using BFS, where these numbers are 7.1\% and 52.5\% respectively.
 
 Another notable feature visible in \cref{fig:prime_pies} is that only three neighborhood sizes account for over three-quarters of all unsolved presentations.
 Additionally, considering six sizes, this proportion reaches 96.9\%.
@@ -40,7 +42,7 @@ Furthermore, 54.2\% of all solved presentations have a neighborhood size that is
 	\includegraphics[scale=.35]{fig/prime_solved_pie_rl_cropped.pdf}
 	\ 
 	\includegraphics[scale=.35]{fig/prime_unsolved_pie_rl_cropped.pdf}
-	\caption{Pie charts for the neighborhood size of solved and unsolved presentations}
+	\caption{Pie charts for the neighborhood size of PPO-solved and PPO-unsolved presentations. We grouped sizes with representation below 2.5\%.}
 	\label{fig:prime_pies}
 \end{figure}
 
@@ -71,6 +73,10 @@ By replacing the last band with $[89859,89872]$, the union of these three bands 
 	\centering
     \includegraphics[scale=.34]{fig/prime_histogram_rl.pdf}
 	\includegraphics[scale=.34]{fig/prime_histogram_rl2.pdf}
-	\caption{Histograms with 7 and 27 bins respectively of the neighborhood sizes of the 533 GS-solved and 657 GS-unsolved presentations.}
+	\caption{Histograms with 6 and 26 bins respectively of the neighborhood sizes of the 417 PPO-solved and 773 PPO-unsolved presentations.}
 	\label{fig:prime_histogram}
 \end{figure}
+
+\medskip
+
+One might anticipate that enhancing the discriminatory power of $n$-neighborhoods could be achieved by incorporating features beyond their size. We explored two additional types of features, but surprisingly, they only marginally improved the accuracy of solved/unsolved predictions. The first type was based on node centrality, while the second focused on spectral features of the neighborhood graphs. The latter was particularly intriguing, considering the emphasis on Markov processes and the well-known relationship between random walks on graphs and the graph Laplacian.
