@@ -1,24 +1,16 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Isolated components and isolation values}\label{sec:isolated}
+\section{Isolated components and neighborhood sizes}\label{sec:isolated}
 
-Let us recall that in the AC conjecture, the focus is on $k$-balanced presentations and their AC simplifications.
-An AC simplification of a presentation $\pi$ is a sequence $(\pi_0, \dots, \pi)$ of presentations, with $\pi_0$ being the trivial presentation, such that all consecutive pairs in the sequence are related by an AC move.
-Since $\pi_0$ minimizes length among all balanced presentations, one might adopt a greedy strategy when attempting to simplify a given $\pi$: given $\pi_k$, select $\pi_{k-1}$ such that the length of $\pi_{k-1}$ is either reduced or, at the very least, not increased relative to $\pi_k$.
+\subsection{Isolated components}
 
-While this approach proves useful in numerous instances, it is not universally applicable.
-A more nuanced perspective involves considering simplifications $(\pi_0, \dots, \pi_m)$ where the length of each $\pi_k$ does not exceed that of $\pi$.
-Our focus will be on this scenario, referring to presentations that resist such simplifications as \textit{isolated}.
-To quantify the degree of isolation, we introduce an \textit{isolation value} for each presentation, an integer that in extreme cases is $0$ for presentations that are not isolated and $\infty$ for counterexamples to the AC conjecture, if any exist.
-Since isolated presentations are not necessarily isolated from each other, we introduce an equivalence relation that allows us to better count these isolated components and their isolation values.
+In \autoref{ss:greedy_search}, we explored a greedy approach to finding AC-trivializations of a presentation \(\pi\). Specifically, the goal is to construct a sequence of presentations \((\pi_0, \dots, \pi)\), where \(\pi_0\) is the trivial presentation, such that each consecutive pair in the sequence is related by an AC move. Furthermore, at each step \(k\), the presentation \(\pi_k\) is chosen to have the shortest possible length among all presentations connected to \(\pi_{k+1}\) via an AC move.
+In general, the length of presentation in an AC-trivialization will increase pass the length of presentation being trivialized.
+The minimum such increase is a invariant of the presentation which we now study using graph theory ideas from persistence homology.
 
-Employing methodologies from topological data analysis, our objective in this section is to empirically count isolated components and compute their isolation values in increasing neighborhoods of the identity presentation.
+%\subsubsection{The AC graph}
 
-\subsection{Formalization}
-
-We provide the basic definitions and conceptual basis for the computations presented in the next subsection.
-
-\subsubsection{Based graphs}
+\subsubsection{Formalization}
 
 A \textit{based graph} is a pair $(\Gamma, v_0)$ consisting of a graph $\Gamma$ and a preferred vertex $v_0$ in it.
 We will often drop $v_0$ from the notation.
@@ -32,18 +24,14 @@ of based subgraphs of $\Gamma$ for which each vertex and edge of $\Gamma$ is in 
 We refer to $\Gamma$ as a \textit{filtered based graph}.
 If each $\Gamma_n$ is full in $\Gamma$ we refer to the filtration as full and notice that full filtrations are equivalent to $\N$ valued functions from the set of vertices of $\Gamma$ sending $v_0$ to $0$.
 
-\subsubsection{The AC graph}
-
 Let $\Gamma^{\text{AC(k)}}$ be the graph whose vertices are $k$-balanced presentations, based at the trivial presentation, having an edge between two vertices if there is an AC move between them.
 Additionally, $\Gamma^{\text{AC(k)}}$ is equipped with a full filtration obtained from the function sending a vertex to the length of its presentation minus $k$.
 
-\subsubsection{Filtration and connectivity values}
+%\subsubsection{Isolation values and isolated components}
 
 Given a filtered based graph $(\Gamma, v_0)$.
 The \textit{filtration value} $\Filt(v)$ of a vertex $v$ is the smallest $n \in \N$ such that $v$ is a vertex in $\Gamma_n$.
 Similarly, its \textit{connectivity value} $\Conn(v)$ is the smallest $n \in \N$ such that $v$ and $v_0$ can be joined by a path in $\Gamma_n$ or is set to $\infty$ if such path does not exist in $\Gamma$.
-
-\subsubsection{Isolation value and isolation components}
 
 The \textit{isolation value} of a vertex $v$ in a filtered based graph is defined as
 \[
@@ -56,13 +44,72 @@ We introduce an equivalence relation on isolated vertices.
 Two belong to the same \textit{isolated component} if they have the same connectivity value, say $n$, and they can be joined by a path in $\Gamma_{n-1}$.
 The \textit{isolation value} of a component is the maximum of the isolation values of its elements.
 
-\subsection{Results}
+We can interpret these invariants using the framework of topological data analysis.
+Specifically, the isolated components of the based filtered graph $\Gamma$ correspond to bars in the barcode of its persistent $0$-homology, with the isolation values of these components corresponding to the lengths of the associated bars.
 
-Let $\Gamma(\ell)$ be the full subgraph of $\Gamma^{\text{AC(2)}}$, with the induced filtration, whose vertices are presentations that can be joined to the trivial one via paths that contains only presentations of length at most~$\ell$.
-Naturally, for any $\ell$ and $n$ we have that $\Gamma(\ell)_n$ is a full subgraph of $\Gamma(\ell+1)_n$.
+%Let us recall that in the AC conjecture, the focus is on $k$-balanced presentations and their AC simplifications.
+%An AC-simplification of a presentation $\pi$ is a sequence $(\pi_0, \dots, \pi)$ of presentations, with $\pi_0$ being the trivial presentation, such that all consecutive pairs in the sequence are related by an AC move.
+%Since $\pi_0$ minimizes length among all balanced presentations, one might adopt a greedy strategy when attempting to simplify a given $\pi$: given $\pi_k$, select $\pi_{k-1}$ such that the length of $\pi_{k-1}$ is either reduced or, at the very least, not increased relative to $\pi_k$.
+%
+%While this approach proves useful in numerous instances, it is not universally applicable.
+%A more nuanced perspective involves considering simplifications $(\pi_0, \dots, \pi_m)$ where the length of each $\pi_k$ does not exceed that of $\pi$.
+%Our focus will be on this scenario, referring to presentations that resist such simplifications as \textit{isolated}.
+%To quantify the degree of isolation, we introduce an \textit{isolation value} for each presentation, an integer that in extreme cases is $0$ for presentations that are not isolated and $\infty$ for counterexamples to the AC conjecture, if any exist.
+%Since isolated presentations are not necessarily isolated from each other, we introduce an equivalence relation that allows us to better count these isolated components and their isolation values.
+%
+%Employing methodologies from topological data analysis, our objective in this section is to empirically count isolated components and compute their isolation values in increasing neighborhoods of the identity presentation.
+%
+%\subsection{Formalization}
+%
+%We provide the basic definitions and conceptual basis for the computations presented in the next subsection.
+%
+%\subsubsection{Based graphs}
+%
+%A \textit{based graph} is a pair $(\Gamma, v_0)$ consisting of a graph $\Gamma$ and a preferred vertex $v_0$ in it.
+%We will often drop $v_0$ from the notation.
+%A \textit{based subgraph} $\Gamma_n$ of $\Gamma$, written $\Gamma_n \leq \Gamma$, is a subgraph $\Gamma_n$ of $\Gamma$ with the same preferred vertex.
+%We say that $\Gamma_n$ is \textit{full} in $\Gamma$ if for any two vertices in $\Gamma_n$ joined by an edge in $\Gamma$, the edge is also in $\Gamma_n$.
+%A \textit{filtration} of a based graph $\Gamma$ is a collection
+%\[
+%\Gamma_0 \leq \Gamma_1 \leq \Gamma_2 \leq \dotsb
+%\]
+%of based subgraphs of $\Gamma$ for which each vertex and edge of $\Gamma$ is in $\Gamma_n$ for some $n$.
+%We refer to $\Gamma$ as a \textit{filtered based graph}.
+%If each $\Gamma_n$ is full in $\Gamma$ we refer to the filtration as full and notice that full filtrations are equivalent to $\N$ valued functions from the set of vertices of $\Gamma$ sending $v_0$ to $0$.
+%
+%
+%\subsubsection{The AC graph}
+%
+%Let $\Gamma^{\text{AC(k)}}$ be the graph whose vertices are $k$-balanced presentations, based at the trivial presentation, having an edge between two vertices if there is an AC move between them.
+%Additionally, $\Gamma^{\text{AC(k)}}$ is equipped with a full filtration obtained from the function sending a vertex to the length of its presentation minus $k$.
+
+%\subsubsection{Filtration and connectivity values}
+%
+%Given a filtered based graph $(\Gamma, v_0)$.
+%The \textit{filtration value} $\Filt(v)$ of a vertex $v$ is the smallest $n \in \N$ such that $v$ is a vertex in $\Gamma_n$.
+%Similarly, its \textit{connectivity value} $\Conn(v)$ is the smallest $n \in \N$ such that $v$ and $v_0$ can be joined by a path in $\Gamma_n$ or is set to $\infty$ if such path does not exist in $\Gamma$.
+%
+%\subsubsection{Isolation value and isolation components}
+%
+%The \textit{isolation value} of a vertex $v$ in a filtered based graph is defined as
+%\[
+%\Isol(v) = \Conn(v) - \Filt(v),
+%\]
+%a number in $\N \cup \set{\infty}$.
+%A vertex is said to be \textit{isolated} if its isolation value is positive.
+%
+%We introduce an equivalence relation on isolated vertices.
+%Two belong to the same \textit{isolated component} if they have the same connectivity value, say $n$, and they can be joined by a path in $\Gamma_{n-1}$.
+%The \textit{isolation value} of a component is the maximum of the isolation values of its elements.
+
+\subsubsection{Experimental results}
+
+Let $\Gamma^\ell$ be the full subgraph of $\Gamma^{\text{AC(2)}}$, with the induced filtration, consisting of all presentations with connectivity value less than or equal to $\ell$, i.e., all vertices that can be joined to the trivial one via paths that contains only presentations of length at most~$\ell$.
+%Naturally, for any $\ell$ and $n$ we have that $\Gamma^\ell_n$ is a full subgraph of $\Gamma^{\ell+1}_n$.
 We will denote by $v(\ell)$ and $e(\ell)$ the number of vertices and edges of $\Gamma(\ell)$.
 Let us denote by $ic(\ell)_k$ the number of isolated components with isolation value $k$.
-Tables \ref{fig:classical_persistence} and \ref{fig:prime_persistence} summarize our results.
+\autoref{fig:classical_persistence} summarize our results for the classic AC moves whereas \autoref{fig:prime_persistence} does so for their prime version.\footnote{For this task we used \texttt{giotto-TDA} version 5.1 \cite{tauzin2021giotto}.
+	Specifically, its binding of the \texttt{SimplexTree} data structure introduced in \cite{boissonnat2014simplex} and implemented in \texttt{GUDHI} \cite{maria2014gudhi}.}
 
 \begin{figure}
 	\begin{tabular}{|c|c|c|c|c|}
@@ -127,10 +174,87 @@ Tables \ref{fig:classical_persistence} and \ref{fig:prime_persistence} summarize
 %\end{tabular}
 %\]
 
-\subsection{Methods}
+\subsection{Neighborhoods}
 
-The number of isolated components with isolation value $k$ in a connected filtered based graph $\Gamma$ is one less than the number of bars in the 0-barcode of its persistent homology.
-Since by construction our approximations $\Gamma(\ell)$ are all connected, it suffices to compute said invariant.
-For this task we used \texttt{giotto-TDA} version 5.1 \cite{tauzin2021giotto}.
-Specifically, its binding of the \texttt{SimplexTree} data structure introduced in \cite{boissonnat2014simplex} and implemented in \texttt{GUDHI} \cite{maria2014gudhi}.
-The construction of $\Gamma(\ell)$ is described described in more detail in \autoref{s:neighborhoods}. 
+Let us return to our data set of 1190 presentations in the Miller–Schupp series for $n \leq 7$ and $\length(w) \leq 7$.
+As explained in \autoref{sec:ppo}, it is split into 417 PPO-solved and 773 PPO-unsolved presentation.
+Our goal here is to analyze the relationship between these labels and the sizes of their respective AC neighborhoods, where a presentation is considered to be in the $k$-step neighborhood of another if they can be connected by applying at most $k$ AC moves.
+
+\subsubsection{Experimental results}
+
+There are 131 distinct neighborhood sizes in our data.
+% --consult \autoref{s:neighborhoods} for a detailed description of their construction-- 
+Their basic statistics are
+\[
+\begin{tabular}{cccccc}
+	\toprule
+	\textbf{Min} & \textbf{Max} & \textbf{Mean} & \textbf{Median} \\
+	\midrule
+	72,964 & 89,872 & 89,532 & 89,859 \\
+	\bottomrule
+\end{tabular}
+\]
+A more detailed description of the frequency of values is presented in \autoref{fig:prime_combined_pie}.
+
+\begin{figure}
+	\includegraphics[scale=.4]{fig/prime_combined_pie_rl_cropped.pdf}
+	\caption{Sizes of the 5-step neighborhood of all considered presentations in the Miller–Schupp series. We group neighborhood sizes whose representation is below 2.5\%.}
+	\label{fig:prime_combined_pie}
+\end{figure}
+
+The largest neighborhood size accounts for nearly a third of all considered presentations.
+Yet, it represents only 2.4\% of solved presentations and almost half of the unsolved presentations, 48.3\% to be exact.
+Please consult \autoref{fig:prime_pies} for more details.
+We contrast to the situation using BFS, where these numbers are 7.1\% and 52.5\% respectively.
+
+Another notable feature visible in \autoref{fig:prime_pies} is that only three neighborhood sizes account for over three-quarters of all unsolved presentations.
+Additionally, considering six sizes, this proportion reaches 96.9\%.
+In fact, only twelve neighborhood sizes are featured among unsolved presentations, whereas all 131 sizes appear among neighborhoods of solved presentations.
+The most numerous neighborhood size for solved presentations is 89,560, accounting for only 17.3\% of these.
+Furthermore, 54.2\% of all solved presentations have a neighborhood size that is shared by less than 2.5\% of solved presentations.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=.35]{fig/prime_solved_pie_rl_cropped.pdf}
+	\ 
+	\includegraphics[scale=.35]{fig/prime_unsolved_pie_rl_cropped.pdf}
+	\caption{Pie charts for the neighborhood size of PPO-solved and PPO-unsolved presentations. We grouped sizes with representation below 2.5\%.}
+	\label{fig:prime_pies}
+\end{figure}
+
+%\begin{figure}[h!]
+%	\centering
+%	\begin{subfigure}[b]{0.45\textwidth}
+	%		\centering
+	%		\includegraphics[scale=.4]{fig/prime_solved_pie.pdf}
+	%	\end{subfigure}
+%	\hfill
+%	\begin{subfigure}[b]{0.45\textwidth}
+	%		\centering
+	%		\includegraphics[scale=.4]{fig/prime_unsolved_pie.pdf}
+	%	\end{subfigure}
+%	\caption{Pie charts for the neighborhood size of solved and unsolved presentations}
+%	\label{fig:prime_pies}
+%\end{figure}
+
+As we saw, having maximal neighborhood size provides significant information about the PPO-solved/-unsolved label of a presentation.
+Additionally, the minimum neighborhood size among unsolved presentations --89,573-- is also quite informative since 54\% of solved presentations have neighborhood sizes less than that.
+We can improve this percentage using that neighborhood sizes of unsolved presentations concentrate in three bands.
+Please consult \autoref{fig:prime_histogram}.
+We have that 64.3\% of the solved presentations lie outside of the three bands $[89575, 89575]$ \& $[89715, 89831]$ \& $[89844, 89872]$ which contain over 99\% of the unsolved presentations.
+By replacing the last band with $[89859,89872]$, the union of these three bands now encompasses the neighborhood sizes of over 90\% of unsolved presentations, while its complement includes 77.2\% of those associated with solved presentations.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=.34]{fig/prime_histogram_rl.pdf}
+	\includegraphics[scale=.34]{fig/prime_histogram_rl2.pdf}
+	\caption{Histograms with 6 and 26 bins respectively of the neighborhood sizes of the 417 PPO-solved and 773 PPO-unsolved presentations.}
+	\label{fig:prime_histogram}
+\end{figure}
+
+\medskip
+
+One might anticipate that enhancing the discriminatory power of $n$-neighborhoods could be achieved by incorporating features beyond their size.
+We explored two additional types of features, but surprisingly, they only marginally improved the accuracy of solved/unsolved predictions.
+The first type was based on node centrality, while the second focused on spectral features of the neighborhood graphs.
+The latter was particularly intriguing, considering the emphasis on Markov processes and the well-known relationship between random walks on graphs and the graph Laplacian.

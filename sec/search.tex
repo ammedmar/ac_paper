@@ -38,7 +38,7 @@ This process continues until the sought-after state, i.e., a trivial balanced pr
 	\end{algorithmic}
 \end{algorithm}
 
-\subsection{Greedy search}
+\subsection{Greedy search}\label{ss:greedy_search}
 
 The greedy search algorithm, described in \autoref{alg:gs}, differs only slightly from the breadth-first search algorithm in implementation.
 We replace the queue with a priority queue, which stores the states in order determined by a tuple of values $(k, l)$, where $k$ is the length of the presentation and $l$ is the path length between the state and the initial state.
