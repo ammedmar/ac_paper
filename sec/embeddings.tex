@@ -114,7 +114,7 @@ As our goal is to get insights into properties that distinguish GS-solved and GS
 We plot the percentage of appearance of each token for these subsets in \autoref{fig:tokens_hist}.
 The ratio of frequency of $y^{\pm 1}$ to the frequency of $x^{\pm 1}$ is higher in the GS-unsolved dataset.
 This is likely because the GS-unsolved presentations have larger $n$, and larger $n$ corresponds to a higher number of occurrence of $y^{\pm 1}$ in the Miller--Schupp presentation.
-Interestingly, this effect remains in the dataset even when after applying thousands of AC moves to the original presentations.
+Interestingly, this effect remains in the dataset even after applying thousands of AC moves to the original presentations.
 
 We paid special attention to ensure that our dataset contains presentations of a wide range of lengths so as not to bias our model towards learning trends specific to any fixed length.
 To this end, we devised an algorithm (\autoref{alg:apply_ac_moves} in \autoref{app:algorithm}) that creates an almost uniform distribution over the lengths of the presentations.
@@ -151,7 +151,7 @@ We used t-SNE to project these embedding vectors to a plane \cite{JMLR:v9:vander
 The plots are shown in grid in \autoref{fig:tsne_embeddings}.
 
 Each row of \autoref{fig:tsne_embeddings} corresponds to a fixed value of $n$.
-The left (right) column depicts t-SNE projections of embeddings obtained by an untrained (a trained) model.
+The left (resp. right) column depicts t-SNE projections of embeddings obtained by an untrained (resp. trained) model.
 t-SNE dependence on a distance measure: it learns to map vectors that are closer together in the higher-dimensional space, with respect to this distance measure, close together in the plane \cite{JMLR:v9:vandermaaten08a}.
 We used cosine simiarity between embedding vectors as the distance measure for our plots.
 We note that the GS-solved and GS-unsolved presentations seem to cluster much more in the plots in the right column.
