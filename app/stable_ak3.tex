@@ -55,20 +55,28 @@ We repeated the search process with breadth-first search with a cutoff of 5 mill
 It failed to reduce the presentation length any further.
 
 The sequence of moves that connects the length-25 presentation to $\AK(3)$ can be conveniently expressed in terms of the following 12 transformations:
+% \[
+% \begin{aligned}
+% h_1 &:= \  r_2 \rightarrow r_2 r_1 \\
+% h_2 &:= \ r_1 \rightarrow r_1 r_2^{-1} \\
+% h_3 &:= \ r_2 \rightarrow r_2 r_1^{-1} \\
+% h_4 &:= \ r_1 \rightarrow r_1 r_2 \\
+% h_5 &:= \ r_2 \rightarrow x^{-1} r_2 x \\
+% h_6 &:= \ r_1 \rightarrow y^{-1} r_1 y \\
+% h_7 &:= \ r_2 \rightarrow y^{-1} r_2 y \\
+% h_8 &:= \ r_1 \rightarrow x r_1 x^{-1} \\
+% h_9 &:= \ r_2 \rightarrow x r_2 x^{-1} \\
+% h_{10} &:= \ r_1 \rightarrow y r_1 y^{-1} \\
+% h_{11} &:= \ r_2 \rightarrow y r_2 y^{-1} \\
+% h_{12} &:= \ r_1 \rightarrow x^{-1} r_1 x
+% \end{aligned}
+% \]
 \[
 \begin{aligned}
-h_1 &:= \  r_2 \rightarrow r_2 r_1 \\
-h_2 &:= \ r_1 \rightarrow r_1 r_2^{-1} \\
-h_3 &:= \ r_2 \rightarrow r_2 r_1^{-1} \\
-h_4 &:= \ r_1 \rightarrow r_1 r_2 \\
-h_5 &:= \ r_2 \rightarrow x^{-1} r_2 x \\
-h_6 &:= \ r_1 \rightarrow y^{-1} r_1 y \\
-h_7 &:= \ r_2 \rightarrow y^{-1} r_2 y \\
-h_8 &:= \ r_1 \rightarrow x r_1 x^{-1} \\
-h_9 &:= \ r_2 \rightarrow x r_2 x^{-1} \\
-h_{10} &:= \ r_1 \rightarrow y r_1 y^{-1} \\
-h_{11} &:= \ r_2 \rightarrow y r_2 y^{-1} \\
-h_{12} &:= \ r_1 \rightarrow x^{-1} r_1 x
+h_1 &= \  r_2 \rightarrow r_2 r_1, & \quad h_5 &= \ r_2 \rightarrow x^{-1} r_2 x, & \quad h_9 &= \ r_2 \rightarrow x r_2 x^{-1}, \\
+h_2 &= \ r_1 \rightarrow r_1 r_2^{-1}, & \quad h_6 &= \ r_1 \rightarrow y^{-1} r_1 y, & \quad h_{10} &= \ r_1 \rightarrow y r_1 y^{-1}, \\
+h_3 &= \ r_2 \rightarrow r_2 r_1^{-1}, & \quad h_7 &= \ r_2 \rightarrow y^{-1} r_2 y, & \quad h_{11} &= \ r_2 \rightarrow y r_2 y^{-1}, \\
+h_4 &= \ r_1 \rightarrow r_1 r_2, & \quad h_8 &= \ r_1 \rightarrow x r_1 x^{-1}, & \quad h_{12} &= \ r_1 \rightarrow x^{-1} r_1 x, \\
 \end{aligned}
 \]
 among which a careful reader can recognize moves (AC$'$1) and (AC$'$2) introduced in \autoref{sec:AC}. Expressed in terms of the moves $h_i$, the desired sequence has length 53 and looks as follows:

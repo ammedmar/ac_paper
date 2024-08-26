@@ -84,7 +84,7 @@ Specifically, suppose $N$ is one of the characteristics of either the algorithm 
 	\end{algorithmic}
 \end{algorithm}
 
-In the context of the AC conjecture, examples of the metric $N$ can be the horizon length or the number of interactions with the environment. As \autoref{fig:scaling_env} illustrates, increasing the number of environment interactions leads to a larger number of non-trivial presentations from the Miller-Schupp series being solved (i.e. AC-trivialized). Moreover, the length of the AC trivialization path also grows for some of the solutions (but not all).
+In the context of the AC conjecture, examples of the metric $N$ can be the horizon length or the number of interactions with the environment. As \autoref{fig:scaling_env} illustrates, increasing the number of environment interactions leads to a larger number of non-trivial presentations from the Miller-Schupp series being solved (i.e. AC-trivialized) by our RL agent. Moreover, the length of the AC trivialization path also grows for some of the solutions (but not all).
 %
 Therefore, in order to implement the program outlined above in the specific context of the AC conjecture, we can focus on the longest AC trivialization paths that the model is able to find at each value of $N$.
 
@@ -103,7 +103,7 @@ Therefore, in order to implement the program outlined above in the specific cont
         \caption{GS-solved}
         \label{fig:solved_path_length_80M}
     \end{subfigure}
-    \caption{Path length distributions for AC presentations solved at $N=8 \times 10^7$ from \textit{all} and \textit{GS-solved} datasets are nearly identical. In both cases, hard instances are shown in red.}
+    \caption{Path length distributions for AC presentations solved by the RL agent at $N=8 \times 10^7$ from \textit{all} and \textit{GS-solved} datasets are nearly identical. In both cases, hard instances are shown in red.}
     \label{fig:path_length_80M}
 \end{figure}
 

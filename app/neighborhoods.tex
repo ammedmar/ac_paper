@@ -1,17 +1,16 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Construction of neighborhoods}\label{s:neighborhoods}
+\section{Neighborhood constructions}\label{s:neighborhoods}
 
-\subsection{Neighborhoods for MS series}
+\subsection{Neighborhoods of the identity}
 
-We define the $n$-neighborhood of a balanced presentation $\pi$ as the set of all balanced presentations that can be obtained by applying at most $n$ AC-moves to $\pi$.
-We used Algorithm \ref{alg:bfs_neigh}, a variation of the Breadth-First Search (BFS) algorithm, to generate $5$-neighborhoods of presentations in the Miller–Schupp series.
-We did this in two settings: in the first, we considered the presentation as a tuple of relators (meaning that the order of relators is important), and in the second, we considered the presentation as a set of relators (meaning that the order of relators is not important; implemented as a tuple of relators in lexicographic order).
-
-\subsection{Neighborhoods of the identity} For any $\ell \in \{3, \dots, 14\}$, we constructed a neighborhood of the identity using the same BFS algorithm. This neighborhood contains all presentations that can be connected to the identity via a path of AC moves, where each presentation in the path has a length less than or equal to $\ell$.
+For any $\ell \in \{3, \dots, 18\}$, we constructed a neighborhood of the identity using an algorithm based on BFS search (\autoref{alg:bfs_1}).
+This neighborhood contains all presentations that can be connected to the identity via a path of AC moves, where each presentation in the path has a length less than or equal to $\ell$, that is, the full based subgraph containing vertices with connectivity less than or equal to $\ell$.
+We consider the relators of a presentations as a set (meaning that the order of relators is not important; implemented as a tuple of relators in lexicographic order) 
 
 \begin{algorithm}
-	\caption{Breadth-First Search Algorithm Bounded by Size}\label{alg:bfs_1}
+	\caption{Breadth-First Search Algorithm Bounded by Size}
+    \label{alg:bfs_1}
 	\begin{algorithmic}[1]
 		\State \textbf{Input:} A balanced presentation $\pi$, maximal size of presentation $n$
 		\State \textbf{Output:} Set of enumerated presentations connected to the starting presentation that are achievable without exceeding the size limit, and set of edges with filtrations
@@ -32,6 +31,12 @@ We did this in two settings: in the first, we considered the presentation as a t
 		\EndWhile
 	\end{algorithmic}
 \end{algorithm}
+
+\subsection{Neighborhoods for MS series}
+
+We define the $n$-neighborhood of a balanced presentation $\pi$ as the set of all balanced presentations that can be obtained by applying at most $n$ AC-moves to $\pi$.
+We used \autoref{alg:bfs_neigh}, a variation of BFS, to generate $5$-neighborhoods of presentations in the Miller--Schupp series. 
+As before, we disregard the order of the relators.
 
 \begin{algorithm}
 	\caption{Breadth-First Search Algorithm Bounded by Number of Steps}\label{alg:bfs_neigh}
