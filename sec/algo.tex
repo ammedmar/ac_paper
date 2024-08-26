@@ -100,34 +100,34 @@ Therefore, in order to implement the program outlined above in the specific cont
     \begin{subfigure}{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{fig/solved_path_length_80M.png}
-        \caption{solved}
+        \caption{GS-solved}
         \label{fig:solved_path_length_80M}
     \end{subfigure}
-    \caption{Path length distributions for AC presentations solved at $N=80$M from \textit{all} and \textit{solved} datasets are nearly identical. In both cases, hard instances are shown in red.}
+    \caption{Path length distributions for AC presentations solved at $N=8 \times 10^7$ from \textit{all} and \textit{GS-solved} datasets are nearly identical. In both cases, hard instances are shown in red.}
     \label{fig:path_length_80M}
 \end{figure}
 
 Collecting this information in the process of training can be used to introduce (and remove) supermoves to the action space in a dynamic fashion. There can be many different implementations of this idea that we plan to explore more fully elsewhere. For example, one can consider selecting all or subset of the longest AC trivialization paths that the model finds at each $N$. Out of those, in each case, one can consider selecting the entire trivialization path or a subset, randomly or non-randomly. Alternatively, one can compare the longest trivialization paths at several (consecutive) values of $N$ and choose subsequences of moves that are shared by several long trivializaion paths at different $N$.
 
-For example, if $N$ denotes the number of interactions with the environment, we did a few preliminary experiments with the dataset of \autoref{sec:rl} and several different seed values. To illustrate the effects of stochastisity, let us consider $N=80$M. The agents with five different seed values were able to solve 354, 337, 330, 328, and 323 presentations, respectively. And their average, $334.4$, is shown in \autoref{fig:scaling_env}. Many of these AC presentations can be solved at the earlier stage, with $N=40$M or less. If in the definition of \textit{hard instances} we require that they are solved by \textit{all} five agents, there are only 5 presentations total. On the other hand, if we require that they are solved by \textit{any} of the 5 agents, the number goes up to 36.
+For example, if $N$ denotes the number of interactions with the environment, we did a few preliminary experiments with the dataset of \autoref{sec:rl} and several different seed values. To illustrate the effects of stochastisity, let us consider $N=8 \times 10^7$. The agents with five different seed values were able to solve 354, 337, 330, 328, and 323 presentations, respectively. And their average, $334.4$, is shown in \autoref{fig:scaling_env}. Many of these AC presentations can be solved at the earlier stage, with $N=4 \times 10^7$ or less. If in the definition of \textit{hard instances} we require that they are solved by \textit{all} five agents, there are only 5 presentations total. On the other hand, if we require that they are solved by \textit{any} of the 5 agents, the number goes up to 36.
 
 \begin{figure}[h]
     \centering
 	\includegraphics[scale=0.6]{fig/anatomy_all.png}
-	\caption{Types of AC moves that appear in trivialization paths of 5 presentations solved by all 5 agents at $N=80$M. The move $\# 2$ occurs disproportionately more frequently. There are 12 different types of basic AC moves described in \autoref{sec:search}.}
+	\caption{Types of AC moves that appear in trivialization paths of 5 presentations solved by all 5 agents at $N=8 \times 10^7$. The move $\# 2$ occurs disproportionately more frequently. There are 12 different types of basic AC moves described in \autoref{sec:search}.}
 	\label{fig:anatomy_all}
 \end{figure}
 
 Moreover, not surprisingly, the 5 presentations solved by all 5 agents have considerably shorter path lengths --- 47, 31, 22, 14, and 13 --- compared to path lengths of the 36 presentations illustrated on the left panel of \autoref{fig:path_length_80M} that go up to $200$. Both 5 presentations solved by all agents and 36 presentations solved by at least one of the agents provide viable options for defining hard instances and, in turn, selecting supermoves. However, they lead to qualitatively different results. For example, all 5 presentations solved by all 5 agents are solved at a smaller value of $N$ when required to be solved by only one of the agents. More importantly, they have very different anatomy, illustrated in \autoref{fig:anatomy_all} and in \autoref{fig:anatomy_some}, respectively.
 %
-By examining the longest trivialization paths of the 36 presentations solved by at least one agent at $N=80$M, we often see long strings of moves $\# 5$ and $\# 11$, interlaced with moves $\# 3$, $\# 7$, and $\# 9$. These are our top candidates for the supermoves to be added at $N=80$M.
+By examining the longest trivialization paths of the 36 presentations solved by at least one agent at $N=8 \times 10^7$, we often see long strings of moves $\# 5$ and $\# 11$, interlaced with moves $\# 3$, $\# 7$, and $\# 9$. These are our top candidates for the supermoves to be added at $N=8 \times 10^7$.
 %
 Note that moves $\# 4$ and $\# 8$ are least common in the examples presented in both \autoref{fig:anatomy_all} and \autoref{fig:anatomy_some}.
 
 \begin{figure}[h]
     \centering
 	\includegraphics[scale=0.6]{fig/anatomy_some.png}
-	\caption{Types of AC moves in the 5 longest trivialization paths --- of length 200, 190, 189, 184, and 179 --- found by at least one agent at $N=80$M. The most frequent moves are $\# 5$, $\# 7$, $\# 9$, and $\# 11$. There are 12 different types of basic AC moves described in \autoref{sec:search}.}
+	\caption{Types of AC moves in the 5 longest trivialization paths --- of length 200, 190, 189, 184, and 179 --- found by at least one agent at $N=8 \times 10^7$. The most frequent moves are $\# 5$, $\# 7$, $\# 9$, and $\# 11$. There are 12 different types of basic AC moves described in \autoref{sec:search}.}
 	\label{fig:anatomy_some}
 \end{figure}
 
@@ -135,7 +135,7 @@ As in other parts of this paper, we performed the analysis on two datasets of si
 \[
 \angles{x, y \mid x^{-1} y^2 x y^{-3} =1 \,, \; x^{-2} y^{-1} x y^{-4} =1 }
 \]
-that an RL agent was able to solve at $N=40$M with 62 moves in one case and at $N=80$M with 200 moves in the other case. Despite considerable variance, in both cases successful AC paths are dominated by the move $\# 11$, interlaced with moves $\# 3$, $\# 5$, $\# 7$, and $\# 9$ according to patterns described above (cf. \autoref{fig:anatomy200}). This can serve as evidence for robustness of the supermove selection process proposed here.
+that an RL agent was able to solve at $N=4 \times 10^7$ with 62 moves in one case and at $N=8 \times 10^7$ with 200 moves in the other case. Despite considerable variance, in both cases successful AC paths are dominated by the move $\# 11$, interlaced with moves $\# 3$, $\# 5$, $\# 7$, and $\# 9$ according to patterns described above (cf. \autoref{fig:anatomy200}). This can serve as evidence for robustness of the supermove selection process proposed here.
 
 \begin{figure}[h]
     \centering
