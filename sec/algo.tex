@@ -28,7 +28,7 @@ Not following these empirical rules, e.g. introducing too few supermoves initial
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.35]{fig/scaling_env.pdf}
-	\caption{Number of AC presentations solved by our PPO agent as a function of the number of environment interactions. Here, \textit{solved} (or, \textit{GS-solved}) refers to a subset of the Miller-Schupp dataset of \autoref{sec:search} that was solved by the greedy search algorithm.}
+	\caption{Number of AC presentations solved by our PPO agent as a function of the number of training steps. Here, \textit{GS-solved} refers to a subset of the Miller-Schupp dataset of \autoref{sec:search} that was solved by the greedy search algorithm.}
 	\label{fig:scaling_env}
 \end{figure}
 
@@ -40,7 +40,7 @@ While supermoves clearly need to be a part of the solution in hard problems like
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.35]{fig/env_vs_horizon.pdf}
-	\caption{To maintain consistent performance, increasing the horizon length requires a roughly linear increase in the number of environment interactions.}
+	\caption{To maintain consistent performance, increasing the horizon length requires a roughly linear increase in the number of training steps (environment interactions).}
 	\label{fig:env_vs_horizon}
 \end{figure}
 
@@ -114,7 +114,7 @@ For example, if $N$ denotes the number of interactions with the environment, we 
 \begin{figure}[h]
     \centering
 	\includegraphics[scale=0.6]{fig/anatomy_all.png}
-	\caption{Types of AC moves that appear in trivialization paths of 5 presentations solved by all 5 agents at $N=80$M. The move $\# 2$ occurs disproportionately more frequently. There are 12 different types of moves in total.}
+	\caption{Types of AC moves that appear in trivialization paths of 5 presentations solved by all 5 agents at $N=80$M. The move $\# 2$ occurs disproportionately more frequently. There are 12 different types of basic AC moves described in \autoref{sec:search}.}
 	\label{fig:anatomy_all}
 \end{figure}
 
@@ -127,7 +127,7 @@ Note that moves $\# 4$ and $\# 8$ are least common in the examples presented in 
 \begin{figure}[h]
     \centering
 	\includegraphics[scale=0.6]{fig/anatomy_some.png}
-	\caption{Types of AC moves in the 5 longest trivialization paths --- of length 200, 190, 189, 184, and 179 --- found by at least one agent at $N=80$M. The most frequent moves are $\# 5$, $\# 7$, $\# 9$, and $\# 11$. There are 12 different types of moves in total.}
+	\caption{Types of AC moves in the 5 longest trivialization paths --- of length 200, 190, 189, 184, and 179 --- found by at least one agent at $N=80$M. The most frequent moves are $\# 5$, $\# 7$, $\# 9$, and $\# 11$. There are 12 different types of basic AC moves described in \autoref{sec:search}.}
 	\label{fig:anatomy_some}
 \end{figure}
 
