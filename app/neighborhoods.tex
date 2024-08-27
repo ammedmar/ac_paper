@@ -10,7 +10,7 @@ We consider the relators of a presentations as a set (meaning that the order of 
 
 \begin{algorithm}
 	\caption{Breadth-First Search Algorithm Bounded by Size}
-    \label{alg:bfs_1}
+	\label{alg:bfs_1}
 	\begin{algorithmic}[1]
 		\State \textbf{Input:} A balanced presentation $\pi$, maximal size of presentation $n$
 		\State \textbf{Output:} Set of enumerated presentations connected to the starting presentation that are achievable without exceeding the size limit, and set of edges with filtrations
@@ -51,7 +51,7 @@ As before, we disregard the order of the relators.
 		\State $child \gets m(u)$
 		\If{$dist[u] < n$ and $child$ is not in $visited$}
 		\State Put $child$ in $Q$ and mark it as visited
-		\State Set $dist[child] := dist[u] + 1$
+		\State Set $dist[child] = dist[u] + 1$
 		\EndIf
 		\EndFor
 		\EndWhile

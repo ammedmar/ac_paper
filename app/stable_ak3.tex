@@ -24,7 +24,7 @@ To the best of our knowledge, prior to this work, the shortest potential counter
 \begin{theorem*}[Myasnikov, Myasnikov, and Shpilrain, \cite{MMS}]\label{theorem:MMS}
 	Using the notation $[a, b] = a b a^{-1} b^{-1}$ and $[a, b, c] = [[a, b], c]$, any presentation of the following form is a presentation of the trivial group:
 	\[
-	\langle x, y, z \mid x = z \cdot [y^{-1}, x^{-1}, z], y = x \cdot [y^{-1}, x^{-1}, z^{-1}] \cdot [z^{-1}, x], w \rangle,
+	\langle x, y, z \mid x = z \cdot [y^{-1}, x^{-1}, z],\ y = x \cdot [y^{-1}, x^{-1}, z^{-1}] \cdot [z^{-1}, x],\ w \rangle,
 	\]
 	where $w$ is a word in $x$, $y$, and $z$ whose exponent sum on $x$, $y$, and $z$ equals $\pm 1$. Moreover, all such presentations are stably AC-trivial.
 \end{theorem*}
@@ -41,7 +41,7 @@ For $w = x^{-1}yz$, one of the relators eliminates the generator $z$, resulting 
 	%}
 \[
 \angles{ x, y \mid
-	x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y,
+	x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y, \
 	y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x }.
 \]
 We discovered a sequence of AC transformations (AC1)--(AC5) that relates this presentation to $\AK(3)$.
@@ -55,25 +55,9 @@ We repeated the search process with breadth-first search with a cutoff of 5 mill
 It failed to reduce the presentation length any further.
 
 The sequence of moves that connects the length-25 presentation to $\AK(3)$ can be conveniently expressed in terms of the following 12 transformations:
-% \[
-% \begin{aligned}
-% h_1 &:= \  r_2 \rightarrow r_2 r_1 \\
-% h_2 &:= \ r_1 \rightarrow r_1 r_2^{-1} \\
-% h_3 &:= \ r_2 \rightarrow r_2 r_1^{-1} \\
-% h_4 &:= \ r_1 \rightarrow r_1 r_2 \\
-% h_5 &:= \ r_2 \rightarrow x^{-1} r_2 x \\
-% h_6 &:= \ r_1 \rightarrow y^{-1} r_1 y \\
-% h_7 &:= \ r_2 \rightarrow y^{-1} r_2 y \\
-% h_8 &:= \ r_1 \rightarrow x r_1 x^{-1} \\
-% h_9 &:= \ r_2 \rightarrow x r_2 x^{-1} \\
-% h_{10} &:= \ r_1 \rightarrow y r_1 y^{-1} \\
-% h_{11} &:= \ r_2 \rightarrow y r_2 y^{-1} \\
-% h_{12} &:= \ r_1 \rightarrow x^{-1} r_1 x
-% \end{aligned}
-% \]
 \[
 \begin{aligned}
-h_1 &= \  r_2 \rightarrow r_2 r_1, & \quad h_5 &= \ r_2 \rightarrow x^{-1} r_2 x, & \quad h_9 &= \ r_2 \rightarrow x r_2 x^{-1}, \\
+h_1 &= \ r_2 \rightarrow r_2 r_1, & \quad h_5 &= \ r_2 \rightarrow x^{-1} r_2 x, & \quad h_9 &= \ r_2 \rightarrow x r_2 x^{-1}, \\
 h_2 &= \ r_1 \rightarrow r_1 r_2^{-1}, & \quad h_6 &= \ r_1 \rightarrow y^{-1} r_1 y, & \quad h_{10} &= \ r_1 \rightarrow y r_1 y^{-1}, \\
 h_3 &= \ r_2 \rightarrow r_2 r_1^{-1}, & \quad h_7 &= \ r_2 \rightarrow y^{-1} r_2 y, & \quad h_{11} &= \ r_2 \rightarrow y r_2 y^{-1}, \\
 h_4 &= \ r_1 \rightarrow r_1 r_2, & \quad h_8 &= \ r_1 \rightarrow x r_1 x^{-1}, & \quad h_{12} &= \ r_1 \rightarrow x^{-1} r_1 x, \\
@@ -95,7 +79,7 @@ This sequence should be read from left to right; first apply $h_9$, then $h_7$, 
  %(12, 16), (7, 16), (7, 16), (9, 16), (11, 16), (5, 16), (3, 15), (5, 15), (4, 19), (3, 14), (12, 14), \\
  %(5, 14), (7, 16), (7, 18), (1, 19), (9, 19), (11, 19), (8, 19), (3, 18), (5, 18), (10, 18), (2, 15), (6, 15), \\
  %(12, 15), (9, 15), (7, 15), (5, 15), (11, 15), (10, 15), (3, 15), (8, 15), (11, 15), (9, 15), (2, 16),\\
-  %(10, 16), (12, 16), (5, 16), (7, 16), (9, 16), (11, 16), (1, 13), (9, 13), (8, 13)]
+ %(10, 16), (12, 16), (5, 16), (7, 16), (9, 16), (11, 16), (1, 13), (9, 13), (8, 13)]
 %\end{array}
 %\]
 

@@ -27,7 +27,7 @@ The probability is computed by applying the softmax function to the logits $T(t)
 The softmax function, $\softmax \colon \mathbb{R}^n \to (0, 1)^{n}$, is defined as $\softmax(x)_i = e^{x_i} / \sum\limits_{j=1}^n e^{x_j}$.}
 First, assign to each token in the vocabulary a distinct label in the range $1, 2, \dots, n_{\text{vocab}}$; re-writing the original sequence as a sequence of integers.
 We will label these integers also as $t_i$.
-Next, write the sequence in terms of ``one-hot encoded vectors", i.e. a matrix $t  \in \R^{N \times n_{\text{vocab}}}$ such that
+Next, write the sequence in terms of ``one-hot encoded vectors", i.e. a matrix $t \in \R^{N \times n_{\text{vocab}}}$ such that
 \[
 t_{ij} = \delta_{i t_i}
 \]
@@ -54,20 +54,20 @@ Each $x_j$ is an element of $\mathbb{R^{N \times \dm}}$, with the interpretation
 Finally, one applies an ``unembedding layer", $W_U \in \mathbb{R}^{n_{\text{vocab}} \times \dm}$, to convert the output of the final layer to an $n_{\text{vocab}}$-dimensional vector of logits that estimate the sought-after probability distribution.
 \[
 \begin{aligned}
-	T(t) &= W_U x_{2L-1} \\
-	p(t) &=\softmax (T(t))
+	T(t) &= W_U x_{2L-1}, \\
+	p(t) &=\softmax (T(t)).
 \end{aligned}
 \]
 
 The functions $\LN$, $m$ and $h$ are defined as follows.
-$\LN$ is the LayerNorm operation that normalizes the input of each layer to make the optimization process more stable \cite{ba2016layer}.
+$\LN$ is the LayerNorm operation that normalizes the input of each layer to make the optimization process more stable~(\cite{ba2016layer}):
 \[
-\LN(x) = \left(\mathbb{1} \otimes \text{diag}(\gamma) \right) \frac{(x-\overline{x})}{\sqrt{\text{var}(x)}} + \mathbb{1} \otimes \beta
+\LN(x) = \left(\mathbb{1} \otimes \text{diag}(\gamma) \right) \frac{(x-\overline{x})}{\sqrt{\text{var}(x)}} + \mathbb{1} \otimes \beta\,.
 \]
 Here, $\overline{x}$ and $\text{var}(x)$ are mean and variance of each row of $x$, and $\gamma, \beta \in \mathbb{R}^{\dm}$ are learnable parameters.
 The MLP-layer $m$ is a non-linear operation,
 \[
-m(x) =W^m_O \ \text{max}(W_I^m x, 0)
+m(x) =W ^m_O \ \max(W_I^m x, 0)
 \]
 with learnable parameters $W^m_I \in \mathbb{R}^{d_{\text{MLP}} \times \dm}$, $W^m_O \in \mathbb{R}^{\dm \times d_{\text{MLP}}}$.
 It is standard to set $d_{\text{MLP}} = 4 \dm$.
@@ -141,11 +141,11 @@ To this end, we devised an algorithm (\autoref{alg:apply_ac_moves} in \autoref{a
 
 A randomly initialized model with the initialization scheme given in \cite{Radford2019LanguageMA} has a cross entropy loss of
 %$- \ln \left(\frac{1}{n_{\text{vocab}}} \right) \approx - 1.7918$,
-$-\ln (1/n_{\text{vocab}}) \approx  1.7918$.
+$-\ln (1/n_{\text{vocab}}) \approx 1.7918$.
 With training, we could achieve a validation loss of $0.7337$.\footnote{
 We tuned the hyperparameters a little but it is quite likely that one can achieve a better performing model with more hyperparameter tuning.
 Similarly, more training data will necessarily help with the performance.
-We trained a Transformer model with hyperparameters given in  \autoref{app:hyperparameters}.}
+We trained a Transformer model with hyperparameters given in \autoref{app:hyperparameters}.}
 We used the untrained and the trained model to get the embeddings of all $1190$ presentations of the Miller--Schupp series with $n \leq 7$ and $\length(w) \leq 7$.
 We used t-SNE to project these embedding vectors to a plane \cite{JMLR:v9:vandermaaten08a}.
 The plots are shown in grid in \autoref{fig:tsne_embeddings}.

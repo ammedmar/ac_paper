@@ -7,35 +7,35 @@ This appendix describes the method, \autoref{alg:apply_ac_moves}, used to genera
 We repeated this for all 1190 presentations in the Miller--Schupp series, ultimately producing approximately 1.8 million balanced presentations. The length distribution of these presentations is detailed in \autoref{fig:gpt_data}.
 
 \begin{algorithm}
-    \caption{Transformer Dataset Generation}
-    \label{alg:apply_ac_moves}
-    \begin{algorithmic}[1]
-        \State \textbf{Input:}
-     	\begin{itemize}
-	\item[]     $P_0$  --- an initial presentation with $l$ as the length of the longest relator
-          \item[]   $n$  --- number of phases
-           \item[]  $m$  --- number of presentations in each phase
-           \item[]  $N$  --- number of AC$'$ moves to apply in each phase
-         \item[]    $l_{\text{max}}$  --- upper bound on presentation lengths in the dataset
-          \end{itemize}
-         \State \textbf{Output:}
-         \begin{itemize}
-         \item[]         Dataset (the final collection of presentations)
-         \end{itemize}
-        \State Dataset $\gets \emptyset$ \Comment{Initialize the dataset of all presentations}
-        \State $l_{\text{inc}} \gets (l_{\text{max}} - l) / n$ \Comment{Increment for the maximum relator length per phase}
-        \For{$i = 0$ \textbf{to} $n-1$} \Comment{Loop over each phase}
-            \For{$j = 1$ \textbf{to} $m$} \Comment{Generate $m$ presentations for each phase}
-                \State $l_i \sim \mathcal{U}(l + i \cdot l_{\text{inc}}, l + (i+1) \cdot l_{\text{inc}})$
-                \Comment{Sample maximum relator length}
-		\State $P \gets (i = 1) \ ? \ P_0 \ : \ \text{Dataset}[(i-1) \cdot m + j - 1]$
-                \For{$k = 1$ \textbf{to} $N$} \Comment{Apply $N$ AC$'$ moves with relator length $l_i$}
-                    \State $A \sim \text{AC}' \text{ Moves}$
-                    \State $P \gets A \cdot P$
-                \EndFor
-                \State Dataset $\gets$ Dataset $\cup \{P\}$
-                \Comment{Add the presentation $P$ to the Dataset}
-            \EndFor
-        \EndFor
-    \end{algorithmic}
+	\caption{Transformer Dataset Generation}
+	\label{alg:apply_ac_moves}
+	\begin{algorithmic}[1]
+		\State \textbf{Input:}
+		\begin{itemize}
+			\item[] $P_0$ -- an initial presentation with $l$ as the length of the longest relator
+			\item[] $n$ -- number of phases
+			\item[] $m$ -- number of presentations in each phase
+			\item[] $N$ -- number of AC$'$ moves to apply in each phase
+			\item[] $l_{\text{max}}$ -- upper bound on presentation lengths in the dataset
+		\end{itemize}
+		\State\textbf{Output:}
+		\begin{itemize}
+			\item[] Dataset (the final collection of presentations)
+		\end{itemize}
+		\State Dataset $\gets \emptyset$ \Comment{Initialize the dataset of all presentations}
+		\State $l_{\text{inc}} \gets (l_{\text{max}} - l) / n$ \Comment{Increment for the maximum relator length per phase}
+		\For{$i = 0$ \textbf{to} $n-1$} \Comment{Loop over each phase}
+			\For{$j = 1$ \textbf{to} $m$} \Comment{Generate $m$ presentations for each phase}
+			\State $l_i \sim \mathcal{U}(l + i \cdot l_{\text{inc}}, l + (i+1) \cdot l_{\text{inc}})$
+			\Comment{Sample maximum relator length}
+			\State $P \gets (i = 1) \ ? \ P_0 \ : \ \text{Dataset}[(i-1) \cdot m + j - 1]$
+			\For{$k = 1$ \textbf{to} $N$} \Comment{Apply $N$ AC$'$ moves with relator length $l_i$}
+				\State $A \sim \text{AC}' \text{ Moves}$
+				\State $P \gets A \cdot P$
+			\EndFor
+			\State Dataset $\gets$ Dataset $\cup \{P\}$
+			\Comment{Add the presentation $P$ to the Dataset}
+			\EndFor
+		\EndFor
+	\end{algorithmic}
 \end{algorithm}

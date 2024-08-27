@@ -4,17 +4,17 @@
 \input{aux/usualcmds}
 
 %%%%%%%%%%%%%%%%%%%%%%
-\input{aux/packages}                   % add packages here
-\input{aux/commands}                   % add commands here
-\addbibresource{aux/bibliography.bib}  % add references here
+\input{aux/packages} % add packages here
+\input{aux/commands} % add commands here
+\addbibresource{aux/bibliography.bib} % add references here
 
 %%%%%%%%%%%%%%%%%%%%%%
-\title[What makes math problems hard for RL]{What makes math problems hard for reinforcement learning agents: a case study}
+\title[What makes math problems hard for RL]{What makes math problems hard for reinforcement learning: a case study}
 \input{sec/authors}
 
 \date{\today}
 \subjclass[2020]{68T09, 62R07, 55N31, 62R40}
-\keywords{reinforcement learning, large language models, topological data analysis, t-SNE, automated reasoning}
+\keywords{reinforcement learning, large language models, topological data analysis, automated reasoning, search algorithms}
 
 \begin{document}
 	\input{sec/abstract}
@@ -27,42 +27,12 @@
 	\input{sec/reinforcement}
 	\input{sec/algo}
 	\input{sec/barcodes}
-    \input{sec/embeddings}
+	\input{sec/embeddings}
 	\appendix
 	\input{app/hyperparameters}
-	\input{app/algorithm}
 	\input{app/neighborhoods}
-    \input{sec/funding}
+	\input{app/algorithm}
+	\input{sec/funding}
 	\sloppy
 	\printbibliography
 \end{document}
-
-% Outline:
-% 1. Andrews--Curtis conjecture
-% 2. Reinforcement Learning
-% 3. Progress and current challenges
-% 4.
-
-% Successes:
-% 1. We are able to find the shortest sequence of AC moves that trivializes AK(2) with maximum length = 7.
-
-% Main troubles:
-
-% 1. Say we have solved AK(2) for maximum length = 7 (which we have). We want to solve it again after setting maximum length = 20. Now we have to do hyperparameter search again, and there is no guarantee that we will find a good set of hyperparameters in the same range that we used while conducting hyperparamter search for (AK(2), 7). This is a time consuming and resource intensive process with possibly requiring thousands of experiments to be run.
-
-% Possible solutions:
-% a). Based on the hyperparameters for the best run of (AK(2), 7), there is a (possibly clever) set of hyperparameters for which (AK(2), 20) will be near optimal.
-% b). So far, I have only used random search. Maybe using a more sophisticated search approach will cut down time. I think Ray Tune has some sophisticated search algorithms that 'stop bad runs early, save intermediate results, restart from previous trials, or pause and resume runs'.
-% b). Use maximum update parameterization.
-
-% 2. Policy gradient algorithms can learn to do better if they solve the problem in the first place. With very large maximum length such as
-
-% Possible directions:
-% 1. In addition to AK(3) (which has been focus of our work so far), try running experiments for presentations of the other family (the one that's parameterized by w). We have a list of these presentations up to maximum length=20,
-
-% Some ideas to try if our current approach does not work out:
-% 1.
-
-% Some mathematical ideas to try if our current approach does not work out:
-
-% 1. It might be useful to try using Whitehead

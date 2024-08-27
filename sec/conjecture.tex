@@ -60,7 +60,7 @@ Here, $n \ge 1$ is a positive integer and $w$ is a word in $x$ and $y$ with zero
 For $w_\star = y^{-1} x^{-1} y x y$, the presentations $\MS(n, w_\star)$ are AC-equivalent to the presentations from Akbulut--Kirby series \cite{MMS}.
 In particular, the presentation
 \[
-\MS(n, w) = \angles{x, y \mid x^{-1} y^3 x = y^{4}, x =  y^{-1} x^{-1} y x y}.
+\MS(n, w) = \angles{x, y \mid x^{-1} y^3 x = y^{4}, x = y^{-1} x^{-1} y x y}.
 \]
 of length 15 is AC-equivalent to $\AK(3)$.
 
@@ -82,7 +82,7 @@ For two generators, which is the only case we study in this paper, the group gen
 The difference lies in how the inversion of a relator is handled: we always follow an inversion by a concatenation, while the original AC moves allow for standalone inversion moves.
 The original inversion moves may be retrieved from the new generators as follows.
 For a given presentation $\angles{x_1, x_2 \mid r_1, r_2}$, the sequence of moves: $r_2 \to r_2 r_1$, $r_1 \to r_1 r_2^{-1}$, $r_2 \to r_2 r_1$, and $r_2 \to r_1 r_2 r_1^{-1}$ results in the presentation $\angles{x_1, x_2 \mid r_2^{-1}, r_1}$, which is the same as $r_2 \to r_2^{-1}$ up to swapping the two relators.
-We also enhanced the notion of trivial presentation(s) to include all presentations of length 2: $\{\angles{x_1, x_2 \mid x_i^{a}, x_j^{b}}  \mid i, j = 1, 2; a, b = \pm 1; i \neq j \}$.
+We also enhanced the notion of trivial presentation(s) to include all presentations of length 2: $\{\angles{x_1, x_2 \mid x_i^{a}, x_j^{b}} \mid i, j = 1, 2; a, b = \pm 1; i \neq j \}$.
 }
 The reason for this change is due to its effect on performance in greedy search and reinforcement learning algorithms studied in \autoref{sec:search} and \autoref{sec:rl}.
 Specifically, the length of a presentation provides a useful signal when searching through the space of presentations with these algorithms.

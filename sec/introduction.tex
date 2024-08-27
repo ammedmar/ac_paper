@@ -2,7 +2,7 @@
 
 \section{Introduction\label{sec:intro}}
 
-We live in an extraordinary era where artificial intelligence (AI) is transforming numerous sectors and professions. Recent advancements in Large Language Models (LLMs) have empowered AI to read, write, and converse with a proficiency comparable to that of human experts. In the realm of board games, AI has outperformed even the most skilled human players. As AI continues to evolve, one critical question remains: How wide is the range of domains in which AI systems can reason as effectively as humans?
+We live in an extraordinary era where artificial intelligence (AI) is transforming numerous sectors and professions. Recent advancements in Large Language Models (LLMs) have empowered AI to read, write, and converse with a proficiency comparable to that of human experts. In the realm of board games, AI has outperformed even the most skilled human players, and it has tackled complex scientific challenges like protein folding, where steady progress was suddenly overtaken by a near-complete solution. As AI continues to evolve, one critical question remains: How wide is the range of domains in which AI systems can reason as effectively as humans?
 
 Mathematics appears to be a natural progression on the path toward Artificial General Intelligence (AGI) due to its universal syntactic and logical structure, similar to that of natural language. Additionally, mathematics provides a framework for the quantitative evaluation of logical and analytical reasoning, making it an ideal domain for self-improving AI systems on the path to AGI. In a moment, we will explain another reason why mathematics could play a crucial role in AGI development, but first, we need to introduce one more key element: reinforcement learning (RL).
 
@@ -25,10 +25,10 @@ We should emphasize that this entire project was carried out using relatively mo
 While our primary focus is on exploring the distribution of hardness with an eye toward algorithm development, we also resolve a particularly intriguing open case that has eluded direct mathematical approaches for decades:
 
 \begin{theorem}\label{thm:stableAK3}
-    The following potential counterexample introduced by Akbulut and Kirby \cite{Akbulut--Kirby} is stably AC-trivial:
-    \[
-    \AK(3) = \angles{x, y \mid x^3 = y^{4}, xyx = yxy}.
-    \]
+	The following potential counterexample introduced by Akbulut and Kirby \cite{Akbulut--Kirby} is stably AC-trivial:
+	\[
+	\AK(3) = \angles{x, y \mid x^3 = y^{4}, xyx = yxy}.
+	\]
 \end{theorem}
 
 \medskip\noindent
@@ -38,11 +38,8 @@ The rest of the paper is organized as follows. In \autoref{sec:AC}, we provide a
 \medskip\noindent
 We encourage the reader to explore the accompanying GitHub repository:
 \begin{center}
-\href{https://github.com/shehper/AC-Solver}{https://github.com/shehper/AC-Solver}
+	\href{https://github.com/shehper/AC-Solver}{https://github.com/shehper/AC-Solver}
 \end{center}
-
-%\textcolor{blue}{\href{https://github.com/shehper/AC-Solver}{GitHub repository: https://github.com/shehper/AC-Solver}}
-
 
 \begin{figure}
 	\centering
@@ -57,8 +54,6 @@ We encourage the reader to explore the accompanying GitHub repository:
 		\caption{Distribution versus length}
 		\label{fig:performance_vs_length}
 	\end{subfigure}
-	\caption{A comparison of three algorithms --- breadth-first search, greedy search, and Proximal Policy Optimization (PPO) --- that we used to search through the space of balanced presentations. The number of presentations of the Miller--Schupp series, $\MS(n, w)$, solved by an algorithm is given on the vertical axis. We compare the performance as a function of $n$ (above) and the length of the presentation (below). Greedy Search consistently outperforms Breadth-First Search and Proximal Policy Optimization.}
+	\caption{A comparison of three algorithms ---breadth-first search, greedy search, and Proximal Policy Optimization (PPO)--- that we used to search through the space of balanced presentations. The number of presentations of the Miller--Schupp series, $\MS(n, w)$, solved by an algorithm is given on the vertical axis. We compare the performance as a function of $n$ (above) and the length of the presentation (below). Greedy Search consistently outperforms Breadth-First Search and Proximal Policy Optimization.}
 	\label{fig:performance}
 \end{figure}
-
-%We compare the performance of Greedy Search (GS), Breadth First Search and Proximal Policy Optimization on the presentations of Miller--Schupp series with $n, \ \length(w) \leq 7$ in \autoref{fig:performance}.
