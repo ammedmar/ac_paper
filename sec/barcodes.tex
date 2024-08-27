@@ -60,21 +60,23 @@ Let us denote by $ic(\ell)_k$ the number of isolated components with isolation v
 	Specifically, its binding of the \texttt{SimplexTree} data structure introduced in \cite{boissonnat2014simplex} and implemented in \texttt{GUDHI} \cite{maria2014gudhi}.}
 
 \begin{figure}
-	\begin{tabular}{|c|c|c|c|c|}
+	\begin{tabular}{|c|c|c|c|c|c|}
 		\hline
-		$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ \\ \hline
-		3 & 36 & 72 & 0 & 0 \\ \hline
-		4 & 100 & 248 & 0 & 0 \\ \hline
-		5 & 388 & 1072 & 0 & 0 \\ \hline
-		6 & 884 & 2376 & 0 & 0 \\ \hline
-		7 & 3892 & 10775 & 0 & 0 \\ \hline
-		8 & 9172 & 25675 & 0 & 0 \\ \hline
-		9 & 37428 & 106513 & 0 & 0 \\ \hline
-		10 & 84996 & 239733 & 0 & 0 \\ \hline
-		11 & 350356 & 1002439 & 4 & 0 \\ \hline
-		12 & 791140 & 2251375 & 16 & 0 \\ \hline
-		13 & 3238052 & 9321629 & 72 & 4 \\ \hline
-		14 & 7199908 & 20573343 & 144 & 4 \\ \hline
+		$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ & $ic(\ell,3)$ \\ \hline
+		3 & 36 & 72 & 0 & 0 & 0 \\ \hline
+		4 & 100 & 248 & 0 & 0 & 0 \\ \hline
+		5 & 388 & 1072 & 0 & 0 & 0 \\ \hline
+		6 & 884 & 2376 & 0 & 0 & 0 \\ \hline
+		7 & 3892 & 10775 & 0 & 0 & 0 \\ \hline
+		8 & 9172 & 25675 & 0 & 0 & 0 \\ \hline
+		9 & 37428 & 106513 & 0 & 0 & 0 \\ \hline
+		10 & 84996 & 239733 & 0 & 0 & 0 \\ \hline
+		11 & 350356 & 1002439 & 4 & 0 & 0 \\ \hline
+		12 & 791140 & 2251375 & 16 & 0 & 0 \\ \hline
+		13 & 3238052 & 9321629 & 72 & 4 & 0 \\ \hline
+		14 & 7199908 & 20573343 & 144 & 4 & 0 \\ \hline
+        15 & ? & ? & ? & ? & ? \\ \hline
+        16 & 64623652 & 185162236 & 1034 & 88 & 20 \\ \hline
 	\end{tabular}
 	\caption{Classical AC moves}
 	\label{fig:classical_persistence}
@@ -97,7 +99,8 @@ Let us denote by $ic(\ell)_k$ the number of isolated components with isolation v
 		13 & 3238052 & 6107112 & 243 & 16 & 0 \\ \hline
 		14 & 7199908 & 13414744 & 483 & 16 & 0 \\ \hline
         15 & 29243812 & 55306744 & 1819 & 136 & 32 \\ \hline
-\end{tabular}
+        16 & 64623652 & 120824232 & 3923 & 208 & 80 \\ \hline
+    \end{tabular}
 	\caption{Prime AC moves}
 	\label{fig:prime_persistence}
 \end{figure}
