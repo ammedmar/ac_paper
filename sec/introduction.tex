@@ -35,6 +35,15 @@ While our primary focus is on exploring the distribution of hardness with an eye
 The proof of this theorem is presented in \autoref{sec:stable_ak3}.
 The rest of the paper is organized as follows. In \autoref{sec:AC}, we provide an overview of the Andrews--Curtis conjecture, describing the specific version studied in this work. We then apply classical search algorithms to examples in the Miller--Schupp series in \autoref{sec:search}, where we devise a greedy search algorithm that significantly outperforms the widely used breadth-first search algorithm. In \autoref{sec:rl}, we employ reinforcement learning, specifically implementing the Proximal Policy Optimization (PPO) algorithm \cite{schulman2017proximal}, and find that while it performs better than breadth-first search, it does not surpass the greedy search algorithm (see \autoref{fig:performance}). Building on these insights, \autoref{sec:algo} presents several ideas for algorithm development, proposing strategies to mitigate the overwhelming complexity faced by an RL agent in challenging problems. In \autoref{sec:isolated}, we employ topological methods to assess the complexity of presentations. Specifically, we utilize persistent homology to define the \textit{isolation value} of a presentation. This value is infinite for counterexamples to the AC conjecture and serves as a measure of a presentation's resistance to being trivialized. Finally, in \autoref{sec:lm}, we examine the linguistic structure of balanced presentations using a decoder-only Transformer model, observing distinct clusters within the embedding space corresponding to presentations solved and unsolved by the greedy search algorithm.
 
+\medskip\noindent
+We encourage the reader to explore the accompanying GitHub repository:
+\begin{center}
+\href{https://github.com/shehper/AC-Solver}{https://github.com/shehper/AC-Solver}
+\end{center}
+
+%\textcolor{blue}{\href{https://github.com/shehper/AC-Solver}{GitHub repository: https://github.com/shehper/AC-Solver}}
+
+
 \begin{figure}
 	\centering
 	\begin{subfigure}[b]{0.5\textwidth}
