@@ -24,7 +24,7 @@ For more details, see \cite{vaswani2023attention, elhage2021mathematical, dougla
 
 Given an input sequence $t_1, t_2, \dots, t_{N}$, a decoder-only transformer predicts the probability distribution $p(t \mid t_1, t_2, \dots, t_{N})$ over the set $V$ of tokens of size $n_{\text{vocab}}$.
 The probability is computed by applying the softmax function to the logits $T(t)$, which are estimated by applying the following sequence of operations.\footnote{
-The softmax function, $\softmax \colon \mathbb{R}^n \to (0, 1)^{n}$, is defined as $\softmax(x)_i = e^{x_i} / \sum\limits_{j=1}^n e^{x_j}$.}
+The softmax function, $\softmax \colon \R^n \to (0, 1)^{n}$, is defined as $\softmax(x)_i = e^{x_i} / \sum\limits_{j=1}^n e^{x_j}$.}
 First, assign to each token in the vocabulary a distinct label in the range $1, 2, \dots, n_{\text{vocab}}$; re-writing the original sequence as a sequence of integers.
 We will label these integers also as $t_i$.
 Next, write the sequence in terms of ``one-hot encoded vectors", i.e. a matrix $t \in \R^{N \times n_{\text{vocab}}}$ such that
@@ -50,8 +50,8 @@ For $i=0, \dots, L-1$,
 	x_{2i + 2} &= x_{2i + 1} + m(\LN(x_{2i + 1})).
 \end{aligned}
 \]
-Each $x_j$ is an element of $\mathbb{R^{N \times \dm}}$, with the interpretation that its $i$-th row is the embedding of the sequence $t_1, \dots, t_i$ in the embedding space $\mathbb{R}^{\dm}$ as learned by the preceeding $j+1$ operations.
-Finally, one applies an ``unembedding layer", $W_U \in \mathbb{R}^{n_{\text{vocab}} \times \dm}$, to convert the output of the final layer to an $n_{\text{vocab}}$-dimensional vector of logits that estimate the sought-after probability distribution.
+Each $x_j$ is an element of $\mathbb{R^{N \times \dm}}$, with the interpretation that its $i$-th row is the embedding of the sequence $t_1, \dots, t_i$ in the embedding space $\R^{\dm}$ as learned by the preceeding $j+1$ operations.
+Finally, one applies an ``unembedding layer", $W_U \in \R^{n_{\text{vocab}} \times \dm}$, to convert the output of the final layer to an $n_{\text{vocab}}$-dimensional vector of logits that estimate the sought-after probability distribution.
 \[
 \begin{aligned}
 	T(t) &= W_U x_{2L-1}, \\
@@ -64,12 +64,12 @@ $\LN$ is the LayerNorm operation that normalizes the input of each layer to make
 \[
 \LN(x) = \left(\mathbb{1} \otimes \text{diag}(\gamma) \right) \frac{(x-\overline{x})}{\sqrt{\text{var}(x)}} + \mathbb{1} \otimes \beta\,.
 \]
-Here, $\overline{x}$ and $\text{var}(x)$ are mean and variance of each row of $x$, and $\gamma, \beta \in \mathbb{R}^{\dm}$ are learnable parameters.
+Here, $\overline{x}$ and $\text{var}(x)$ are mean and variance of each row of $x$, and $\gamma, \beta \in \R^{\dm}$ are learnable parameters.
 The MLP-layer $m$ is a non-linear operation,
 \[
 m(x) =W ^m_O \ \max(W_I^m x, 0)
 \]
-with learnable parameters $W^m_I \in \mathbb{R}^{d_{\text{MLP}} \times \dm}$, $W^m_O \in \mathbb{R}^{\dm \times d_{\text{MLP}}}$.
+with learnable parameters $W^m_I \in \R^{d_{\text{MLP}} \times \dm}$, $W^m_O \in \R^{\dm \times d_{\text{MLP}}}$.
 It is standard to set $d_{\text{MLP}} = 4 \dm$.
 
 Finally, the multi-headed attention-layer $\sum_{h \in H} h$ is a sum of $n_{\text{heads}}$ ``attention-head" operations $h$, where
@@ -104,7 +104,7 @@ Two semantically similar texts have higher cosine similarity between them, while
 
 We now discuss the training and validation datasets used to train and evaluate our Transformer model.
 As our main interest in this paper has been in the presentations of the Miller--Schupp series, we generated a dataset of balanced presentations that are AC-equivalent to the Miller--Schupp presentations.
-Specifically, we apply sequences of AC moves to the 1190 presentations with $n \leq 7$ and $\length(w) \leq 7$ discussed in \autoref{sec:AC}, creating a dataset of about 1.8 million presentations.
+Specifically, we apply sequences of AC-moves to the 1190 presentations with $n \leq 7$ and $\length(w) \leq 7$ discussed in \autoref{sec:AC}, creating a dataset of about 1.8 million presentations.
 Approximately 1 million of these presentations are AC-equivalent to the presentations that remained unsolved by greedy search (c.f. \autoref{sec:search}).
 Only a small amount (roughly 15 percent) of the original Miller--Schupp presentations were part of this dataset.
 
@@ -114,7 +114,7 @@ As our goal is to get insights into properties that distinguish GS-solved and GS
 We plot the percentage of appearance of each token for these subsets in \autoref{fig:tokens_hist}.
 The ratio of frequency of $y^{\pm 1}$ to the frequency of $x^{\pm 1}$ is higher in the GS-unsolved dataset.
 This is likely because the GS-unsolved presentations have larger $n$, and larger $n$ corresponds to a higher number of occurrence of $y^{\pm 1}$ in the Miller--Schupp presentation.
-Interestingly, this effect remains in the dataset even after applying thousands of AC moves to the original presentations.
+Interestingly, this effect remains in the dataset even after applying thousands of AC-moves to the original presentations.
 
 We paid special attention to ensure that our dataset contains presentations of a wide range of lengths so as not to bias our model towards learning trends specific to any fixed length.
 To this end, we devised an algorithm (\autoref{alg:apply_ac_moves} in \autoref{app:algorithm}) that creates an almost uniform distribution over the lengths of the presentations.
@@ -167,7 +167,7 @@ Instead, it contained presentations that are AC-equivalent to the Miller--Schupp
 Our observation that a Transformer model trained on this dataset can distinguish between the GS-solved and GS-unsolved presentations indicates that:
 \begin{enumerate}[label=\alph*)]
 	\item There likely exists an invariant at the level of the ``language`` of the balanced presentations that distinguishes GS-solved vs GS-unsolved presentations.
-	\item This invariant survives application of thousands of AC moves we used to generate the training examples in our dataset.
+	\item This invariant survives application of thousands of AC-moves we used to generate the training examples in our dataset.
 \end{enumerate}
 
 \begin{figure}

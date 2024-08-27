@@ -5,7 +5,7 @@
 \subsection{Neighborhoods of the identity}
 
 For any $\ell \in \{3, \dots, 16\}$, we constructed a neighborhood of the identity using an algorithm based on BFS search (\autoref{alg:bfs_1}).
-This neighborhood contains all presentations that can be connected to the identity via a path of AC moves, where each presentation in the path has a length less than or equal to $\ell$, that is, the full based subgraph containing vertices with connectivity value less than or equal to $\ell$.
+This neighborhood contains all presentations that can be connected to the identity via a path of AC-moves, where each presentation in the path has a length less than or equal to $\ell$, that is, the full based subgraph containing vertices with connectivity value less than or equal to $\ell$.
 We consider the relators of a presentations as a set (meaning that the order of relators is not important; implemented as a tuple of relators in lexicographic order) 
 
 \begin{algorithm}
@@ -18,7 +18,7 @@ We consider the relators of a presentations as a set (meaning that the order of 
 		\State Mark $\pi$ as visited, put it into queue $Q$, and assign it the number $0$
 		\While{$Q$ is not empty}
 		\State $u \gets $ top of $Q$ \Comment{Remove the front node of $Q$}
-		\For{every AC move $m$}
+		\For{every AC-move $m$}
 		\State $child \gets m(u)$
 		\If{$child$'s size $\leq n$ and $child$ is not visited}
 		\State Put $child$ in $Q$ and mark it as visited
@@ -47,7 +47,7 @@ As before, we disregard the order of the relators.
 		\State Mark $\pi$ as visited, put it into queue $Q$, and set its distance to $0$
 		\While{$Q$ is not empty}
 		\State $u \gets $ top of $Q$ \Comment{Remove the front node of $Q$}
-		\For{every AC move $m$}
+		\For{every AC-move $m$}
 		\State $child \gets m(u)$
 		\If{$dist[u] < n$ and $child$ is not in $visited$}
 		\State Put $child$ in $Q$ and mark it as visited

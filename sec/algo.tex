@@ -10,7 +10,7 @@ In automated reasoning or search problems where the minimal length solution has 
 
 In the context of the AC conjecture, a good example of such supermoves are the ``elementary M-transformations'' \cite{BurnsI, BurnsII}. These transformations trivialize $\AK(2)$ in just two steps, even though this presentation is known to admit the shortest AC trivialization path of length 14. A downside of elementary M-transformations, though, is that they are infinite in number, which complicates their application in classical search techniques.
 
-In our study, we explored the idea of identifying AC supermoves by selecting some frequently occurring subsequences of AC moves in the paths discovered by Proximal Policy Optimization (PPO). By extending the action space $A$ of the Markov Decision Process (MDP) with these subsequences and checking whether this enhanced action space helps our agent discover shorter paths of trivialization, we learned a few useful lessons:
+In our study, we explored the idea of identifying AC supermoves by selecting some frequently occurring subsequences of AC-moves in the paths discovered by Proximal Policy Optimization (PPO). By extending the action space $A$ of the Markov Decision Process (MDP) with these subsequences and checking whether this enhanced action space helps our agent discover shorter paths of trivialization, we learned a few useful lessons:
 
 \begin{itemize}
 	
@@ -112,7 +112,7 @@ For example, if $N$ denotes the number of interactions with the environment, we 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{fig/anatomy_all.png}
-	\caption{Types of AC moves that appear in trivialization paths of 5 presentations solved by all 5 agents at $N=8 \times 10^7$. The move $\# 2$ occurs disproportionately more frequently. There are 12 different types of basic AC moves described in \autoref{sec:search}.}
+	\caption{Types of AC-moves that appear in trivialization paths of 5 presentations solved by all 5 agents at $N=8 \times 10^7$. The move $\# 2$ occurs disproportionately more frequently. There are 12 different types of basic AC-moves described in \autoref{sec:search}.}
 	\label{fig:anatomy_all}
 \end{figure}
 
@@ -123,7 +123,7 @@ Note that moves $\# 4$ and $\# 8$ are least common in the examples presented in 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{fig/anatomy_some.png}
-	\caption{Types of AC moves in the 5 longest trivialization paths (of length 200, 190, 189, 184, and 179) found by at least one agent at $N=8 \times 10^7$. The most frequent moves are $\# 5$, $\# 7$, $\# 9$, and $\# 11$. There are 12 different types of basic AC moves described in \autoref{sec:search}.}
+	\caption{Types of AC-moves in the 5 longest trivialization paths (of length 200, 190, 189, 184, and 179) found by at least one agent at $N=8 \times 10^7$. The most frequent moves are $\# 5$, $\# 7$, $\# 9$, and $\# 11$. There are 12 different types of basic AC-moves described in \autoref{sec:search}.}
 	\label{fig:anatomy_some}
 \end{figure}
 

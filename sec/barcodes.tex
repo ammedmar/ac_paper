@@ -5,8 +5,8 @@
 \subsection{Isolated components}
 
 In \autoref{ss:greedy_search}, we explored a greedy approach to finding AC-trivializations of a presentation \(\pi\).
-Specifically, the goal was to construct a sequence of presentations \((\pi_0, \dots, \pi)\), where \(\pi_0\) is the trivial presentation, such that each consecutive pair in the sequence is related by an AC move.
-Furthermore, at each step \(k\), the presentation \(\pi_k\) was chosen to have the shortest possible length among all presentations connected to \(\pi_{k+1}\) via an AC move.
+Specifically, the goal was to construct a sequence of presentations \((\pi_0, \dots, \pi)\), where \(\pi_0\) is the trivial presentation, such that each consecutive pair in the sequence is related by an AC-move.
+Furthermore, at each step \(k\), the presentation \(\pi_k\) was chosen to have the shortest possible length among all presentations connected to \(\pi_{k+1}\) via an AC-move.
 In general, the length of a presentation in an AC-trivialization tends to exceed the length of the original presentation being trivialized.
 The minimum increase in length across all possible AC-trivializations serves as an invariant of the presentation.
 We will explore this invariant using concepts from persistent homology.
@@ -25,7 +25,7 @@ of based subgraphs of $\Gamma$ for which each vertex and edge of $\Gamma$ is in 
 We refer to $\Gamma$ as a \textit{filtered based graph}.
 If each $\Gamma_n$ is full in $\Gamma$ we refer to the filtration as full and notice that full filtrations are equivalent to $\N$ valued functions from the set of vertices of $\Gamma$ sending $v_0$ to $0$.
 
-Let $\Gamma^{\text{AC(k)}}$ be the graph whose vertices are $k$-balanced presentations, based at the trivial presentation, having an edge between two vertices if there is an AC move between them.
+Let $\Gamma^{\text{AC(k)}}$ be the graph whose vertices are $k$-balanced presentations, based at the trivial presentation, having an edge between two vertices if there is an AC-move between them.
 Additionally, $\Gamma^{\text{AC(k)}}$ is equipped with a full filtration obtained from the function sending a vertex to the length of its presentation minus $k$.
 
 %\subsubsection{Isolation values and isolated components}
@@ -56,7 +56,7 @@ Explicitly, \(\Gamma^\ell\) includes all vertices that can be connected to the t
 
 We will denote by $v(\ell)$ and $e(\ell)$ the number of vertices and edges of $\Gamma^\ell$.
 Let us denote by $ic(\ell)_k$ the number of isolated components with isolation value $k$.
-\autoref{fig:classical_persistence} summarize our results for the classic AC moves whereas \autoref{fig:prime_persistence} does so for their prime version.\footnote{For this task we used \texttt{giotto-TDA} version 5.1 \cite{tauzin2021giotto}.
+\autoref{fig:classical_persistence} summarize our results for the classic AC-moves whereas \autoref{fig:prime_persistence} does so for their prime version.\footnote{For this task we used \texttt{giotto-TDA} version 5.1 \cite{tauzin2021giotto}.
 	Specifically, its binding of the \texttt{SimplexTree} data structure introduced in \cite{boissonnat2014simplex} and implemented in \texttt{GUDHI} \cite{maria2014gudhi}.}
 
 \begin{figure}
@@ -78,7 +78,7 @@ Let us denote by $ic(\ell)_k$ the number of isolated components with isolation v
 		15 & ? & ? & ? & ? & ? \\ \hline
 		16 & 64623652 & 185162236 & 1034 & 88 & 20 \\ \hline
 	\end{tabular}
-	\caption{Classical AC moves}
+	\caption{Classical AC-moves}
 	\label{fig:classical_persistence}
 \end{figure}
 
@@ -101,7 +101,7 @@ Let us denote by $ic(\ell)_k$ the number of isolated components with isolation v
 		15 & 29243812 & 55306744 & 1819 & 136 & 32 \\ \hline
 		16 & 64623652 & 120824232 & 3923 & 208 & 80 \\ \hline
 	\end{tabular}
-	\caption{Prime AC moves}
+	\caption{Prime AC-moves}
 	\label{fig:prime_persistence}
 \end{figure}
 
@@ -130,7 +130,7 @@ Let us denote by $ic(\ell)_k$ the number of isolated components with isolation v
 Let us return to our data set of 1190 presentations in the Miller–Schupp series for \(n \leq 7\) and \(\length(w) \leq 7\).
 Using the methods described in \autoref{sec:ppo}, we trained a PPO agent that successfully solved 417 of these presentations. We will refer to the set of these 417 presentations as PPO-solved and the remaining 773 presentations as PPO-unsolved.
 Our goal is to analyze the relationship between these labels and the sizes of their respective AC neighborhoods.
-A presentation is considered to be in the \(k\)-step neighborhood of another if they can be connected by applying at most \(k\) AC moves.
+A presentation is considered to be in the \(k\)-step neighborhood of another if they can be connected by applying at most \(k\) AC-moves.
 
 \subsubsection{Experimental results}
 
