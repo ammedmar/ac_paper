@@ -25,21 +25,21 @@ We should emphasize that this entire project was carried out using relatively mo
 While our primary focus is on exploring the distribution of hardness with an eye toward algorithm development, we also resolve a number of particularly interesting open cases that has eluded direct mathematical approaches for decades. Below we provide a few explicit examples.
 
 \begin{theorem}\label{thm:MS}
-The following potential counterexamples introduced by Miller and Schupp \cite{Miller--Schupp} are AC-trivial:
-\begin{equation}
-\angles{x, y \mid x^{-1} y^3 x y^{-4} , \ x^{-1} y^{-1} x^{-1} y^{-1} x y^{-3} }
-\end{equation}
-\begin{equation}
-\angles{x, y \mid x^{-1} y^4 x y^{-5} , \ x^{-1} y x y^{-1} x^{-1} y^{-3} }
-\end{equation}
+	The following potential counterexamples introduced by Miller and Schupp \cite{Miller--Schupp} are AC-trivial:
+	\begin{equation}
+		\angles{x, y \mid x^{-1} y^3 x y^{-4} , \ x^{-1} y^{-1} x^{-1} y^{-1} x y^{-3} }
+	\end{equation}
+	\begin{equation}
+		\angles{x, y \mid x^{-1} y^4 x y^{-5} , \ x^{-1} y x y^{-1} x^{-1} y^{-3} }
+	\end{equation}
 \end{theorem}
 
 \medskip\noindent
 In addition, motivated by the work \cite{MMS}, where it was argued that the following length 25 presentation
 \begin{equation}\label{eq:MMS3}
-\angles{ x, y \mid
-	x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y, \
-	y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x }
+	\angles{ x, y \mid
+		x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y, \
+		y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x }
 \end{equation}
 is part of a family of stably AC-trivial presentations, we established its equivalence to another prominent presentation introduced by Akbulut and Kirby \cite{Akbulut--Kirby}.
 
@@ -51,9 +51,9 @@ is part of a family of stably AC-trivial presentations, we established its equiv
 \end{theorem}
 
 \medskip\noindent
-The initial preprint of this paper stimulated significant developments. In particular, a subtle misprint that escaped the notice of referees was found in \cite{MMS} more than 20 years since its publication, making \eqref{eq:MMS3} {\it not} stably AC-trivial. The original result, establishing equivalence to $AK(3)$ in theorem \ref{thm:stableAK3} is still correct. And we hope that the status of $AK(3)$ will be resolved in the near future with the help of the methods introduced in this paper.
-%
 The proofs of theorems \ref{thm:MS} and \ref{thm:stableAK3} are presented in \autoref{sec:RLsolutions}.
+
+The initial preprint of this paper spurred significant developments. In particular, a subtle misprint that went unnoticed by referees was identified in \cite{MMS} more than 20 years after its publication, rendering \eqref{eq:MMS3} \textit{not} stably AC-trivial. However, our original result establishing its equivalence to $AK(3)$ in Theorem \ref{thm:stableAK3} remains correct. We are optimistic that the status of $AK(3)$ will be resolved in the near future through the methods introduced in this paper.
 
 The rest of the paper is organized as follows. In \autoref{sec:AC}, we provide an overview of the Andrews--Curtis conjecture, describing the specific version studied in this work. We then apply classical search algorithms to examples in the Miller--Schupp series in \autoref{sec:search}, where we devise a greedy search algorithm that significantly outperforms the widely used breadth-first search algorithm. In \autoref{sec:rl}, we employ reinforcement learning, specifically implementing the Proximal Policy Optimization (PPO) algorithm \cite{schulman2017proximal}, and find that while it performs better than breadth-first search, it does not surpass the greedy search algorithm (see \autoref{fig:performance}). Building on these insights, \autoref{sec:algo} presents several ideas for algorithm development, proposing strategies to mitigate the overwhelming complexity faced by an RL agent in challenging problems. In \autoref{sec:isolated}, we employ topological methods to assess the complexity of presentations. Specifically, we utilize persistent homology to define the \textit{isolation value} of a presentation. This value is infinite for counterexamples to the AC conjecture and serves as a measure of a presentation's resistance to being trivialized. Finally, in \autoref{sec:lm}, we examine the linguistic structure of balanced presentations using a decoder-only Transformer model, observing distinct clusters within the embedding space corresponding to presentations solved and unsolved by the greedy search algorithm.
 
