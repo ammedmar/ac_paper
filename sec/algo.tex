@@ -4,6 +4,14 @@ In previous sections we explained from a variety of different perspectives that 
 
 If solving a mathematical problem required finding a path of length $L$, say with $L=10^6$, an RL agent would be pretty much out of luck under circumstances of a typical hard search problem, where the number of successful paths is exponentially suppressed by $L$. The good news is that in mathematics ---and in many other domains--- such hard search problems never come in isolation. Rather, there is a distribution of problems such that generic instances are ``easy'' and a small fraction is ``hard.'' Learning this distribution for smaller values of $L$ contains the crucial information for solving new cases at the next increment of $L$.
 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[trim={0.0in 2.0in 0.0in 1.5in},clip,width=4.0in]{fig/hardnesscurves.pdf}
+	\caption{Depending on the problem, the distribution of new hard instances that are found at each iteration of the model upgrades can vary. This distribution, in turn, determines the update schedule of the action space. The action space of the upgrade $N+1$ is determined by the new hard instances found at the stage $N$ and earlier.}
+	\label{fig:hardnesscurves}
+\end{figure}
+
+
 \subsection{Supermoves}
 
 In automated reasoning or search problems where the minimal length solution has a theoretical lower bound that by far exceeds computational capabilities, it is clear that direct approach with fixed size steps is not going to succeed, unless the problem is easy and a large fraction of long paths meets the desired criteria. In order to reach extraordinary path lengths, one must allow progressively longer sequences of elementary moves to be added to the action space. Although this general strategy seems unavoidable in problems like the AC conjecture, it leads to many practical questions. For example, what should be the selection criteria for such ``supermoves''? And, how often should they be added to the action space?

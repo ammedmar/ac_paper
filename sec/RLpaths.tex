@@ -1,0 +1,14 @@
+\subsection{Proofs of Theorems \ref{thm:MS} and \ref{thm:stableAK3}}
+\label{sec:RLsolutions}
+
+The goal of this section is to give explicit descriptions of sequences of AC moves found by our RL agent that establish AC-trivializaitons and AC-equivalences in theorems \ref{thm:MS} and \ref{thm:stableAK3}, respectively.
+
+First, we should emphasize one general aspect that is relevant to any RL-assisted research in mathematics: While RL models are stochastic and their performance depends on many aspects discussed in this section and also in section \ref{sec:algo} --- the choice of algorithm, data representation, and architecture --- the solution, once it is found, is completely deterministic and rigorous. In other words, solving hard research level math problems with RL is similar to solving Sudoku puzzles: finding a solution may be extremely hard, but verifying it is very easy and fast (can be done in polynomial time).
+
+Therefore, while in the early part of this section we focused on {\it how} to find solutions, here our goal is to describe rigorous solutions (sequences of AC moves) found by the RL agent.
+%
+For the two presentations in theorems \ref{thm:MS}, the AC paths found by the agent had lengths $205$ and $1085$, respectively. The total initial length of the first presentation is $17$, and along the AC path it was increased to $29$ before the agent connected it to the trivial final state. Similarly, the initial length of the second presentation is $19$, and along the AC path it was increased to $30$ before the agent trivialized it.
+
+Starting with the AC-paths found by the RL agent, we were able to simplify them to reduce the lengths of the AC paths to $195$ and $381$ moves, respectively.
+
+The length of the AC path that the agent found for the problem in theorem \ref{thm:stableAK3} is $1,546$. Note that, with $12$ basic moves, the search space of such magnitude has $12^{1546} \sim 10^{1668}$ states, which is much larger than googol ($10^{100}$).
