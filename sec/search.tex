@@ -147,7 +147,7 @@ In the remainder of this paper, we will refer to the presentations from the Mill
 	\caption{Distribution of lengths of AC-trivialization paths learned by greedy search as a function of maximum increase in presentation length (left) and $n$ (right).} \label{fig:gs_path_length}
 \end{figure}
 
-\subsection{Limitations}
+\subsection{Limitations and extensions}
 
 While the greedy search algorithm performs better than the breadth-first search, it has some of the same limitations.
 Namely, it is memory inefficient, and we cannot leverage the parallelizability of modern hardware architectures.
@@ -156,5 +156,4 @@ It also does not learn a general algorithm that would find an AC trivialization 
 Reinforcement learning algorithms, particularly policy gradient algorithms, present a promising alternative that avoids these downsides.
 These algorithms are memory efficient and can be trained in a highly distributed manner, which we will focus on in the next section.
 
-% subsection
-\input{app/stable_ak3}
+Another interesting direction to pursue involves changing the sorting function used by greedy search. Consider the family of greedy search algorithms where the priority queue is sorted by a fixed function $f: (r_1, r_2) \to \mathbb{R}$ which takes a presentation and output a real number\footnote{We can also reinterpret breadth-first search in this manner if we given as input to $f$ the path length $l$ and have the function just return $l$. From this framing it becomes clear that, whenever breadth-first search succeeds, it find a path of minimal length.}. The greedy search algorithm used here is precisely the one coming from the function $f(r_1, r_2) \to |r_1| + |r_2|$. An interesting option would be to use machine learning to try and learn a good function $f$. This approach is similar to the approach which has achieved impressive results in board games with large state spaces such as Chess and Go.
