@@ -1,40 +1,35 @@
 \subsection{Proofs of Theorems \ref{thm:MS} and \ref{thm:stableAK3}}\label{sec:RLsolutions}
 
-The goal of this section is to give explicit descriptions of sequences of AC moves found by our RL agent that establish AC-trivializaitons and AC-equivalences in Theorems \ref{thm:MS} and \ref{thm:stableAK3}, respectively.
+The goal of this section is to provide explicit descriptions of the sequences of AC moves identified by our RL agent, which establish the AC-trivializations and AC-equivalences in Theorems \ref{thm:MS} and \ref{thm:stableAK3}, respectively.
 
-First, we should emphasize one general aspect that is relevant to any RL-assisted research in mathematics: While RL models are stochastic and their performance depends on many aspects discussed in this section and also in \autoref{sec:algo} --- the choice of algorithm, data representation, and architecture --- the solution, once it is found, is completely deterministic and rigorous.
-In other words, solving hard research level math problems with RL is similar to solving Sudoku puzzles: finding a solution may be extremely hard, but verifying it is very easy and fast (can be done in polynomial time).
+First, it is important to highlight a general aspect relevant to any RL-assisted research in mathematics: While RL models are inherently stochastic, with their performance influenced by several factors discussed here and in \autoref{sec:algo}---including algorithm choice, data representation, and architecture---the solution, once identified, is fully deterministic and rigorous. In other words, using RL to solve complex mathematical problems is similar to solving Sudoku puzzles: finding a solution can be highly challenging, but verifying its correctness is straightforward and fast (verifiable in polynomial time).
 
-Therefore, while in the early part of this section we focused on {\it how} to find solutions, here our goal is to describe rigorous solutions (sequences of AC moves) found by the RL agent.
-%
-For the two presentations in theorems \ref{thm:MS}, the AC paths found by the agent had lengths $205$ and $1085$, respectively. The total initial length of the first presentation is $17$, and along the AC path it was increased to $29$ before the agent connected it to the trivial final state. Similarly, the initial length of the second presentation is $19$, and along the AC path it was increased to $30$ before the agent trivialized it.
+Thus, while the earlier part of this section focused on the process of finding solutions, our goal here is to present rigorous solutions (sequences of AC moves) as discovered by the RL agent.
 
-Starting with the AC-paths found by the RL agent, we were able to simplify them to reduce the lengths of the AC paths to $195$ and $381$ moves, respectively.
+For the two presentations in Theorems \ref{thm:MS}, the AC paths identified by the agent had lengths of $205$ and $1085$, respectively. In the first presentation, the initial sequence length was $17$, which increased to $29$ along the AC path before the agent reached the trivial final state. Similarly, in the second presentation, the initial length was $19$, which increased to $30$ before the agent completed the trivialization.
 
+Starting with these AC paths, we further simplified them, ultimately reducing their lengths to $195$ and $381$ moves, respectively.
 
-The lebgth 195 path:
+The length 195 path:
 \[
 \begin{aligned}
-& h_{2} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{4} \\ &
-h_{0} \cdot h_{6} \cdot h_{2} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{4} \\ &
-h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \\ &
-h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \\ &
-h_{6} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{2} \cdot h_{8} \\ &
-h_{6} \cdot h_{6} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{1} \cdot h_{7} \cdot h_{5} \cdot h_{5} \cdot h_{5} \cdot h_{11} \cdot h_{9} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{2} \\ &
-h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{2} \\ &
-h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{10} \cdot h_{8} \cdot h_{6} \cdot h_{2} \cdot h_{8} \cdot h_{6} \\ &
-h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \\ &
-h_{8} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{0} \\ &
-h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{1} \cdot h_{7} \cdot h_{5} \cdot h_{11} \cdot h_{9} \cdot h_{3} \cdot h_{11} \cdot h_{9} \cdot h_{11} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{3} \cdot h_{11}.
+	& h_{2} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{4} \\ &
+	h_{0} \cdot h_{6} \cdot h_{2} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{4} \\ &
+	h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \\ &
+	h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \\ &
+	h_{6} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{2} \cdot h_{8} \\ &
+	h_{6} \cdot h_{6} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{1} \cdot h_{7} \cdot h_{5} \cdot h_{5} \cdot h_{5} \cdot h_{11} \cdot h_{9} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{2} \\ &
+	h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{2} \\ &
+	h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{10} \cdot h_{8} \cdot h_{6} \cdot h_{2} \cdot h_{8} \cdot h_{6} \\ &
+	h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \\ &
+	h_{8} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{0} \\ &
+	h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{1} \cdot h_{7} \cdot h_{5} \cdot h_{11} \cdot h_{9} \cdot h_{3} \cdot h_{11} \cdot h_{9} \cdot h_{11} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{3} \cdot h_{11}.
 \end{aligned}
 \]
 
+The length 381 path is presented in \autoref{app:RLpath}.
 
-
-The length 381 path is in \autoref{app:RLpath}.
-
-
-The length of the AC path that the agent found for the problem in theorem \ref{thm:stableAK3} is $1,546$ and is available at
+The length of the AC path that the agent found for \autoref{thm:stableAK3} is $1,546$ and it is available at
 \begin{center}
 	\href{https://github.com/shehper/AC-Solver/RLpath1546.txt}{https://github.com/shehper/AC-Solver/RLpath1546.txt}
 \end{center}

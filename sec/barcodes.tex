@@ -1,7 +1,79 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Isolated components and neighborhood sizes}\label{sec:isolated}
-\anibal{Maybe present nbhds first and then isolated components. Also, maybe this is after language section, and stable AC section will follow. This will provide a gradient of mathematical sophistication to the paper.}
+\section{Neighborhood sizes and isolated components}\label{sec:isolated}
+
+\subsection{Neighborhoods}
+
+Let us return to our data set of 1190 presentations in the Miller–Schupp series for \(n \leq 7\) and \(\length(w) \leq 7\).
+Using the methods described in \autoref{sec:ppo}, we trained a PPO agent that successfully solved 417 of these presentations.
+We will refer to the set of these 417 presentations as PPO-solved and the remaining 773 presentations as PPO-unsolved.
+Our goal is to analyze the relationship between these labels and the sizes of their respective AC neighborhoods.
+A presentation is considered to be in the \(k\)-step neighborhood of another if they can be connected by applying at most \(k\) AC-moves.
+
+\subsubsection{Experimental results}
+
+There are 131 distinct neighborhood sizes in our data.
+Their basic statistics are
+\[
+\begin{tabular}{cccccc}
+	\toprule
+	\textbf{Min} & \textbf{Max} & \textbf{Mean} & \textbf{Median} \\
+	\midrule
+	72,964 & 89,872 & 89,532 & 89,859 \\
+	\bottomrule
+\end{tabular}
+\]
+A more detailed description of the frequency of values is presented in \autoref{fig:prime_combined_pie}.
+
+\begin{figure}
+	\includegraphics[scale=.4]{fig/prime_combined_pie_rl_cropped.pdf}
+	\caption{Sizes of the 5-step neighborhood of all considered presentations in the Miller–Schupp series. We group neighborhood sizes whose representation is below 2.5\%.}
+	\label{fig:prime_combined_pie}
+\end{figure}
+
+The largest neighborhood size accounts for nearly a third of all considered presentations.
+However, it represents only 2.4\% of PPO-solved presentations, while constituting almost half (48.3\%) of the PPO-unsolved presentations.
+For more details, please refer to \autoref{fig:prime_pies}.
+
+In contrast, using BFS, these proportions are 7.1\% and 52.5\%, respectively.
+
+Another notable feature visible in \autoref{fig:prime_pies} is that just three neighborhood sizes account for over three-quarters of all PPO-unsolved presentations.
+When considering six neighborhood sizes, this proportion rises to 96.9\%.
+In fact, only twelve neighborhood sizes are present among PPO-unsolved presentations, whereas all 131 sizes appear among PPO-solved presentations.
+The most common neighborhood size for PPO-solved presentations is 89,560, representing only 17.3\% of them.
+Moreover, 54.2\% of all PPO-solved presentations have a neighborhood size shared by less than 2.5\% of other PPO-solved presentations.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=.35]{fig/prime_solved_pie_rl_cropped.pdf}
+	\
+	\includegraphics[scale=.35]{fig/prime_unsolved_pie_rl_cropped.pdf}
+	\caption{Pie charts for the neighborhood size of PPO-solved and PPO-unsolved presentations. We grouped sizes with representation below 2.5\%.}
+	\label{fig:prime_pies}
+\end{figure}
+
+As we observed, having a maximal neighborhood size provides significant insight into whether a presentation is labeled as PPO-solved or PPO-unsolved.
+Additionally, the minimum neighborhood size among PPO-unsolved presentations—89,573—is also quite telling, as 54\% of PPO-solved presentations have neighborhood sizes smaller than this value.
+This percentage can be further improved by considering that the neighborhood sizes of PPO-unsolved presentations are concentrated within three specific bands.
+Please refer to \autoref{fig:prime_histogram} for more details.
+We find that 64.3\% of PPO-solved presentations fall outside the three bands \([89,575, 89,575]\), \([89,715, 89,831]\), and \([89,844, 89,872]\), which together contain over 99\% of PPO-unsolved presentations.
+By narrowing the last band to \([89,859, 89,872]\), these three bands now encompass the neighborhood sizes of over 90\% of PPO-unsolved presentations, while their complement includes 77.2\% of PPO-solved presentations.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=.34]{fig/prime_histogram_rl.pdf}
+	\includegraphics[scale=.34]{fig/prime_histogram_rl2.pdf}
+	\caption{Histograms with 6 and 26 bins respectively of the neighborhood sizes of the 417 PPO-solved and 773 PPO-unsolved presentations.}
+	\label{fig:prime_histogram}
+\end{figure}
+
+\medskip
+
+One might expect that enhancing the discriminatory power of \(n\)-neighborhoods could be achieved by incorporating features beyond their size.
+We explored two additional types of features, but surprisingly, they only marginally improved the accuracy of PPO-solved/unsolved predictions.
+The first type was based on node centrality, while the second focused on spectral features of the neighborhood graphs.
+The latter was particularly intriguing, given the emphasis on Markov processes and the well-known relationship between random walks on graphs and the graph Laplacian.
+
 
 \subsection{Isolated components}
 
@@ -162,75 +234,3 @@ In \autoref{fig:ak_classic_persistence} and \autoref{fig:ak_prime_persistence} w
 %	13 & 3115928 & 8478633 & 32 & 21 & 2 \\ \hline
 %\end{tabular}
 %\]
-
-\subsection{Neighborhoods}
-
-Let us return to our data set of 1190 presentations in the Miller–Schupp series for \(n \leq 7\) and \(\length(w) \leq 7\).
-Using the methods described in \autoref{sec:ppo}, we trained a PPO agent that successfully solved 417 of these presentations. We will refer to the set of these 417 presentations as PPO-solved and the remaining 773 presentations as PPO-unsolved.
-Our goal is to analyze the relationship between these labels and the sizes of their respective AC neighborhoods.
-A presentation is considered to be in the \(k\)-step neighborhood of another if they can be connected by applying at most \(k\) AC-moves.
-
-\subsubsection{Experimental results}
-
-There are 131 distinct neighborhood sizes in our data.
-Their basic statistics are
-\[
-\begin{tabular}{cccccc}
-	\toprule
-	\textbf{Min} & \textbf{Max} & \textbf{Mean} & \textbf{Median} \\
-	\midrule
-	72,964 & 89,872 & 89,532 & 89,859 \\
-	\bottomrule
-\end{tabular}
-\]
-A more detailed description of the frequency of values is presented in \autoref{fig:prime_combined_pie}.
-
-\begin{figure}
-	\includegraphics[scale=.4]{fig/prime_combined_pie_rl_cropped.pdf}
-	\caption{Sizes of the 5-step neighborhood of all considered presentations in the Miller–Schupp series. We group neighborhood sizes whose representation is below 2.5\%.}
-	\label{fig:prime_combined_pie}
-\end{figure}
-
-The largest neighborhood size accounts for nearly a third of all considered presentations.
-However, it represents only 2.4\% of PPO-solved presentations, while constituting almost half (48.3\%) of the PPO-unsolved presentations.
-For more details, please refer to \autoref{fig:prime_pies}.
-
-In contrast, using BFS, these proportions are 7.1\% and 52.5\%, respectively.
-
-Another notable feature visible in \autoref{fig:prime_pies} is that just three neighborhood sizes account for over three-quarters of all PPO-unsolved presentations.
-When considering six neighborhood sizes, this proportion rises to 96.9\%.
-In fact, only twelve neighborhood sizes are present among PPO-unsolved presentations, whereas all 131 sizes appear among PPO-solved presentations.
-The most common neighborhood size for PPO-solved presentations is 89,560, representing only 17.3\% of them.
-Moreover, 54.2\% of all PPO-solved presentations have a neighborhood size shared by less than 2.5\% of other PPO-solved presentations.
-
-\begin{figure}
-	\centering
-	\includegraphics[scale=.35]{fig/prime_solved_pie_rl_cropped.pdf}
-	\
-	\includegraphics[scale=.35]{fig/prime_unsolved_pie_rl_cropped.pdf}
-	\caption{Pie charts for the neighborhood size of PPO-solved and PPO-unsolved presentations. We grouped sizes with representation below 2.5\%.}
-	\label{fig:prime_pies}
-\end{figure}
-
-As we observed, having a maximal neighborhood size provides significant insight into whether a presentation is labeled as PPO-solved or PPO-unsolved.
-Additionally, the minimum neighborhood size among PPO-unsolved presentations—89,573—is also quite telling, as 54\% of PPO-solved presentations have neighborhood sizes smaller than this value.
-This percentage can be further improved by considering that the neighborhood sizes of PPO-unsolved presentations are concentrated within three specific bands.
-Please refer to \autoref{fig:prime_histogram} for more details.
-We find that 64.3\% of PPO-solved presentations fall outside the three bands \([89,575, 89,575]\), \([89,715, 89,831]\), and \([89,844, 89,872]\), which together contain over 99\% of PPO-unsolved presentations.
-By narrowing the last band to \([89,859, 89,872]\), these three bands now encompass the neighborhood sizes of over 90\% of PPO-unsolved presentations, while their complement includes 77.2\% of PPO-solved presentations.
-
-
-\begin{figure}
-	\centering
-	\includegraphics[scale=.34]{fig/prime_histogram_rl.pdf}
-	\includegraphics[scale=.34]{fig/prime_histogram_rl2.pdf}
-	\caption{Histograms with 6 and 26 bins respectively of the neighborhood sizes of the 417 PPO-solved and 773 PPO-unsolved presentations.}
-	\label{fig:prime_histogram}
-\end{figure}
-
-\medskip
-
-One might expect that enhancing the discriminatory power of \(n\)-neighborhoods could be achieved by incorporating features beyond their size.
-We explored two additional types of features, but surprisingly, they only marginally improved the accuracy of PPO-solved/unsolved predictions.
-The first type was based on node centrality, while the second focused on spectral features of the neighborhood graphs.
-The latter was particularly intriguing, given the emphasis on Markov processes and the well-known relationship between random walks on graphs and the graph Laplacian.
