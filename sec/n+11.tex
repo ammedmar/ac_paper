@@ -1,19 +1,18 @@
+% !TEX root = ../ac_paper.tex
+
 \subsection{Length reduction for $\AK(n)$}
 
-Using the greedy search algorithm, we found a reduction of $\AK(5)$ to length 16, using [resources, a sequence total relator length maxxes out at 25]. 
+Using the greedy search algorithm, we found a reduction of $\AK(5)$ to length 16, using [resources, a sequence total relator length maxxes out at 25].
 It was previously unknown whether any length reduction was possible for any of the presentations in the $\AK(n)$ sequence for $n \geq 3$.
 
 By examining this reduction, we show that it can be generalized to show that $\AK(n)$, which has total relator length $2n+7$, is AC-equivalent to a presentation of length $n+11$, which is a reduction in length for every $n \geq 5$.
-Explicitly, we will prove the following.
+Explicitly, we will prove \autoref{t:n+11} stating that $\AK(n)$ is AC-equivalent to the presentation
+\[
+\langle x,y \mid xyx=yx^{n-1}y, y^2x=xyx^{-1}y \rangle.
+\]
 
-\begin{theorem}
-    $\AK(n)$ is AC-equivalent to the presentation
-    \[
-    \langle x,y \mid xyx=yx^{n-1}y, y^2x=xyx^{-1}y \rangle.
-    \]
-\end{theorem}
-
-\medskip Below we prove two lemmas, from which the theorem follows easily, where
+To do so we will prove the following two lemmas from which the theorem follows easily.
+In both lemmas we will use the following definition
 \[
 P(k) = \langle x,y \mid xyx=yx^k y, y^{-1}x^n y = x^{n+1}\rangle.
 \]
@@ -23,15 +22,15 @@ P(k) = \langle x,y \mid xyx=yx^k y, y^{-1}x^n y = x^{n+1}\rangle.
 \end{lemma}
 
 \begin{proof}
-    In \cite{MMS}, it is shown that $AK(n)$ is AC-equivalent to $P(1)$. Thus, we show that for any $k<n-1$, $P(k)$ is AC-equivalent to $P(k+1)$, and the result follows by induction. 
-    
-    First, note that second relation in $P(k)$ can be rearranged in the following three ways: 
+    In \cite{MMS}, it is shown that $AK(n)$ is AC-equivalent to $P(1)$. Thus, we show that for any $k<n-1$, $P(k)$ is AC-equivalent to $P(k+1)$, and the result follows by induction.
+
+    First, note that second relation in $P(k)$ can be rearranged in the following three ways:
     \begin{enumerate}[label=(\roman*)]
         \item $x^kyx^{-1}=x^{k-n}yx^n$
         \item $xyx^{-n}=x^{-(n-1)}yx$
         \item $x^{n-k}y^{-1}x^{-(n-1)}=x^{-(k+1)}y^{-1}x$
     \end{enumerate}
-    
+
     We can rearrange the first relation of $P(k)$ to get $x^k y x^{-1}=y^{-1}xy$ and substitute from (i) to get $x^{k-n} y x^n = y^{-1}xy$. Then we rewrite this as $xyx^{-n}=yx^{k-n}y$ and substitute from (ii) to get $ x^{-(n-1)}yx= yx^{k-n}y$. Finally, we rewrite this as $x^{n-k}y^{-1}x^{-(n-1)}=yx^{-1}y^{-1}$ and substitute from (iii), which gives $x^{-(k+1)}y^{-1}x=yx^{-1}y^{-1}$ or equivalently $xyx=yx^{k+1}y$.
 \end{proof}
 
@@ -40,7 +39,7 @@ P(k) = \langle x,y \mid xyx=yx^k y, y^{-1}x^n y = x^{n+1}\rangle.
 \end{lemma}
 
 \begin{proof}
-    The first relation of $P(n-1)=\langle x,y \mid xyx=yx^{n-1} y, y^{-1}x^n y = x^{n+1}\rangle$ can be equivalently expressed as 
+    The first relation of $P(n-1)=\langle x,y \mid xyx=yx^{n-1} y, y^{-1}x^n y = x^{n+1}\rangle$ can be equivalently expressed as
     \begin{enumerate}[label=(\roman*)]
         \item $x^{n-1}yx^{-1}=y^{-1}xy$
         \item $x^{-1}yx^{n-1}=yxy^{-1}$

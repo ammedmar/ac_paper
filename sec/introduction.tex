@@ -24,6 +24,22 @@ We should emphasize that this entire project was carried out using relatively mo
 
 While our primary focus is on exploring the distribution of hardness to inform algorithm development, we also address some long-standing open mathematical questions that had resisted direct approaches for decades.
 
+A notable family of potential counterexamples, denoted $\AK(n)$ for $n \in \N$, was introduced by Akbulut and Kirby in \cite{Akbulut--Kirby}.
+Until now, it was unknown whether their length could be reduced, using AC-moves, for any $n \geq 3$.
+The following result confirms this in the affirmative for all $n \geq 5$.
+
+\begin{theorem}\label{t:n+11}
+	$\AK(n)$ is AC-equivalent to the presentation
+	\[
+	\langle x,y \mid xyx=yx^{n-1}y, y^2x=xyx^{-1}y \rangle
+	\]
+	whose length is $n+11$.\anibal{@Lukas: Please add quantifier for $n$}
+\end{theorem}
+
+Another significant family of potential counterexamples was introduced by Miller and Schupp in \cite{Miller--Schupp}.
+Using reinforcement learning, we establish the previously unknown AC triviality of two of its elements.
+More precisely, we constructively prove the following.
+
 \begin{theorem}\label{thm:MS}
 	The following potential counterexamples belonging to the series introduced by Miller and Schupp in \cite{Miller--Schupp} are AC-trivial:
 	\begin{gather*}
@@ -32,26 +48,17 @@ While our primary focus is on exploring the distribution of hardness to inform a
 	\end{gather*}
 \end{theorem}
 
-\medskip Another notable series of potential counterexamples, denoted $\AK(n)$ for $n \in \N$, was introduced by Akbulut and Kirby in \cite{Akbulut--Kirby}.
-Until now, it was unknown whether their length could be reduced, using AC-moves, for $n \geq 3$.
-The following result confirms this in the affirmative for all $n \geq 5$.
+\medskip
+A weaker version of the AC conjecture can be obtained by incorporating additional \textit{stable moves}. This establishes a direct connection between the conjecture and knot theory, a relationship we explore in \autoref{sec:stable}.
 
-\begin{theorem}
-    $\AK(n)$ is AC-equivalent to the presentation
-    \[
-    \langle x,y \mid xyx=yx^{n-1}y, y^2x=xyx^{-1}y \rangle
-    \]
-    whose length is $n+11$.\anibal{@Lukas: Please add quantifier for $n$}
-\end{theorem}
-
-\medskip\noindent
-Motivated by the work \cite{MMS}, where it was claimed that the presentation
+Motivated by this connection and by the claim in \cite{MMS} that the presentation
 \begin{equation}\label{eq:MMS3}
-	\angles{ x, y \mid
-		x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y, \
-		y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x }
+	\langle x, y \mid
+	x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y, \
+	y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x \rangle
 \end{equation}
-is stably AC-trivial, we established its AC equivalence to $\AK(3)$.
+is stably AC-trivial, we apply reinforcement learning to demonstrate its AC equivalence to $\AK(3)$.
+
 % \begin{theorem}\label{thm:stableAK3}
 %     The following potential counterexample introduced by Akbulut and Kirby \cite{Akbulut--Kirby},
 %     	\[
@@ -60,7 +67,7 @@ is stably AC-trivial, we established its AC equivalence to $\AK(3)$.
 %     is AC-equivalent to \eqref{eq:MMS3}.
 % \end{theorem}
 % The proofs of \autoref{thm:MS} and \autoref{thm:stableAK3} are presented in \autoref{sec:RLsolutions}.
-After closer inspection, we discovered a subtle misprint in \cite[p.X]{MMS}\anibal{@SB: Please add page} which had gone unnoticed for more than 20 years after its publication, rendering \eqref{eq:MMS3} \textit{not} stably AC-trivial.\anibal{@SB: Maybe worth mentioning the heuristics that lead the SB side of the team to wonder about the result in the first place. I seem to recall that certain complexity considerations motivated the closer look.}
+After closer inspection, we discovered a subtle misprint in \cite[p.X]{MMS}\anibal{@SB: Please add page} that had gone unnoticed for more than 20 years. This misprint undermines the claim that \eqref{eq:MMS3} is stably AC-trivial.\anibal{@SB: Maybe worth mentioning the heuristics that lead the SB side of the team to wonder about the result in the first place. I seem to recall that certain complexity considerations motivated the closer look.}
 
 % However, our original result establishing its equivalence to $\AK(3)$ in Theorem \ref{thm:stableAK3} remains correct. We are optimistic that the status of $\AK(3)$ will be resolved in the near future through the methods introduced in this paper.
 
