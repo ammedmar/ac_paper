@@ -76,7 +76,7 @@ The hyperparameters of this phase include the number of parallel actors $N$, the
 In addition to the optimizer hyperparameters (such as learning rate schedule), the number of epochs and the size of mini-batches are hyperparameters of the optimization process.
 Further details of hyperparameters are summarized in \autoref{app:hyperparameters}.
 
-\subsection{Application to the Andrews--Curtis Conjecture}\label{sec:application}
+\subsection{Application to the MS series}\label{sec:application}
 
 The set of all balanced presentations of the trivial group with a fixed number of generators and the set of AC-transformations play the roles of sets $S$ and $A$, respectively. (Recall notations introduced in \autoref{sec:mdp}). Once we choose a reward function $R$ and an initial state distribution $\rho$, we may use the Proximal Policy Optimization algorithm to learn the policy function $\pi$. We tested a few different reward functions in our experiments, observing that the following candidate led to the best performance and stability in training.
 \[

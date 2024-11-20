@@ -100,7 +100,7 @@ The rows of $W_E = W_U^T$ are interpreted as the embeddings of words/sentences, 
 For example, the cosine of the angle between two embedding vectors, also known as the ``cosine similarity", is often used to measure the similarity between two texts.
 Two semantically similar texts have higher cosine similarity between them, while semantically different texts correspond to (almost) orthogonal vectors in the embedding space.
 
-\subsection{Training and Evaluation Datasets\label{sec:transformer_datasets}}
+\subsection{Training and evaluation datasets\label{sec:transformer_datasets}}
 
 We now discuss the training and validation datasets used to train and evaluate our Transformer model.
 As our main interest in this paper has been in the presentations of the Miller--Schupp series, we generated a dataset of balanced presentations that are AC-equivalent to the Miller--Schupp presentations.
@@ -166,7 +166,7 @@ It also did not contain many presentations of the Miller--Schupp series itself.
 Instead, it contained presentations that are AC-equivalent to the Miller--Schupp series presentations.
 Our observation that a Transformer model trained on this dataset can distinguish between the GS-solved and GS-unsolved presentations indicates that:
 \begin{enumerate}[label=\alph*)]
-	\item There likely exists an invariant at the level of the ``language`` of the balanced presentations that distinguishes GS-solved vs GS-unsolved presentations.
+	\item There likely exists an invariant at the level of the ``language" of the balanced presentations that distinguishes GS-solved vs GS-unsolved presentations.
 	\item This invariant survives application of thousands of AC-moves we used to generate the training examples in our dataset.
 \end{enumerate}
 
