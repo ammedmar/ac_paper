@@ -1,0 +1,29 @@
+% !TEX root = ../ac_paper.tex
+
+\section{A misprint in the Wirtinger presentation of \cite{MMS}.}  \label{app:mms}
+The unknot diagram of \autoref{fig:unknot} was originally presented in \cite{MMS}. Their manuscript contained an unfortunate misprint in the 13th relator, where it is written as $x_{13}=x_5 x_{12} x_5^{-1}$.  The resultant presentation—denoted $W’$—is not a Wirtinger presentation of any knot diagram. In a Wirtinger presentation, any single relator is redundant, meaning that removing any relator still yields a valid presentation of the knot group. In the case of an unknot, this group is the infinite cyclic group $\mathbb{Z}$. However, removing different relators from $W’$ produces different groups. For instance, if the relator $x_{7} = x_4^{-1} x_{6} x_4$ is removed, the resulting group is the three-strand braid group, whereas removing $x_{14} = x_1 x_{13} x_1^{-1}$ yields $\mathbb{Z}$.
+
+In \cite[Theorem 1.4]{MMS}, the following 3-generator family of presentations,
+\[
+\angles{ x,y,z \mid  x=z\cdot [[y^{-1},x^{-1}],z], y=x\cdot [[y^{-1},x^{-1}],z^{-1}]\cdot [z^{-1},x], w},
+\] 
+was obtained by deleting the 12th relator from $W'$, adding $w$, and then recursively eliminating other generators. The theorem statement claimed that every element of this 3-generator family presents the trivial group. However, due to the misprint, $W'$ with the 12th relator eliminated is not a presentation of $\mathbb{Z}$.
+
+Despite this error, it is possible to get presentations of the trivial group after choosing appropriate $w$. For example, when $w = x^{-1} y z$, the 3-generator presentation is stably AC-equivalent to a length $25$ presentation,
+\[
+\langle x, y \mid
+	x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y, \
+	y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x 
+\rangle,
+\]
+which is AC-equivalent to $\AK(3)$. Note, however, that unlike any presentation AC-equivalent to a correct Wirtinger presentation, these presentations are not necessarily stably AC-trivial. For completeness, we provide the AC path that connects the length $25$ presentation to $\AK(3)$,
+\[
+\begin{aligned}
+& h_9 \cdot h_7 \cdot h_4 \cdot h_8 \cdot h_{11} \cdot h_5 \cdot h_{11} \cdot h_9 \cdot h_3 \cdot h_{10} \cdot h_{12} \cdot h_7 \cdot h_7 \cdot h_9 \cdot h_{11} \cdot h_5 \cdot h_3 \cdot h_5 \cdot \\
+& h_4 \cdot h_3 \cdot h_{12} \cdot h_5 \cdot h_7 \cdot h_7 \cdot h_1 \cdot h_9 \cdot h_{11} \cdot h_8 \cdot h_3 \cdot h_5 \cdot h_{10} \cdot h_2 \cdot h_6 \cdot h_{12} \cdot h_9 \cdot h_7 \cdot \\
+& h_5 \cdot h_{11} \cdot h_{10} \cdot h_3 \cdot h_8 \cdot h_{11} \cdot h_9 \cdot h_2 \cdot h_{10} \cdot h_{12} \cdot h_5 \cdot h_7 \cdot h_9 \cdot h_{11} \cdot h_1 \cdot h_9 \cdot h_8.
+\end{aligned}
+\]
+Here, $h_i$ are AC$'$ moves as defined in \autoref{app:paths}. 
+
+

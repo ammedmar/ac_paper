@@ -6,7 +6,7 @@ We live in an extraordinary era where artificial intelligence (AI) is transformi
 
 Mathematics appears to be a natural progression on the path toward Artificial General Intelligence (AGI) due to its universal syntactic and logical structure, similar to that of natural language. Additionally, mathematics provides a framework for the quantitative evaluation of logical and analytical reasoning, making it an ideal domain for self-improving AI systems on the path to AGI. In a moment, we will explain another reason why mathematics could play a crucial role in AGI development, but first, we need to introduce one more key element: reinforcement learning (RL).
 
-Machine learning, a subfield of AI, involves developing algorithms and statistical models that enable computers to learn from data and make predictions. Among the three primary areas of machine learning---supervised learning, unsupervised learning, and reinforcement learning---RL emphasizes learning through interaction with an environment and receiving feedback in the form of rewards or penalties. This aspect of machine learning, often characterized by its focus on AI models `playing games,’ will be central to our discussion.
+Machine learning, a subfield of AI, involves developing algorithms and statistical models that enable computers to learn from data and make predictions. Among the three primary areas of machine learning --- supervised learning, unsupervised learning, and reinforcement learning --- RL emphasizes learning through interaction with an environment and receiving feedback in the form of rewards or penalties. This aspect of machine learning, often characterized by its focus on AI models `playing games,’ will be central to our discussion.
 
 A typical chess game lasts about 30 to 40 moves, with the longest recorded professional game reaching 269 moves, ending in a draw between Ivan Nikolic and Goran Arsovic in 1989. Notably, the number of moves in a typical chess game is relatively consistent, with the longest professional game having only about an order of magnitude more moves than the average. Similarly, a typical game of Go involves a few hundred moves, with the longest recorded professional game, played by Go Seigen and Kitani Minoru in 1933, lasting 411 moves.
 
@@ -20,58 +20,84 @@ Our approach to problems of this type involves equipping the RL model with the a
 
 In this paper, we begin a systematic implementation of this approach by carefully analyzing the distribution of hardness in potential counterexamples to a long-standing conjecture, the Andrews--Curtis conjecture. As with many other challenging problems, a natural measure of hardness is the number of steps an RL agent needs to take. What makes the Andrews--Curtis conjecture particularly suitable for our study is that it includes numerous examples requiring a hyper-exponential number of steps, providing an effective testbed for exploring the aforementioned questions through the lens of RL, search algorithms, and topological data analysis.
 
-We should emphasize that this entire project was carried out using relatively modest computational resources that a small academic research group can easily afford. Consequently, we placed greater emphasis on theoretical tools and techniques that, when combined with scaled-up computational resources, can lead to further advancements.
 
-While our primary focus is on exploring the distribution of hardness to inform algorithm development, we also address some long-standing open mathematical questions that had resisted direct approaches for decades.
-
-A notable family of potential counterexamples, denoted $\AK(n)$ for $n \in \N$, was introduced by Akbulut and Kirby in \cite{Akbulut--Kirby}.
-Until now, it was unknown whether their length could be reduced, using AC-moves, for any $n \geq 3$.
-The following result confirms this in the affirmative for all $n \geq 5$.
+While our primary focus is on exploring the distribution of hardness to inform algorithm development, we also discover new results about the long-standing potential counterexamples of this conjecture. A notable family of potential counterexamples, denoted $\AK(n)$, due to Akbulut and Kirby, 
+\[
+\AK(n) = \angles{x, y \mid x^n = y^{n+1}, xyx = yxy}, \quad n \geq 3
+\]
+has been open in mathematics for more than four decades \cite{Akbulut--Kirby}.
+\footnote{The original work included the case $n=2$, but this case was solved approximately two decades later \cite{genetic}. The case $n=1$ also gives a balanced presentation of the trivial group, which is easy to solve in a few steps.}
+The length of the presentation $\AK(n)$ is $2n + 7$, and 
+until now, it was unknown whether this length can even be reduced using AC moves. We find that for every fixed $n$, $\AK(n)$ is AC-equivalent to each element of the following 1-parameter family of presentations parameterized by $k \in \mathbb{Z}$,
+\[P(n, k) = \angles{x, y \mid  y^{n-k-1}  x^{-1} y x = x y x^{-1} y^{n-k} \ , \ x = y^{-k} x^{-1} y x y }.
+\]
+When $n \geq 5$, this family contains presentations of length less than $2n + 7$. The shortest presentation occurs in the case $k=n-1$, which gives us the following theorem.
 
 \begin{theorem}\label{t:n+11}
-	$\AK(n)$ is AC-equivalent to the presentation
+	For every $n\geq 2$, $\AK(n)$ is AC-equivalent to the presentation
 	\[
-	\langle x,y \mid xyx=yx^{n-1}y, y^2x=xyx^{-1}y \rangle
+	\angles{ x,y \mid x^{-1} y x = x y x^{-1} y \ ,\  xyx=yx^{n-1}y },
 	\]
-	whose length is $n+11$.\anibal{@Lukas: Please add quantifier for $n$}
+	of length $n+11$. This gives a reduction in length of $AK(n)$ for all $n \geq 5$.
 \end{theorem}
 
-Another significant family of potential counterexamples was introduced by Miller and Schupp in \cite{Miller--Schupp}.
-Using reinforcement learning, we establish the previously unknown AC triviality of two of its elements.
-More precisely, we constructively prove the following.
+Another important family of potential counterexamples due to Miller and Schupp,
+\[
+\MS(n, w) = \angles{x, y \mid x^{-1} y^n x = y^{n+1}, x = w},
+\]
+where $n > 0$ and $w$ is a word with exponent sum zero on $x$, has been open for more than 25 years \cite{Miller--Schupp}. We obtain the following result.
+
+\begin{theorem}\label{t:msfamilies}
+        The following subfamilies of Miller-Schupp presentations are AC-trivial:
+        \begin{enumerate}[label=(\roman*)]
+            \item $\MS(1, w)$ for all $w$,
+            \item $\MS(n, w_\star)$ for $w_\star = y^{-1} x y x^{-1}$,
+            \item $\MS(2, w_k)$ for $w_k = y^{-k} x^{-1} y x y$ where $k \in \mathbb{Z}$.
+        \end{enumerate}
+        Furthermore, for each fixed $n > 0$, all members of the 1-parameter family, $\MS(n, w_k)$, parameterized by $k \in \mathbb{Z}$, are AC-equivalent to each other and to $\AK(n)$.
+\end{theorem}
+
+In addition to these results involving infinite families, we also found AC-trivializations of hundreds of Miller-Schupp presentations. Of special note are two hard presentations,
+which our classical search algorithms could not solve at first. We trained reinforcement learning agents to find,
 
 \begin{theorem}\label{thm:MS}
-	The following potential counterexamples belonging to the series introduced by Miller and Schupp in \cite{Miller--Schupp} are AC-trivial:
+    The following potential counterexamples belonging to the Miller--Schupp series are AC-trivial:
 	\begin{gather*}
-		\angles{x, y \mid x^{-1} y^3 x y^{-4} , \ x^{-1} y^{-1} x^{-1} y^{-1} x y^{-3}}, \\
+		\angles{x, y \mid x^{-1} y^3 x y^{-4} , \ x^{-1} y^{-1} x y^{-3} x^{-1} y^{-1}}, \\
 		\angles{x, y \mid x^{-1} y^4 x y^{-5} , \ x^{-1} y x y^{-1} x^{-1} y^{-3}}.
 	\end{gather*}
 \end{theorem}
 
-\medskip
-A weaker version of the AC conjecture can be obtained by incorporating additional \textit{stable moves}. This establishes a direct connection between the conjecture and knot theory, a relationship we explore in \autoref{sec:stable}.
+Note that the first of these presentations is extremely similar to the following rewriting of $\MS(3, w_{-3})$,
+\[
+\MS(3, w_{-3}) = \angles{x, y \mid x^{-1} y^3 x y^{-4}, x^{-1} y^{-1} x y^{-3} x y^{-1}}.
+\]
+with all but one letter being different. The latter presentations is AC-equivalent to $\AK(3)$ (from \autoref{t:msfamilies}) --- perhaps the most important potential counterexample to the Andrews-Curtis conjecture.
+This shows how very similar-looking presentations can have vastly different hardness properties, emphasizing the need for a systematic understanding of hardness in math problems.
 
-Motivated by this connection and by the claim in \cite{MMS} that the presentation
+\medskip
+A weaker version of the AC conjecture can be obtained by incorporating additional \textit{stable moves}. This establishes a direct connection between the conjecture and knot theory, a relationship we explore in \autoref{sec:stable}. Motivated by this connection and by the claim in \cite{MMS} that the presentation
 \begin{equation}\label{eq:MMS3}
 	\langle x, y \mid
 	x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y, \
 	y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x \rangle
 \end{equation}
 is stably AC-trivial, we apply reinforcement learning to demonstrate its AC equivalence to $\AK(3)$.
+However, after closer inspection, we discovered a subtle misprint in \cite[p.10]{MMS} that had gone unnoticed for more than 20 years. This misprint undermines the claim that \eqref{eq:MMS3} is stably AC-trivial.\anibal{@SB: Maybe worth mentioning the heuristics that lead the SB side of the team to wonder about the result in the first place. I seem to recall that certain complexity considerations motivated the closer look.}
 
-% \begin{theorem}\label{thm:stableAK3}
-%     The following potential counterexample introduced by Akbulut and Kirby \cite{Akbulut--Kirby},
-%     	\[
-%     	\AK(3) = \angles{x, y \mid x^3 = y^{4}, xyx = yxy}.
-%     	\]
-%     is AC-equivalent to \eqref{eq:MMS3}.
-% \end{theorem}
-% The proofs of \autoref{thm:MS} and \autoref{thm:stableAK3} are presented in \autoref{sec:RLsolutions}.
-After closer inspection, we discovered a subtle misprint in \cite[p.X]{MMS}\anibal{@SB: Please add page} that had gone unnoticed for more than 20 years. This misprint undermines the claim that \eqref{eq:MMS3} is stably AC-trivial.\anibal{@SB: Maybe worth mentioning the heuristics that lead the SB side of the team to wonder about the result in the first place. I seem to recall that certain complexity considerations motivated the closer look.}
+\medskip
+We should emphasize that this entire project was carried out using relatively modest computational resources that a small academic research group can easily afford. Consequently, we placed greater emphasis on theoretical tools and techniques that, when combined with scaled-up computational resources, can lead to further advancements.
 
-% However, our original result establishing its equivalence to $\AK(3)$ in Theorem \ref{thm:stableAK3} remains correct. We are optimistic that the status of $\AK(3)$ will be resolved in the near future through the methods introduced in this paper.
 
-\medskip The rest of the paper is organized as follows. In \autoref{sec:AC}, we provide an overview of the Andrews--Curtis conjecture, describing the specific version studied in this work. We then apply classical search algorithms to examples in the Miller--Schupp series in \autoref{sec:search}, where we devise a greedy search algorithm that significantly outperforms the widely used breadth-first search algorithm. In \autoref{sec:rl}, we employ reinforcement learning, specifically implementing the Proximal Policy Optimization (PPO) algorithm \cite{schulman2017proximal}, and find that while it performs better than breadth-first search, it does not surpass the greedy search algorithm (see \autoref{fig:performance}). Building on these insights, \autoref{sec:algo} presents several ideas for algorithm development, proposing strategies to mitigate the overwhelming complexity faced by an RL agent in challenging problems. In \autoref{sec:isolated}, we employ topological methods to assess the complexity of presentations. Specifically, we utilize persistent homology to define the \textit{isolation value} of a presentation. This value is infinite for counterexamples to the AC conjecture and serves as a measure of a presentation's resistance to being trivialized. Finally, in \autoref{sec:lm}, we examine the linguistic structure of balanced presentations using a decoder-only Transformer model, observing distinct clusters within the embedding space corresponding to presentations solved and unsolved by the greedy search algorithm.
+
+
+\medskip The rest of the paper is organized as follows. In \autoref{sec:AC}, we provide an overview of the Andrews--Curtis conjecture. We then apply classical search algorithms to examples in the Miller--Schupp series in \autoref{sec:search}, where we devise a greedy search algorithm that significantly outperforms the widely used breadth-first search algorithm. In \autoref{sec:rl}, we employ reinforcement learning, specifically the Proximal Policy Optimization (PPO) algorithm \cite{schulman2017proximal}, and find that while it performs better than breadth-first search and solves some presentations that hard for greedy search, it does not strictly surpass the greedy search algorithm.
+%(see \autoref{fig:performance})
+Building on these insights, \autoref{sec:algo} presents several ideas for algorithm development, proposing strategies to mitigate the overwhelming complexity faced by an RL agent in challenging problems.
+In \autoref{sec:lm}, we examine the linguistic structure of balanced presentations using a decoder-only Transformer model, observing distinct clusters within the embedding space corresponding to presentations solved and unsolved by the greedy search algorithm.
+In \autoref{sec:isolated}, we employ topological methods to assess the complexity of presentations. Specifically, we utilize persistent homology to define the \textit{isolation value} of a presentation. This value is infinite for counterexamples to the AC conjecture and serves as a measure of a presentation's resistance to being trivialized. Finally, in \autoref{sec:stable}, we study the stable version of the Andrews-Curtis conjecture, and its relationship with knot theory.
+This relationship has previously been used to give potential counterexamples of the standard Andrews--Curtis conjecture. We prove AC-triviality of a large class of these presentations. 
+% and propose that the rest are also all AC-trivializable. 
 
 \medskip\noindent
 We encourage the reader to explore the accompanying GitHub repository:
@@ -79,18 +105,3 @@ We encourage the reader to explore the accompanying GitHub repository:
 	\href{https://github.com/shehper/AC-Solver}{https://github.com/shehper/AC-Solver}\todo{Add URL to the comments section of the arXiv's metadata.}
 \end{center}
 
-\begin{figure}
-	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-	\includegraphics[width=1.1\textwidth]{fig/performance_vs_n.pdf}
-		\caption{Distribution versus $n$}
-		\label{fig:performance_vs_n}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\centering        \includegraphics[width=1.1\textwidth]{fig/performance_vs_length.pdf}
-		\caption{Distribution versus length}
-		\label{fig:performance_vs_length}
-	\end{subfigure}
-	\caption{A comparison of three algorithms ---breadth-first search, greedy search, and Proximal Policy Optimization (PPO)--- that we used to search through the space of balanced presentations. The number of presentations of the Miller--Schupp series, $\MS(n, w)$, solved by an algorithm is given on the vertical axis. We compare the performance as a function of $n$ (above) and the length of the presentation (below). Greedy Search consistently outperforms Breadth-First Search and Proximal Policy Optimization.}
-	\label{fig:performance}
-\end{figure}

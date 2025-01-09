@@ -2,7 +2,7 @@
 
 \section{Andrews--Curtis conjecture\label{sec:AC}}
 
-The Andrews--Curtis conjecture concerns the study of \textit{balanced presentations} of the trivial group, i.e.
+The Andrews--Curtis Conjecture concerns the study of \textit{balanced presentations} of the trivial group, i.e.
 presentations of the trivial group with an equal number of generators and relators.
 The conjecture proposes that any balanced presentation of the trivial group
 \[
@@ -42,27 +42,45 @@ This presentation is a part of an infinite series of potential counterexamples b
 \]
 $\AK(2)$ has length 11 and has been established to be AC-trivial \cite{genetic}, whereas $\AK(3)$ is the aforementioned presentation with length 13.
 
-In over two decades since the first utilization of search algorithms \cite{genetic, bfs-ac}, only unsuccessful attempts have been made to trivialize $\AK(3)$ with different variants of breadth-first search algorithm using an increasing amount of computational resources \cite{Bowman-McCaul, krawiec2016distance, Panteleev-Ushakov}.
+In over two decades since the first utilization of search algorithms \cite{genetic, bfs-ac}, all attempts to trivialize $\AK(3)$ using different variants of breadth-first search algorithms, even with increasing amount of computational resources, have failed \cite{Bowman-McCaul, krawiec2016distance, Panteleev-Ushakov}.
 Notably, \cite{Panteleev-Ushakov} found that no sequence of AC-moves that allows relator lengths to increase up to 20 trivializes $\AK(3)$.
-This lack of success could be interpreted as suggestive evidence that $\AK(3)$ might be a counterexample to the Andrews--Curtis conjecture.
+This persistent lack of success could be interpreted as suggestive evidence that $\AK(3)$ might be a counterexample to the Andrews--Curtis conjecture.
+
 However, recent works by Bridson and Lishak have shown that there exist AC-trivializable balanced presentations, for which the number of AC-moves in a trivializing sequence is bounded below by a superexponential function of the length of the presentation \cite{Bridson, Lishak}.
 Roughly speaking, for these presentations, if the sum of word lengths is $k$, the number of AC-moves required to trivialize the presentation is at least $\Delta (\lfloor \log_2 k \rfloor)$ where $\Delta \colon \mathbb{N} \to \mathbb{N}$ is defined recursively as $\Delta(0) = 2$ and $\Delta (j) = 2^{\Delta(j-1)}$ for $j \geq 1$.
 In particular, $\Delta (\lfloor \log_2 (13) \rfloor) = 65536$, whereas presentations trivialized by the aforementioned search algorithms have AC sequences of length less than $1000$.
-While $\AK(3)$ is itself not a member of the family of examples studied by Bridson and Lishak, their findings challenge the view it as a counterexample.
-Their work also underscores the necessity of employing search methods that are more efficient than breadth-first search.
+Although $\AK(3)$ is itself not amongst the presentations studied by Bridson and Lishak, their findings challenge the inclination to view $\AK(3)$ as a counterexample. Their work further highlights the need for novel approaches to study the Andrews-Curtis conjecture.
 
-In this paper, we will consider a variety of computational tools to better understand the properties of balanced presentations of the trivial group.
+One approach, which we explore in this paper, is to use compositions of AC-moves instead of AC-moves themselves to solve potential counterexamples of the conjecture. The main motivation here being that while a presentation may require a superexponential number of AC-moves to trivialize, the number of composed moves, which we call ``supermoves", may be much smaller. As an example, consider the following \emph{substitution} move which comes from \cite{BurnsI},
+\footnote{A much larger class of ``supermoves" called ``elementary M-transformations" was studied in \cite{BurnsI}. However, these moves are infinite in number and are hence not suitable for classical search techniques. In \autoref{sec:algo}, we propose an alternative method to discover new supermoves using deep learning methods.}
+
+\begin{definition}[Substitution]\label{def:ac-sub}
+ Let $\angles{x_1, \dots, x_n \mid r_1, \dots, r_{i-1}, w^{-1}w', r_{i+1}, \dots  r_n}$ be a balanced presentation of the trivial group with some words $w$, $w'$ in generators. By a sequence of AC-moves, we may replace any occurrence of $w$ in a relator $r_j$ (where $j \neq i$) with $w'$.
+\end{definition}
+
+To see how to realize substitutions with AC-moves, consider by means of an example substituting $w'$ for $w$ in the relator $w_1ww_2$: first, conjugate to get $w_2w_1w$; then multiply by $w^{-1}w'$ to write $w_2w_1w'$; and finally, conjugate again to get the required result $w_1w'w_2$. For a relator of the form $w_1 w w_2 \dots w_{l-1} w w_l$, we may similarly substitute any number of occurences of $w$ with $w'$. The number of AC moves packaged into the substitution move is a linear function of the lengths of $w'$ and $w_i$.
+% \footnote{Let's count the number of AC moves here: $len(w_1)$ conjugations, $1$ concatenation, and then $len(w_2)$ conjugations. So a total of $len(w_1) + len(w_2) + 1$ AC moves. 
+% If we have a relator of the form $w_1 w w_2 w w_3$ and we need to do two substitutions, then conjugate by $w_3$ to get $w_3 w_1 w w_2 w$, multiply to get $w_3 w_1 w w_2 w'$, next conjugate by $w_2 w'$ to get $w_2 w' w_3 w_1 w$, multiply again to get $w_2 w' w_3 w_1 w'$. Now conjugate again to write $w_1 w' w_2 w' w_3$. Here we performed $len(w_3) + 1 + len(w_2) + len(w') + 1 + len(w_1) + len(w')$ AC moves. 
+% Maybe the general formula for a word of the form $w_1 w w_2 w \dots w w_n$ is 
+% $len(w_1) + len(w_2) + \dots + len(w_n) + (n-1) len(w') + n$, which still seems linear in the length of the two relators.
+% But this is only one specific path; maybe there is another path that gets to the same end result, but does so in less AC moves.}
+We will frequently use this move in \autoref{sec:ms1w_} and \autoref{sec:len-reduction} to obtain new results pertaining to potential counterexamples of the Andrews-Curtis conjecture.
+
+% We also remark that the following useful transformation can be straightforwardly realized by AC-moves: if one relation is given by $w^{-1}w'$, where $w$ and $w'$ are words in the generators, we can substitute $w'$ for any occurrence of $w$ is any of the other relators.\footnote{ To see how to realize substitutions with AC-moves, consider by means of example substituting $w'$ for $w$ in the relation $w_1ww_2$: first, conjugate to get $w_2w_1w$, and then multiply by $w^{-1}w'$ to get $w_2w_1w'$, and conjugate again to get $w_1w'w_2$.} This transformation  comes from \cite{BurnsI} and is called \emph{substitution}. We frequently use it in \autoref{sec:ms1w_} and \autoref{sec:len-reduction}. \shehper{@self, Lucas, Anibal: I wonder if this paragraph should be moved up or down in this section..}
+
+We also aim to uncover additional insights related to the Andrews-Curtis conjecture. To achieve this, we employ various computational tools in this paper to deepen our understanding of the properties of balanced presentations of the trivial group.
 We will test the efficacy of our approaches on a subset of presentations from the Miller--Schupp series of potential counterexamples \cite{Miller--Schupp}:
 \[
 \MS(n, w) = \angles{x, y \mid x^{-1} y^n x = y^{n+1}, x = w}.
 \]
 Here, $n \ge 1$ is a positive integer and $w$ is a word in $x$ and $y$ with zero exponent sum on $x$.
-For $w_\star = y^{-1} x^{-1} y x y$, the presentations $\MS(n, w_\star)$ are AC-equivalent to the presentations from Akbulut--Kirby series \cite{MMS}.
+For $w_1 = y^{-1} x^{-1} y x y$, the presentations $\MS(n, w_1)$ are AC-equivalent to the presentations from Akbulut--Kirby series \cite{MMS}.
 In particular, the presentation
 \[
-\MS(n, w) = \angles{x, y \mid x^{-1} y^3 x = y^{4}, x = y^{-1} x^{-1} y x y}.
+\MS(3, w_1) = \angles{x, y \mid x^{-1} y^3 x = y^{4}, x = y^{-1} x^{-1} y x y}.
 \]
 of length 15 is AC-equivalent to $\AK(3)$.
+\footnote{We will find, in \autoref{sec:len-reduction} of this paper, that $\AK(n)$ is, in fact, AC-equivalent to all members of a 1-parameter family of presentations, $MS(n, w_k)$, where $w_k = y^{-k} x^{-1} y x y$ and $k \in \mathbb{Z}$.}
 
 We will only consider presentations with $n \leq 7$ and $\length(w) \leq 7$.
 Our selection criteria aims to strike a balance: we seek a dataset of presentations large enough to allow for meaningful analysis, yet small enough to ensure all computations are feasible within a practical timeframe.
@@ -76,11 +94,11 @@ First, we considered the following set of operations.
 	\item Replace some $r_i$ by $r_i r_j^{\pm 1}$ for $i \neq j$.
 	\item Change some $r_i$ to $g r_i g^{-1}$ where $g$ is a generator or its inverse.
 \end{enumerate}
-For two generators, which is the only case we study in this paper, the group generated by these AC-transformations is isomorphic to the group generated by the original AC-transformations.\footnote{
+The group generated by these AC-transformations is isomorphic to the group generated by the original AC-transformations.\footnote{
 The difference lies in how the inversion of a relator is handled: we always follow an inversion by a concatenation, while the original AC-moves allow for standalone inversion moves.
-The original inversion moves may be retrieved from the new generators as follows.
-For a given presentation $\angles{x_1, x_2 \mid r_1, r_2}$, the sequence of moves: $r_2 \to r_2 r_1$, $r_1 \to r_1 r_2^{-1}$, $r_2 \to r_2 r_1$, and $r_2 \to r_1 r_2 r_1^{-1}$ results in the presentation $\angles{x_1, x_2 \mid r_2^{-1}, r_1}$, which is the same as $r_2 \to r_2^{-1}$ up to swapping the two relators.
-We also enhanced the notion of trivial presentation(s) to include all presentations of length 2: $\{\angles{x_1, x_2 \mid x_i^{a}, x_j^{b}} \mid i, j = 1, 2; a, b = \pm 1; i \neq j \}$.
+The original inversion moves may be retrieved from the new generators through a sequence of transformations.
+Consider, for example, a two-generator presentation $\angles{x_1, x_2 \mid r_1, r_2}$. The sequence of moves $r_2 \to r_2 r_1$, $r_1 \to r_1 r_2^{-1}$, $r_2 \to r_2 r_1$, and $r_2 \to r_1 r_2 r_1^{-1}$ results in the presentation $\angles{x_1, x_2 \mid r_2^{-1}, r_1}$, which is the same as $r_2 \to r_2^{-1}$ up to swapping the two relators.
+We also enhanced the notion of trivial presentation(s) with $n$ generators to include all presentations of length $n$. For $n=2$, these are $\{\angles{x_1, x_2 \mid x_i^{a}, x_j^{b}} \mid i, j = 1, 2; a, b = \pm 1; i \neq j \}$.
 }
 The reason for this change is due to its effect on performance in greedy search and reinforcement learning algorithms studied in \autoref{sec:search} and \autoref{sec:rl}.
 Specifically, the length of a presentation provides a useful signal when searching through the space of presentations with these algorithms.

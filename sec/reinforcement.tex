@@ -1,6 +1,6 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Reinforcement Learning}\label{sec:rl}
+\section{Reinforcement learning}\label{sec:rl}
 
 %In this paper, we trained these learning algorithms with limited computation power but noticed that they easily outperform breadth-first search and often find shorter sequences of AC-moves compared to the greedy search when they solve a presentation.
 
@@ -8,12 +8,18 @@ This section is organized as follows: in \autoref{sec:mdp}, we discuss how the p
 In \autoref{sec:ppo}, we discuss details of a specific reinforcement learning algorithm, called the Proximal Policy Optimization algorithm, which we used to find AC trivializations of balanced presentations.
 Finally, in \autoref{sec:application}, we discuss the results of our work, comparing the performance of PPO with that of the classical search algorithms studied in the previous section.
 
-\subsection{Markov Decision Process} \label{sec:mdp}
+\subsection{Markov decision process} \label{sec:mdp}
 
 A \textit{Markov Decision Process (MDP)} is defined as a 5-tuple $(S, A, R, P, \rho)$. Here, $S$ represents the space of states, while $A$ denotes the set of actions, where each action $a \in A$ is a function mapping from one state to another, i.e., $a \colon S \to S$. The function $R \colon S \times A \times S \to \R$ is the reward function, which assigns a real-valued reward based on the transition from one state to another via a specific action. The transition probability function, denoted by $P \colon S \times A \to \mathcal{P}(S)$, provides the probability distribution over the possible next states given a current state and action. Lastly, $\rho$ represents the initial probability distribution of states, describing the likelihood of the system starting in each state.
 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[trim={0.0in 3.0in 0.0in 2.5in},clip,width=4.0in]{fig/RLbasic.pdf}
+	\caption{The basic RL cycle.}
+	\label{fig:RLbasic}
+\end{figure}
 
-The schematic picture of how these objects interact with each other is as follows. We start with a state $s_0$ sampled from the distribution $\rho$ and take an action $a_0$. This results in a state $s_1$ with probability $P(s_1 \mid s_0, a_0) $. The transition gets a ``reward" $r_0 = R(s_0, a_0, s_1)$ which quantifies the effectiveness of the action in contributing toward achieving an ultimate goal. From state $s_1$, we repeat this process, obtaining a trajectory of states
+A schematic picture of how these objects interact with each other is as follows. We start with a state $s_0$ sampled from the distribution $\rho$ and take an action $a_0$. This results in a state $s_1$ with probability $P(s_1 \mid s_0, a_0) $. The transition gets a ``reward" $r_0 = R(s_0, a_0, s_1)$ which quantifies the effectiveness of the action in contributing toward achieving an ultimate goal. From state $s_1$, we repeat this process, obtaining a trajectory of states
 \[
 \tau = \left( s_0, a_0, s_1, a_1, \dots \right).
 \]
@@ -27,7 +33,7 @@ For a given problem at hand, we may not \textit{a priori} know the actions $\{a_
 In general, we need to specify the probability transition function $P(\cdot \mid s_t, a_t)$ from which the next state would be sampled. In this paper, we take this probability distribution to be a delta function centered at a single state, which we write as $a_t(s_t)$.}
 In the next subsection we discuss the specific algorithm and the objective function that we used in our study.
 
-\subsection{Proximal Policy Optimization} \label{sec:ppo}
+\subsection{Proximal policy optimization} \label{sec:ppo}
 
 The goal of our optimization process is to find a policy that maximizes the cumulative return. The most naive way to achieve this goal is through an algorithm known as ``vanilla policy gradient.''
 We perform gradient updates guided by the expected return $J(\pi_\theta) \equiv \mathbb{E}_{\tau \sim \pi_\theta} R(\tau)$, where the expectation is over a set of trajectories consisting of states and actions sampled according to our current policy,
@@ -56,7 +62,7 @@ PPO implements this through an objective function that includes a clipped probab
 L^{CLIP}(\theta) = \mathbb{E}_{t} \left[ \min(r_t(\theta) A_t, \text{clip}(r_t(\theta), 1 - \epsilon, 1 + \epsilon) A_t) \right]
 \]
 
-Here \( r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\text{old}}(a_t | s_t)} \) represents the probability ratio, and \( \epsilon \) is a small positive constant (commonly set around 0.1 or 0.2) that controls the clipping value.
+Here \( r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\text{old}}(a_t | s_t)} \) represents the probability ratio, and \( \epsilon \) is a small positive constant (usually set around 0.1 or 0.2) that controls the clipping value.
 The raw and the clipped ratio ensure that excessively large policy updates are curtailed, making the optimization process more stable.
 
 The advantage function is estimated during the optimization process using the Generalized Advantage Estimation method of \cite{schulman2018highdimensional}.
@@ -92,11 +98,37 @@ We define the initial state distribution as a distribution over the presentation
 
 We also need to choose a horizon length $T$ over which the cumulative return is calculated (c.f. \autoref{sec:mdp}). In reinforcement learning, training on tasks with long horizons is usually harder than on those with short horizons. This is because in long horizon tasks it is often more difficult to figure out which actions are responsible for the eventual outcomes, a problem known as the credit assignment problem. There is also more uncertainty in the returns (high variance), which can slow down convergence and destabilize the learning process. The size of the exploration space also becomes a critical issue. With longer horizons, the agent needs to explore a more diverse set of actions to learn about long-term consequences without getting stuck in suboptimal regions. However, it does not mean that we can not train well-performing agents for long-horizon tasks; rather, it indicates that with longer horizons we may need significantly stronger computational power and extended training periods.\footnote{Another option for improving performance in long-horizon tasks is to provide good intermediate rewards; unfortunately, this is rather hard in the present context of the AC conjecture.}
 
-The horizon length $T$ is an important hyperparameter in the context of our problem as any presentation that requires a sequence of AC-moves of length greater than the horizon length will necessarily remain unsolved by PPO. On the other hand, choosing a horizon length that is too long can significantly slow down the training process. Due to the limited amount of hardware available, we mostly experimented with considerably smaller values for $T$, i.e. $T=200$ and $T=400$. With these values, PPO could solve, respectively, $431$ and $402$ presentations out of the $1190$ Miller--Schupp presentations of the initial state distribution.\footnote{We also explored the value $T=2000$. However, we found it much slower to train due to the reasons described above. We could only solve $219$ presentations of the initial state distribution in this case. This training run had not converged, and we expect that with more computational power and extended training periods, it will be worthwhile to experiment with larger values of $T$, perhaps helping us solve even more presentations than greedy search.}
-In each case, these presentations formed a subset of the presentations solved by the greedy search.
+The horizon length $T$ is an important hyperparameter in the context of our problem as any presentation that requires a sequence of AC-moves of length greater than the horizon length will necessarily remain unsolved by PPO. On the other hand, choosing a horizon length that is too long can significantly slow down the training process. We experimented with two different schedules for horizon length during training: 
+\begin{enumerate}[label=(\roman*)]
+    \item constant horizon length throughout training, and
+    \item varying horizon length during training. 
+\end{enumerate}
 
-In the rest of this section, we will describe some observations made with the value $T=200$.\footnote{The complete list of hyperparameters for this experiment is summarized in \autoref{app:hyperparameters}.}
-In \autoref{fig:performance} above, the performance of this experiment is compared with the results of the greedy search and the breadth-first search. While PPO consistently outperformed BFS for all values of $n$ and for all lengths of presentations, it consistently underperformed compared to the greedy search.\footnote{The results in this section were obtained using relatively small neural networks for both the actor and the critic networks, each consisting of two layers with 512 hidden units. It is natural to assume that increasing the size of these networks could enable a PPO agent to outperform the greedy search. However, such experiments were not performed due to computational limitations. Future work could explore this direction to assess the impact of larger network architectures.}
+The trained agents behave differently in the two cases as we will now describe.
+
+\subsection{PPO with constant horizon length: experimental results} When keeping the horizon length fixed during training, we experimented with considerably smaller values, i.e. $T=200$ and $T=400$. Out of the $1190$ Miller--Schupp presentations of the initial state distribution, the best performing PPO agents could solve $431$ and $402$ presentations respectively. \footnote{We also explored the value $T=2000$. However, we found it much slower to train due to the reasons described above. We could only solve $219$ presentations of the initial state distribution in this case. This training run had not converged, and we expect that with more computational power and extended training periods, it will be worthwhile to experiment with larger values of $T$, perhaps helping us solve even more presentations than greedy search.}
+In each case, these presentations formed a subset of the presentations solved by the greedy search (\autoref{fig:performance}).
+
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+	\includegraphics[width=1.1\textwidth]{fig/performance_vs_n.pdf}
+		\caption{Distribution versus $n$}
+		\label{fig:performance_vs_n}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering        \includegraphics[width=1.1\textwidth]{fig/performance_vs_length.pdf}
+		\caption{Distribution versus length}
+		\label{fig:performance_vs_length}
+	\end{subfigure}
+	\caption{A comparison of three algorithms ---breadth-first search, greedy search, and Proximal Policy Optimization (PPO) with small and constant horizon length during training --- that we used to search through the space of balanced presentations. The number of presentations of the Miller--Schupp series, $\MS(n, w)$, solved by an algorithm is given on the vertical axis. We compare the performance as a function of $n$ (above) and the length of the presentation (below). Note that varying horizon length during training (not depicted in this figure) helped PPO solve presentations that greedy search could not solve.}
+	\label{fig:performance}
+\end{figure}
+
+In the rest of this section, we will describe some observations made for an agent trained with the value $T=200$.\footnote{The complete list of hyperparameters for this experiment is summarized in \autoref{app:hyperparameters}.}
+%In \autoref{fig:performance} above, the performance of this experiment is compared with the results of the greedy search and the breadth-first search. 
+While PPO consistently outperformed BFS for all values of $n$ and for all lengths of presentations, it consistently underperformed compared to the greedy search.
+\footnote{The results in this section were obtained using relatively small neural networks for both the actor and the critic networks, each consisting of two layers with 512 hidden units. It is natural to assume that increasing the size of these networks could enable a PPO agent to outperform the greedy search. However, such experiments were not performed due to computational limitations. Future work could explore this direction to assess the impact of larger network architectures.}
 In \autoref{fig:path_lengths_ppo_solved_vs_unsolved}, we plot the distribution of path lengths discovered by greedy search in the two cases of presentations that could / could not be solved by PPO. It is clear that the presentations PPO solved had, in general, smaller path lengths. In particular, all of these had greedy search path lengths less than $200$.
 
 In \autoref{fig:path_lengths_gs_vs_ppo}, we give a scatterplot of the path lengths discovered by PPO and greedy search for all of the presentations solved by PPO. We note that in many cases, PPO found shorter paths compared to the greedy search. This is expected as PPO learns to improve its strategy during the training, discovering shorter paths for presentations it may have already solved. The scatterplot shows the shortest paths discovered by PPO for each presentation. We also note that in many cases, PPO found longer paths than greedy search. This shows that our specific run exhibits a suboptimal policy. It could perhaps be improved by performing more hyperparameter tuning on the training process.
@@ -121,4 +153,50 @@ In \autoref{fig:path_lengths_gs_vs_ppo}, we give a scatterplot of the path lengt
 	\label{fig:path_lengths_gs_vs_ppo_full}
 \end{figure}
 
-\input{sec/paths}
+\subsection{New Miller-Schupp trivializations through variable horizon length}\label{sec:variable_horizon}
+
+Keeping the horizon length fixed either fails to solve hard presentations if the horizon length is too small, or requires significant computational resources for training to converge if the horizon length is too large. Therefore, we experimented with varying horizon length during training. 
+
+We trained a PPO agent for 100 million environment interactions, with the same hyperparameters as in the previous section; only varying the horizon length over the course of training. In the beginning, the horizon length was set to $200$; it was increased to $400$ after 10 million environment interactions, then to $800$ after 25 million environment interactions, and finally to $1200$ after 50 million environment interactions.
+This schedule allowed the PPO agent to first solve easier presentations, avoiding the challenges of long-horizon tasks. As the agent’s capabilities improved, the gradual increase in horizon length enabled the agent to tackle more complex Miller-Schupp presentations.
+
+The best-performing PPO agent solved two new presentations of the Miller-Schupp series that the greedy search had failed to solve (\autoref{thm:MS}):
+	\begin{gather*}
+		\angles{x, y \mid x^{-1} y^3 x y^{-4} , \ x^{-1} y^{-1} x y^{-3} x^{-1} y^{-1}}, \\
+		\angles{x, y \mid x^{-1} y^4 x y^{-5} , \ x^{-1} y x y^{-1} x^{-1} y^{-3}}.
+	\end{gather*}
+
+For these presentations, the AC paths discovered by the agent had lengths of $205$ and $1085$, respectively. These paths contained subsequences of moves that acted trivially. We removed these subsequences, obtaining paths of lengths $195$ and $381$ respectively. The initial lengths of the two presentations are $17$ and $19$, which increased to the maximum values of $29$ and $30$ before the presentations were trivialized. 
+
+With the following definitions of AC$'$ moves, 
+\[
+\begin{aligned}
+h_1 &= \ r_2 \rightarrow r_2 r_1, & \quad h_5 &= \ r_2 \rightarrow x^{-1} r_2 x, & \quad h_9 &= \ r_2 \rightarrow x r_2 x^{-1}, \\
+h_2 &= \ r_1 \rightarrow r_1 r_2^{-1}, & \quad h_6 &= \ r_1 \rightarrow y^{-1} r_1 y, & \quad h_{10} &= \ r_1 \rightarrow y r_1 y^{-1}, \\
+h_3 &= \ r_2 \rightarrow r_2 r_1^{-1}, & \quad h_7 &= \ r_2 \rightarrow y^{-1} r_2 y, & \quad h_{11} &= \ r_2 \rightarrow y r_2 y^{-1}, \\
+h_4 &= \ r_1 \rightarrow r_1 r_2, & \quad h_8 &= \ r_1 \rightarrow x r_1 x^{-1}, & \quad h_{12} &= \ r_1 \rightarrow x^{-1} r_1 x, \\
+\end{aligned}
+\]
+the length 195 path for the first of the two presentations above is as follows.
+\[
+\begin{aligned}
+	& h_{2} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{4} \\ &
+	h_{0} \cdot h_{6} \cdot h_{2} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{4} \\ &
+	h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \\ &
+	h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \\ &
+	h_{6} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{2} \cdot h_{8} \\ &
+	h_{6} \cdot h_{6} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{1} \cdot h_{7} \cdot h_{5} \cdot h_{5} \cdot h_{5} \cdot h_{11} \cdot h_{9} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{2} \\ &
+	h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{2} \\ &
+	h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{10} \cdot h_{8} \cdot h_{6} \cdot h_{2} \cdot h_{8} \cdot h_{6} \\ &
+	h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \\ &
+	h_{8} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{0} \\ &
+	h_{6} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{1} \cdot h_{7} \cdot h_{5} \cdot h_{11} \cdot h_{9} \cdot h_{3} \cdot h_{11} \cdot h_{9} \cdot h_{11} \cdot h_{8} \cdot h_{0} \cdot h_{6} \cdot h_{3} \cdot h_{11}.
+\end{aligned}
+\]
+
+This sequence should be read from left to right; first apply $h_2$, then $h_8$, and so forth. The length 381 path is presented in \autoref{app:paths}. 
+\footnote{An interested reader may verify the correctness of these paths through a Jupyter Notebook available at the following link for the associated GitHub repository,
+\begin{center}
+\href{https://github.com/shehper/AC-Solver}{https://github.com/shehper/AC-Solver}.
+\end{center}
+}

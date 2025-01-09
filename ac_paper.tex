@@ -10,11 +10,11 @@
 
 %%%%%%%%%%%%%%%%%%%%%%
 \title[What makes math problems hard for RL]{What makes math problems hard for reinforcement learning: a case study}
-% \input{sec/authors}
+\input{sec/authors}
 
 \date{\today}
 \subjclass[2020]{68T09, 62R07, 55N31, 62R40}
-\keywords{Reinforcement learning, Andrews--Curtis conjecture, automated reasoning, search algorithms, topological data analysis, large language models, unknot diagrams}
+\keywords{Reinforcement learning, Andrews--Curtis conjecture, automated reasoning, search algorithms, large language models, topological data analysis, unknot diagrams}
 
 \begin{document}
 	\vspace*{1cm}
@@ -37,14 +37,17 @@
 	\input{sec/stable}
 	\appendix
 	\input{app/hyperparameters}
-        \todo{Add details on choices of hyperparameters in the experiments for scaling trends of Section 5.}
-        \todo{Comment that normalizing rewards through a running estimate instead of rescaling rewards helps improve performance. Also mention the order of clipping and normalizing rewards. In the equation in section 4.3, we clip rewards, but it helps to normalize first and then clip.}
-        \input{app/RLpath381}
+   	 \input{app/ac_paths}
+        %\input{app/RLpath381}
 	\input{app/neighborhoods}
 	\input{app/algorithm}
+        \input{app/reidemeister}
+        \input{app/mms}
+        %\input{app/families}
+        %\input{app/stable_ak3}
 	\input{sec/funding}
 	\sloppy
 	\printbibliography
-    \input{sec/legacy}
+    %\input{sec/legacy}
     \todos
 \end{document}

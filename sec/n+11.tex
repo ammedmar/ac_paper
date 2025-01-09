@@ -2,48 +2,57 @@
 
 \subsection{Length reduction for $\AK(n)$}
 
-Using the greedy search algorithm, we found a reduction of $\AK(5)$ to length 16, using [resources, a sequence total relator length maxxes out at 25].
+Using the greedy search algorithm, we found a reduction of $\AK(5)$ to length $16$, using a little less than $20$ million nodes.
 It was previously unknown whether any length reduction was possible for any of the presentations in the $\AK(n)$ sequence for $n \geq 3$.
 
-By examining this reduction, we show that it can be generalized to show that $\AK(n)$, which has total relator length $2n+7$, is AC-equivalent to a presentation of length $n+11$, which is a reduction in length for every $n \geq 5$.
+By examining this reduction, we find that it can be generalized to show that $\AK(n)$, which has total relator length $2n+7$, is AC-equivalent to a presentation of length $n+11$. This is a reduction in length for every $n \geq 5$.
 Explicitly, we will prove \autoref{t:n+11} stating that $\AK(n)$ is AC-equivalent to the presentation
 \[
-\langle x,y \mid xyx=yx^{n-1}y, y^2x=xyx^{-1}y \rangle.
+\langle x,y \mid y^{-1} x^2 y = x y^{-1} x \ , \ y x y = x y^{n-1} x \rangle.
 \]
 
 To do so we will prove the following two lemmas from which the theorem follows easily.
-In both lemmas we will use the following definition
-\[
-P(k) = \langle x,y \mid xyx=yx^k y, y^{-1}x^n y = x^{n+1}\rangle.
+
+\begin{lemma}
+    For any $k<n$, $\AK(n)$ is AC-equivalent to $MS(n, w_k)$ where $w_k = y^{-k} x^{-1} y x y$. 
+    \todo{Is it clear that k must be less than n? Also can k be zero or negative? If k can be zero or negative, then does the induction argument below need a modification? Also, if k does not need to be bound by n, then we have obtained two infinite families of AC-trivial presentations, i.e. $MS(1, w_k)$ and $MS(2, w_k)$. I think that we don't need k < n bound. If we do, then we should remove the remark below.}
+    \[
+\MS(n, w_k) = \angles{x, y \mid x^{-1} y^n x = y^{n+1}, x = y^{-k} x^{-1} y x y}.
 \]
-
-\begin{lemma}
-    For any $k<n$, $\AK(n)$ is AC-equivalent to $P(k)$.
 \end{lemma}
 
-\begin{proof}
-    In \cite{MMS}, it is shown that $AK(n)$ is AC-equivalent to $P(1)$. Thus, we show that for any $k<n-1$, $P(k)$ is AC-equivalent to $P(k+1)$, and the result follows by induction.
 
-    First, note that second relation in $P(k)$ can be rearranged in the following three ways:
+\begin{proof}
+    In \cite{MMS}, it is shown that $AK(n)$ is AC-equivalent to $MS(n, w_1)$. Thus, we show that for any $k<n-1$, $MS(n, w_k)$ is AC-equivalent to $MS(n, w_{k+1})$, and the result follows by induction.
+
+    First, note that the first relation in $MS(n, w_k)$ can be rearranged in the following three ways:
     \begin{enumerate}[label=(\roman*)]
-        \item $x^kyx^{-1}=x^{k-n}yx^n$
-        \item $xyx^{-n}=x^{-(n-1)}yx$
-        \item $x^{n-k}y^{-1}x^{-(n-1)}=x^{-(k+1)}y^{-1}x$
+        \item $y^kxy^{-1}=y^{k-n}xy^n$
+        \item $yxy^{-n}=y^{-(n-1)}xy$
+        \item $y^{n-k}x^{-1}y^{-(n-1)}=y^{-(k+1)}x^{-1}y$
     \end{enumerate}
 
-    We can rearrange the first relation of $P(k)$ to get $x^k y x^{-1}=y^{-1}xy$ and substitute from (i) to get $x^{k-n} y x^n = y^{-1}xy$. Then we rewrite this as $xyx^{-n}=yx^{k-n}y$ and substitute from (ii) to get $ x^{-(n-1)}yx= yx^{k-n}y$. Finally, we rewrite this as $x^{n-k}y^{-1}x^{-(n-1)}=yx^{-1}y^{-1}$ and substitute from (iii), which gives $x^{-(k+1)}y^{-1}x=yx^{-1}y^{-1}$ or equivalently $xyx=yx^{k+1}y$.
+    Now, we can rearrange the relation $x=w_k$ to get $y^k x y^{-1}=x^{-1}yx$ and substitute from (i) to get $y^{k-n} x y^n = x^{-1}yx$. Then we rewrite this as $yxy^{-n}=xy^{k-n}x$ and substitute from (ii) to get $ y^{-(n-1)}xy= xy^{k-n}x$. Finally, we rewrite this as $y^{n-k}x^{-1}y^{-(n-1)}=xy^{-1}x^{-1}$ and substitute from (iii), which gives $y^{-(k+1)}x^{-1}y=xy^{-1}x^{-1}$ or equivalently $x=y^{-(k+1)}x^{-1}yxy=w_{k+1}$. 
 \end{proof}
 
 \begin{lemma}
-    $P(n-1)$ is AC-equivalent to $\langle xyx=yx^{n-1}y, y^2x=xyx^{-1}y \rangle$
+    $MS(n, w_{n-1})$ is AC-equivalent to $\langle x,y \mid y^{-1} x^2 y = x y^{-1} x \ , \ y x y = x y^{n-1} x \rangle$.
 \end{lemma}
 
 \begin{proof}
-    The first relation of $P(n-1)=\langle x,y \mid xyx=yx^{n-1} y, y^{-1}x^n y = x^{n+1}\rangle$ can be equivalently expressed as
+    The relation $x=w_{n-1}$ in $MS(n, w_{n-1})$ can be equivalently expressed as
     \begin{enumerate}[label=(\roman*)]
-        \item $x^{n-1}yx^{-1}=y^{-1}xy$
-        \item $x^{-1}yx^{n-1}=yxy^{-1}$
+        \item $y^{n-1}xy^{-1}=x^{-1}yx$
+        \item $y^{-1}xy^{n-1}=xyx^{-1}$
     \end{enumerate}
-    Writing the second relation of $P(n-1)$ as  $(x^{n-1}yx^{-1})x^{-1}=x^{-1}yx^{n-1}$, we substitute from (i) on the LHS and (ii) on the RHS. This gives $y^{-1}xyx^{-1}=yxy^{-1}$, which we can rearrange to get the result.
+    Writing the first relation of $MS(n, w_{n-1})$ as  $(y^{n-1}xy^{-1})y^{-1}=y^{-1}xy^{n-1}$, we substitute from (i) on the LHS and (ii) on the RHS. This gives $x^{-1}yxy^{-1}=xyx^{-1}$, which we can rearrange to get the result.
 \end{proof}
+
+\begin{remark}
+As a corollary of Lemma 4, $MS(n, w_k)$ for each fixed $n$ is an infinite family of AC-equivalent presentations. As $\AK(1)$ and $\AK(2)$ are known to be AC-trivial, $MS(1, w_k)$ and $MS(2, w_k)$ are infinite families of AC-trivial presentations.
+\end{remark}
+
+\begin{remark}
+In Lemma 5, we obtained a presentation that is AC equivalent to $MS(n, w_{n-1})$. It is possible to find various other length reductions of $AK(n)$ by applying the procedure in the proof of Lemma 5 to $MS(n, w_k)$ for $k < n-1$. 
+\end{remark}
 

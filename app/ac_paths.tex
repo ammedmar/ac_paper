@@ -1,0 +1,122 @@
+% !TEX root = ../ac_paper.tex
+
+\section{Andrews--Curtis paths} \label{app:paths}
+In \autoref{sec:variable_horizon} of the paper, we provided two presentations which we solved with the help of a reinforcement learning agent. We will provide the AC path that solves the second of those presentations, 
+\[
+\angles{x, y \mid x^{-1} y^4 x y^{-5} , \ x^{-1} y x y^{-1} x^{-1} y^{-3}},
+\]
+in this appendix. We give this path in terms of (AC$'$1) and (AC$'$2) moves introduced in \autoref{sec:AC}. 
+\[
+\begin{aligned}
+h_1 &= \ r_2 \rightarrow r_2 r_1, & \quad h_5 &= \ r_2 \rightarrow x^{-1} r_2 x, & \quad h_9 &= \ r_2 \rightarrow x r_2 x^{-1}, \\
+h_2 &= \ r_1 \rightarrow r_1 r_2^{-1}, & \quad h_6 &= \ r_1 \rightarrow y^{-1} r_1 y, & \quad h_{10} &= \ r_1 \rightarrow y r_1 y^{-1}, \\
+h_3 &= \ r_2 \rightarrow r_2 r_1^{-1}, & \quad h_7 &= \ r_2 \rightarrow y^{-1} r_2 y, & \quad h_{11} &= \ r_2 \rightarrow y r_2 y^{-1}, \\
+h_4 &= \ r_1 \rightarrow r_1 r_2, & \quad h_8 &= \ r_1 \rightarrow x r_1 x^{-1}, & \quad h_{12} &= \ r_1 \rightarrow x^{-1} r_1 x, \\
+\end{aligned}
+\]
+The AC path has length $381$ and is given below.
+\[
+\begin{aligned}
+& h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{6} \\ &
+h_{6} \cdot h_{6} \cdot h_{11} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \\ &
+h_{10} \cdot h_{10} \cdot h_{7} \cdot h_{3} \cdot h_{5} \cdot h_{5} \cdot h_{5} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{11} \cdot h_{5} \cdot h_{9} \cdot h_{7} \cdot h_{11} \cdot h_{7} \cdot h_{11} \cdot h_{5} \\ &
+h_{4} \cdot h_{9} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{4} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{11} \\ &
+h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{8} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{4} \cdot h_{10} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{4} \cdot h_{11} \\ &
+h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{10} \cdot h_{8} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{11} \cdot h_{4} \cdot h_{7} \cdot h_{11} \cdot h_{2} \cdot h_{8} \cdot h_{6} \\ &
+h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{0} \cdot h_{4} \cdot h_{0} \cdot h_{4} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{11} \cdot h_{2} \\ &
+h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{10} \cdot h_{8} \cdot h_{7} \cdot h_{0} \\ &
+h_{4} \cdot h_{6} \cdot h_{11} \cdot h_{4} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{0} \cdot h_{4} \cdot h_{6} \\ &
+h_{11} \cdot h_{8} \cdot h_{7} \cdot h_{11} \cdot h_{5} \cdot h_{4} \cdot h_{8} \cdot h_{11} \cdot h_{7} \cdot h_{4} \cdot h_{8} \cdot h_{11} \cdot h_{7} \cdot h_{9} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{10} \\ &
+h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{8} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{7} \cdot h_{8} \cdot h_{11} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \\ &
+h_{4} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{7} \cdot h_{11} \cdot h_{7} \cdot h_{4} \cdot h_{11} \cdot h_{10} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{11} \cdot h_{4} \\ &
+h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{0} \cdot h_{4} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{8} \cdot h_{11} \cdot h_{2} \\ &
+h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{7} \\ &
+h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{11} \cdot h_{4} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{7} \cdot h_{11} \cdot h_{7} \cdot h_{5} \\ &
+h_{11} \cdot h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{8} \cdot h_{9} \cdot h_{7} \cdot h_{4} \cdot h_{8} \cdot h_{9} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{11} \cdot h_{5} \\ &
+h_{9} \cdot h_{4} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{4} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{10} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{11} \cdot h_{6} \cdot h_{8} \\ &
+h_{8} \cdot h_{10} \cdot h_{4} \cdot h_{10} \cdot h_{2} \cdot h_{8} \cdot h_{6} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{7} \cdot h_{11} \cdot h_{7} \cdot h_{5} \cdot h_{11} \cdot h_{9} \cdot h_{7} \cdot h_{9} \\ &
+h_{7} \cdot h_{4} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{11} \cdot h_{8} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{4} \cdot h_{11} \cdot h_{10} \cdot h_{2} \\ &
+h_{8} \cdot h_{8} \cdot h_{8} \cdot h_{10} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{11} \cdot h_{4} \cdot h_{2} \cdot h_{8} \cdot h_{8} \cdot h_{2} \cdot h_{8} \cdot h_{10} \cdot h_{2} \cdot h_{8} \\ &
+h_{6} \cdot h_{4} \cdot h_{6} \cdot h_{8} \cdot h_{10} \cdot h_{7} \cdot h_{0} \cdot h_{4} \cdot h_{6} \cdot h_{11} \cdot h_{8} \cdot h_{8} \cdot h_{8} \cdot h_{8} \cdot h_{8} \cdot h_{8} \cdot h_{8} \cdot h_{1} \\ &
+h_{7} \cdot h_{5} \cdot h_{11}
+\end{aligned}
+\]
+
+The sequence should be read from left to right: we first apply $h_2$, then $h_8$, and so forth. 
+\shehper{@all: I do not remember which presentation was solved by the 1546 path. Did I make a mistake or some wrong claim during our conversations at some point?  If yes, we will probably remove this path from here. We can discuss this more on Wednesday.
+``The length of the AC path that the agent found for \autoref{thm:stableAK3} is $1,546$ and it is available at
+	\href{https://github.com/shehper/AC-Solver/blob/main/RLpath1546.txt}{https://github.com/shehper/AC-Solver/blob/main/RLpath1546.txt}
+"
+}
+
+% \subsection{Stable AC-equivalence of $\AK(3)$ with a 3-generator presentation}
+% \label{sec:stable_ak3}
+% \shehper{@self: I should edit this introduction a little bit after editing Section 8.}
+% In this subsection, we give a path that connects a member of the following three generator family of presentations 
+% \[
+%  \langle x, y, z \mid x = z \cdot [y^{-1}, x^{-1}, z],\ y = x \cdot [y^{-1}, x^{-1}, z^{-1}] \cdot [z^{-1}, x],\ w \rangle,
+%  \]
+% to $\AK(3)$. The 3-generator family first appeared in \cite{MMS}. Choosing $w = x^{-1} y z$ and eliminating $z$ gives the following length-25 presentation,
+% \[
+% \angles{ x, y \mid
+% 	x^{-1}y^{-1}xy^{-1}x^{-1}yxy^{-2}xyx^{-1}y, \
+% 	y^{-1}x^{-1}y^2x^{-1}y^{-1}xyxy^{-2}x }.
+% \]
+% Expressed in terms of the moves $h_i$, the connecting sequence has length 53 and looks as follows:
+% \[
+% \begin{aligned}
+% & h_9 \cdot h_7 \cdot h_4 \cdot h_8 \cdot h_{11} \cdot h_5 \cdot h_{11} \cdot h_9 \cdot h_3 \cdot h_{10} \cdot h_{12} \cdot h_7 \cdot h_7 \cdot h_9 \cdot h_{11} \cdot h_5 \cdot h_3 \cdot h_5 \cdot \\
+% & h_4 \cdot h_3 \cdot h_{12} \cdot h_5 \cdot h_7 \cdot h_7 \cdot h_1 \cdot h_9 \cdot h_{11} \cdot h_8 \cdot h_3 \cdot h_5 \cdot h_{10} \cdot h_2 \cdot h_6 \cdot h_{12} \cdot h_9 \cdot h_7 \cdot \\
+% & h_5 \cdot h_{11} \cdot h_{10} \cdot h_3 \cdot h_8 \cdot h_{11} \cdot h_9 \cdot h_2 \cdot h_{10} \cdot h_{12} \cdot h_5 \cdot h_7 \cdot h_9 \cdot h_{11} \cdot h_1 \cdot h_9 \cdot h_8.
+% \end{aligned}
+% \]
+
+
+
+%This sequence should be read from left to right; first apply $h_9$, then $h_7$, and so forth. This follows the standard convention of many programming languages, which iterate over lists from left to right by default. 
+%The length of the presentation did not exceed $25$ during its path to $\AK(3)$. We do not know if this is the shortest path between the two presentations.
+
+%\[
+%\begin{array}{cc}
+%[(9, 25), (7, 25), (4, 17), (8, 17), (11, 17), (5, 17), (11, 17), (9, 17), (3, 16), (10, 16), \\
+ %(12, 16), (7, 16), (7, 16), (9, 16), (11, 16), (5, 16), (3, 15), (5, 15), (4, 19), (3, 14), (12, 14), \\
+ %(5, 14), (7, 16), (7, 18), (1, 19), (9, 19), (11, 19), (8, 19), (3, 18), (5, 18), (10, 18), (2, 15), (6, 15), \\
+ %(12, 15), (9, 15), (7, 15), (5, 15), (11, 15), (10, 15), (3, 15), (8, 15), (11, 15), (9, 15), (2, 16),\\
+ %(10, 16), (12, 16), (5, 16), (7, 16), (9, 16), (11, 16), (1, 13), (9, 13), (8, 13)]
+%\end{array}
+%\]
+
+
+%\subsubsection*{Moved from S2: The Stable Andrews--Curtis Conjecture}\label{sec:stable_ac}
+
+
+% First, in order to make this part of the paper self-contained, let us remind the reader that the term ``stable'' (a.k.a. ``weak'') refers to one of many variants of the Andrews--Curtis conjecture, see e.g. \cite{MMS,Meier2016,Bagherifard2021}, where in addition to the usual AC-moves one is allowed to use two more transformations:
+% \begin{enumerate}[label=(AC\arabic*)]
+% 	\setcounter{enumi}{3}
+% 	\item Include a new generator and a trivial relator, i.e. replace $\angles{x_1, \dots, x_n \mid r_1, \dots, r_n}$ by $\angles{x_1, \dots, x_n, x_{n+1} \mid r_1, \dots, r_n, x_{n+1}}$.
+% 	\item Remove a trivial relator and the corresponding generator, i.e. the inverse of (AC4).
+% \end{enumerate}
+
+% \begin{definition}
+% If two balanced presentations of the trivial group are related by a sequence of AC-transformations (AC1) through (AC5), we say that they are \textit{stably AC-equivalent}.
+% \end{definition}
+% The stable Andrews--Curtis conjecture states that any balanced presentation is stably AC-equivalent to the trivial presentation.
+% To the best of our knowledge, prior to this work, the shortest potential counterexample to the standard Andrews--Curtis conjecture, $\AK(3)$, was also a potential counterexample to the stable Andrews--Curtis conjecture. Our proof that $\AK(3)$ is stably AC-trivial builds on the following result.
+
+% \begin{theorem*}[Myasnikov, Myasnikov, and Shpilrain, \cite{MMS}]\label{theorem:MMS}
+% 	Using the notation $[a, b] = a b a^{-1} b^{-1}$ and $[a, b, c] = [[a, b], c]$, any presentation of the following form is a presentation of the trivial group:
+% 	\[
+% 	\langle x, y, z \mid x = z \cdot [y^{-1}, x^{-1}, z],\ y = x \cdot [y^{-1}, x^{-1}, z^{-1}] \cdot [z^{-1}, x],\ w \rangle,
+% 	\]
+% 	where $w$ is a word in $x$, $y$, and $z$ whose exponent sum on $x$, $y$, and $z$ equals $\pm 1$. Moreover, all such presentations are stably AC-trivial.
+% \end{theorem*}
+
+% These presentations are obtained by applying Reidemeister moves to the knot diagram of the unknot and using the fact that Reidemeister moves applied to a knot diagram give stably AC-equivalent Wirtinger presentations of the knot group, cf. \cite{WADA1994241}.
+
+%\footnote{
+	%They used a computer program to further reduce this presentation to a length 14 presentation,
+	%\[
+	%\angles{x, y \mid x y x^{-2} = y x^{-1} y, xy^2 x = y x y}.
+	%\]
+	%We focus on the length 25 presentation as it follows clearly from the presentations in the theorem.
+	%}

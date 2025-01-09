@@ -1,0 +1,194 @@
+\section{Reidemeister moves realized by stable AC moves}\label{app:reid}
+
+In this appendix, we prove \autoref{prop:unknot-stable}, which we rewrite below.
+
+\begin{proposition}[Myasnikov, Myasnikov, and Shpilrain, \cite{MMS}]
+    Let $\angles{ x_1,\ldots, x_n\, \mid \, r_1, \ldots, r_n }$ be the Wirtinger presentation of an unknot diagram. Then for any $k=1,\ldots,n$ and word $w$ in the $x_i$ with exponent sum $\pm 1$, the balanced presentation of the trivial group $\langle x_1,\ldots, x_n\,|\, r_1,\ldots, r_{k-1}, r_{k+1},\ldots, r_n, w\rangle$ is stably Andrews-Curtis-trivial.
+\end{proposition}
+
+As reviewed in \autoref{subsec:ac-unknot}, given any oriented knot diagram, we assign generators $\{x_i\}_{i=1}^n$ to each of the arcs and relators $\{ r_i\}_{i=1}^n$ to each of the crossings. These generators and relators form a balanced presentation of the fundamental group of the knot complement. There exists an ordering of the relators and a choice of $\pm 1$ as exponents such that the relators satisfy the equation, 
+\[
+\prod\limits_{i=1}^n r_i^{\pm 1} = 1
+\]
+Thus any relator can be eliminated, giving $\angles{x_1, \dots , x_n \mid r_1, \dots, r_{k-1}, r_{k+1}, \dots, r_n }$ without changing the underlying group. When the knot is an unknot, adding a relator $w$, which is a word in $x_1, \dots , x_n$ with exponent sum $\pm 1$, gives a balanced presentation of the trivial group $\angles{x_1, \dots , x_n \mid r_1, \dots, r_{k-1}, r_{k+1}, \dots, r_n , w}$. 
+
+Here, we will show that the application of Reidemeister moves to a knot diagram of the unknot corresponds to application of stable AC moves (AC1)--(AC5) to the associated balanced presentation of the trivial group. This relationship was first studied in \cite{WADA1994241}.
+%\footnote{A similar relationship between Reidemeister moves applied to a knot diagram and the application of stable AC moves to the associated Wirtinger presentation was given in \cite{WADA1994241}. }
+%The proof presented here as the advantage that the effect of stable AC moves on $w$ is explicit.
+%\shehper{@Lucas: can you please independently check that \cite{WADA1994241} discuss the effect of stable AC moves on Wirtinger presentation and not on the balanced presentation, And hence, they do not show how these moves effect $w$? If not, we can remove the second sentence of the footnote.}
+%\lucas{@Shehper: I agree they do not explicitly show it in Wada, although the effect on $w$ part is pretty trivial}}
+%\shehper{@Lucas: okay, thank you. I have edited the footnote.}
+As a knot diagram of the unknot is reduced to the trivial diagram, the associated balanced presentation is shown to be stably AC-trivial.
+
+\begin{figure}
+    \centering
+\begin{tikzpicture}
+\draw[thick,rounded corners] (0,0)--(2,0)--(2,-1)--(1,-1)--(1,-0.2);
+\draw[thick,rounded corners] (1,0.2)--(1,1);
+
+\draw[<->] (2.5,0)--(3.5,0);
+
+\draw[thick,rounded corners] (4,0)--(5,0)--(5,1);
+
+\node at (4.5,-0.5){$x$};
+\node at (0.5,-0.5){$x$};
+\node at (1.5,0.5){$y$};
+
+\node at (0.5,0){$>$};
+\node at (1,0.5){\rotatebox{90}{$>$}};
+\node at (4.5,0){$>$};
+
+\node at (-0.5,0){\textbf{R1}};
+
+\node at (7.5,-3){\textbf{R2b}};
+
+\draw[thick] (9,-2)--(9,-2.3);
+\draw[thick] (9,-2.7)--(9,-3.3);
+\draw[thick] (9,-3.7)--(9,-4);
+
+\draw[thick,rounded corners] (10,-2)--(10,-2.5)--(8.5,-2.5)--(8.5,-3.5)--(10,-3.5)--(10,-4);
+
+\node at (9,-1.7){$x$};
+\node at (10,-1.7){$y$};
+\node at (9.2,-3){$z$};
+\node at (9,-4.3){$u$};
+
+\node at (9,-2){\rotatebox{90}{$>$}};
+\node at (10,-2){\rotatebox{90}{$>$}};
+\node at (9,-3){\rotatebox{90}{$>$}};
+\node at (9,-3.7){\rotatebox{90}{$>$}};
+
+\draw[<->] (10.5,-3)--(11.5,-3);
+
+\draw[thick] (12.5,-2)--(12.5,-4);
+\draw[thick] (13.5,-2)--(13.5,-4);
+
+\node at (12.5,-3){\rotatebox{90}{$>$}};
+\node at (13.5,-3){\rotatebox{90}{$>$}};
+
+\node at (12.5,-1.7){$x$};
+\node at (13.5,-1.7){$y$};
+
+\draw[thick] (1,-2)--(1,-2.3);
+\draw[thick] (1,-2.7)--(1,-3.3);
+\draw[thick] (1,-3.7)--(1,-4);
+
+\draw[thick,rounded corners] (2,-2)--(2,-2.5)--(0.5,-2.5)--(0.5,-3.5)--(2,-3.5)--(2,-4);
+
+\node at (1,-2){\rotatebox{90}{$>$}};
+\node at (2,-2.3){\rotatebox{90}{$<$}};
+\node at (1,-3){\rotatebox{90}{$>$}};
+\node at (1,-3.7){\rotatebox{90}{$>$}};
+
+\draw[<->] (2.5,-3)--(3.5,-3);
+
+\draw[thick] (4.5,-2)--(4.5,-4);
+\draw[thick] (5.5,-2)--(5.5,-4);
+
+\node at (4.5,-3){\rotatebox{90}{$>$}};
+\node at (5.5,-3){\rotatebox{90}{$<$}};
+
+\node at (4.5,-1.7){$x$};
+\node at (5.5,-1.7){$y$};
+
+\node at (1,-1.7){$x$};
+\node at (2,-1.7){$y$};
+\node at (1.2,-3){$z$};
+\node at (1,-4.3){$u$};
+
+\node at (-0.5,-3){\textbf{R2a}};
+
+\draw[thick] (1,-5)--(1,-8);
+\draw[thick] (0.5,-7.5)--(0.8,-7.5);
+\draw[thick,rounded corners] (1.2,-7.5)--(2,-7.5)--(2,-5.5)--(3.5,-5.5);
+\draw[thick] (0.5,-6.5)--(0.8,-6.5);
+\draw[thick] (1.2,-6.5)--(1.8,-6.5);
+\draw[thick] (2.2,-6.5)--(3.5,-6.5);
+
+\draw[<->] (4,-6.5)--(5,-6.5);
+
+\draw[thick] (5.5,-6.5)--(6.8,-6.5);
+\draw[thick,rounded corners] (5.5,-7.5)--(7,-7.5)--(7,-5.5)--(7.8,-5.5);
+\draw[thick,rounded corners] (7.2,-6.5)--(7.8,-6.5);
+\draw[thick] (8,-5)--(8,-8);
+\draw[thick] (8.2,-5.5)--(8.5,-5.5);
+\draw[thick] (8.2,-6.5)--(8.5,-6.5);
+
+\node at (0.5,-5.5){$x$};
+\node at (0.5,-6.2){$y$};
+\node at (0.5,-7.2){$z$};
+\node at (3,-5.2){$r$};
+\node at (3,-6.2){$u$};
+\node at (1.5,-6.2){$v$};
+
+\node at (1,-5.5){\rotatebox{90}{$>$}};
+\node at (0.7,-6.5){$>$};
+\node at (0.7,-7.5){$>$};
+\node at (1.5,-6.5){$>$};
+\node at (3,-5.5){$>$};
+\node at (3,-6.5){$>$};
+
+\node at (8,-4.5){$x$};
+\node at (6,-6.2){$y$};
+\node at (6,-7.2){$z$};
+\node at (9,-5.5){$r$};
+\node at (9,-6.5){$u$};
+\node at (7.5,-6.2){$t$};
+
+\node at (8,-5){\rotatebox{90}{$>$}};
+\node at (6,-6.5){$>$};
+\node at (6,-7.5){$>$};
+\node at (8.5,-6.5){$>$};
+\node at (8.5,-5.5){$>$};
+\node at (7.5,-6.5){$>$};
+
+\node at (-0.5,-6){\textbf{R3}};
+
+\end{tikzpicture}
+    \caption{Reidemeister moves}
+    \label{fig:rm}
+\end{figure}
+
+Two diagrams of the same knot can be related by a finite sequence of the three
+Reidemeister moves shown in \autoref{fig:rm}. Here we distinguish \textbf{R2a} and \textbf{R2b} just because they give slightly different computation about the presentations. Since we want to consider the behavior of balanced presentations $\angles{ x_1,\ldots, x_n \mid  r_1,\ldots, r_{k-1}, r_{k+1},\ldots, r_n, w}$ of the trivial group under Reidemeister moves, we can assume that the relator eliminated, $r_k$, is not one given by the crossings in \textbf{R1}, \textbf{R2a}, \textbf{R2b}, \textbf{R3}. We note, however, that since any relator in a Wirtinger presentation can be written as the product of the other relators, the relator we eliminated can be recovered using (AC1)--(AC3).
+\\
+\\
+\textbf{R1}:
+\begin{align*}
+\langle x_1,\ldots,x_n,x,y\mid r_1,\ldots,r_n,yx^{-1},w\rangle\longleftrightarrow\langle x_1,\ldots,x_n,x\mid r_1',\ldots,r_n',w'\rangle
+\end{align*}
+Here $r_i'$ and $w'$ are obtained from replacing $y$ in $r_i$ and $w$ by $x$. The equivalence comes from the substitution in \autoref{lem:substitution}.
+\\
+\\
+\textbf{R2a}:
+\begin{align*}
+\,\,&\langle x_1,\ldots,x_n,x,y,z,u\mid r_1,\ldots,r_{n+1},xyz^{-1}y^{-1},zy^{-1}u^{-1}y,w\rangle
+\\
+&\longleftrightarrow\langle x_1,\ldots,x_n,x,y,u\mid r_1',\ldots,r_{n+1}',ux^{-1},w'\rangle
+\\
+&=\langle x_1,\ldots,x_n,x,y,u\mid r_1,\ldots,r_{n+1},ux^{-1},w'\rangle
+\\
+&\longleftrightarrow\langle x_1,\ldots,x_n,x,y\mid \tilde{r}_1,\ldots,\tilde{r}_{n+1},\tilde{w}\rangle
+\end{align*}
+Here $r_i',w'$ are obtained from replacing $z$ in $r_i,w$ by $y^{-1}xy$; $\tilde{r_i}$ from replacing $u$ in $r_i$ by $x$; and $\tilde{w}$ from replacing $u$ in $w'$ by $x$. The second equation comes from the fact that the $r_i$ do not contain $z$.
+\\
+\textbf{R2b} is similar to \textbf{R2a}.
+\\
+\\
+\textbf{R3}:
+\begin{align*}
+&\langle x_1,\ldots,x_n,x,y,z,u,v,r\mid r_1,\ldots,r_{n+2},vxy^{-1}x^{-1},urv^{-1}r^{-1},rxz^{-1}x^{-1},w\rangle
+\\
+&\longleftrightarrow\langle x_1,\ldots,x_n,x,y,z,u,r\mid r_1,\ldots,r_{n+2},urxy^{-1}x^{-1}r^{-1},rxz^{-1}x^{-1},w'\rangle
+\\
+&\longleftrightarrow\langle x_1,\ldots,x_n,x,y,z,u,r\mid r_1,\ldots,r_{n+2},uxzy^{-1}z^{-1}x^{-1},rxz^{-1}x^{-1},w'\rangle
+\\
+&\longleftrightarrow\langle x_1,\ldots,x_n,x,y,z,u,r,t\mid r_1,\ldots,r_{n+2},uxzy^{-1}z^{-1}x^{-1},rxz^{-1}x^{-1},tzy^{-1}z^{-1},w'\rangle
+\\
+&\longleftrightarrow\langle x_1,\ldots,x_n,x,y,z,u,r,t\mid r_1,\ldots,r_{n+2},rxz^{-1}x^{-1},tzy^{-1}z^{-1},uxt^{-1}x^{-1},w'\rangle
+\end{align*}
+Here $w'$ is obtained from replacing $v$ in $w$ by $xyx^{-1}$.
+
+
+After reducing our diagram to the trivial diagram of the unknot, we are left with $\langle x \mid \bar w\rangle$, where $\bar w$ is $w$ after applying all the Reidemeister moves. This is because the trivial diagram of the unknot gives the presentation $\langle x\mid \,\,\rangle$ of the infinite cyclic group, so $\bar w$ is the only relator remaining.  Moreover, $\bar w = x^{\pm1}$ since at each stage, $w$ has exponent sum $\pm 1$, so $\langle x \mid \bar w\rangle$ can be reduced to the trivial presentation $\langle \,\, \mid \,\, \rangle$. Thus \autoref{prop:unknot-stable} is proven.
+
