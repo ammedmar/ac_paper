@@ -17,3 +17,5 @@ ac_paper.fdb_latexmk
 ac_paper.fls
 
 arXiv.zip
+
+.DS_Store
