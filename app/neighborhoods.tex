@@ -4,7 +4,7 @@
 
 \subsection{Neighborhoods of the identity}
 
-For any $\ell \in \{3, \dots, 16\}$, we constructed a neighborhood of the identity using an algorithm based on BFS search (\autoref{alg:bfs_1}).
+For any $\ell \in \{3, \dots, 16\}$, we constructed a neighborhood of the identity using an algorithm based on BFS search (\cref{alg:bfs_1}).
 This neighborhood contains all presentations that can be connected to the identity via a path of AC-moves, where each presentation in the path has a length less than or equal to $\ell$, that is, the full based subgraph containing vertices with connectivity value less than or equal to $\ell$.
 We consider the relators of a presentations as a set (meaning that the order of relators is not important; implemented as a tuple of relators in lexicographic order) 
 
@@ -35,7 +35,7 @@ We consider the relators of a presentations as a set (meaning that the order of 
 \subsection{Neighborhoods for MS series}
 
 We define the $n$-neighborhood of a balanced presentation $\pi$ as the set of all balanced presentations that can be obtained by applying at most $n$ AC-moves to $\pi$.
-We used \autoref{alg:bfs_neigh}, a variation of BFS, to generate $5$-neighborhoods of presentations in the Miller--Schupp series. 
+We used \cref{alg:bfs_neigh}, a variation of BFS, to generate $5$-neighborhoods of presentations in the Miller--Schupp series. 
 As before, we disregard the order of the relators.
 
 \begin{algorithm}
