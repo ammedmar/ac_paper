@@ -4,9 +4,9 @@
 
 %In this paper, we trained these learning algorithms with limited computation power but noticed that they easily outperform breadth-first search and often find shorter sequences of AC-moves compared to the greedy search when they solve a presentation.
 
-This section is organized as follows: in \autoref{sec:mdp}, we discuss how the problem underlying the Andrews--Curtis conjecture can be formulated as a Markov Decision Process.
-In \autoref{sec:ppo}, we discuss details of a specific reinforcement learning algorithm, called the Proximal Policy Optimization algorithm, which we used to find AC trivializations of balanced presentations.
-Finally, in \autoref{sec:application}, we discuss the results of our work, comparing the performance of PPO with that of the classical search algorithms studied in the previous section.
+This section is organized as follows: in \cref{sec:mdp}, we discuss how the problem underlying the Andrews--Curtis conjecture can be formulated as a Markov Decision Process.
+In \cref{sec:ppo}, we discuss details of a specific reinforcement learning algorithm, called the Proximal Policy Optimization algorithm, which we used to find AC trivializations of balanced presentations.
+Finally, in \cref{sec:application}, we discuss the results of our work, comparing the performance of PPO with that of the classical search algorithms studied in the previous section.
 
 \subsection{Markov decision process} \label{sec:mdp}
 
@@ -66,7 +66,7 @@ Here \( r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\text{old}}(a_t | s_t)} 
 The raw and the clipped ratio ensure that excessively large policy updates are curtailed, making the optimization process more stable.
 
 The advantage function is estimated during the optimization process using the Generalized Advantage Estimation method of \cite{schulman2018highdimensional}.
-This method requires an estimation of the on-policy value function (c.f. \autoref{ft:advantage}).
+This method requires an estimation of the on-policy value function (c.f. \cref{ft:advantage}).
 In PPO, the actor-critic framework is used for this purpose. We train two neural networks in parallel, where the ``actor" learns the policy $\pi_\theta$ and the ``critic" learns the value function.\footnote{
 Sometimes, these neural networks are made to share their parameters, which helps in stability during training.
 We experimented with shared as well as unshared parameters and observed better performance by keeping the parameters independent.}
@@ -78,13 +78,13 @@ L = \mathbb{E}_{t} \left[ L^{CLIP}(\theta) - c_1 L^{V}(\phi) + c_2 S(\pi_\theta)
 where $c_1$ and $c_2$ are tunable hyperparameters.
 
 In policy gradient algorithms such as PPO, we alternate between collecting data through the current policy in the ``rollout phase" and updating the policy weights through gradient descent in the ``optimization phase". There are various hyperparameters associated to these phases, which we briefly describe now. The rollout phase involves generating multiple trajectories of the underlying Markov Decision Process in parallel using the current policy function.
-The hyperparameters of this phase include the number of parallel actors $N$, the rollout length $T'$, i.e. the number of steps each actor takes, the discount factor $\gamma$ (c.f. \autoref{sec:mdp}) and a bootstrapping hyperparameter of Generalized Advantage Estimation $\lambda_{\text{GAE}}$. The dataset of $N \times T'$ examples collected in this phase is then used to update the policy. In each epoch, the dataset is shuffled and split into mini-batches before performing gradient descent.
+The hyperparameters of this phase include the number of parallel actors $N$, the rollout length $T'$, i.e. the number of steps each actor takes, the discount factor $\gamma$ (c.f. \cref{sec:mdp}) and a bootstrapping hyperparameter of Generalized Advantage Estimation $\lambda_{\text{GAE}}$. The dataset of $N \times T'$ examples collected in this phase is then used to update the policy. In each epoch, the dataset is shuffled and split into mini-batches before performing gradient descent.
 In addition to the optimizer hyperparameters (such as learning rate schedule), the number of epochs and the size of mini-batches are hyperparameters of the optimization process.
-Further details of hyperparameters are summarized in \autoref{app:hyperparameters}.
+Further details of hyperparameters are summarized in \cref{app:hyperparameters}.
 
 \subsection{Application to the MS series}\label{sec:application}
 
-The set of all balanced presentations of the trivial group with a fixed number of generators and the set of AC-transformations play the roles of sets $S$ and $A$, respectively. (Recall notations introduced in \autoref{sec:mdp}). Once we choose a reward function $R$ and an initial state distribution $\rho$, we may use the Proximal Policy Optimization algorithm to learn the policy function $\pi$. We tested a few different reward functions in our experiments, observing that the following candidate led to the best performance and stability in training.
+The set of all balanced presentations of the trivial group with a fixed number of generators and the set of AC-transformations play the roles of sets $S$ and $A$, respectively. (Recall notations introduced in \cref{sec:mdp}). Once we choose a reward function $R$ and an initial state distribution $\rho$, we may use the Proximal Policy Optimization algorithm to learn the policy function $\pi$. We tested a few different reward functions in our experiments, observing that the following candidate led to the best performance and stability in training.
 \[
 R(s_{t}, a_{t}, s_{t+1}) =
 \begin{cases}
@@ -96,7 +96,7 @@ Here, $\length(s_{t+1})$ is the length of the presentation at timestep $t+1$. Th
 
 We define the initial state distribution as a distribution over the presentations of the Miller--Schupp series with $n \leq 7$ and $\length(w) \leq 7$. Initially, each presentation was selected exactly once in ascending order by $n$ and $\length(w)$. Following this initial sequence, we maintained an ongoing record of presentations that were either solved or unsolved at any given time. During each rollout phase, a presentation was randomly chosen from the set of solved or unsolved presentations with probabilities of $\frac{1}{4}$ and $\frac{3}{4}$, respectively. This method was designed to allow the policy network to refine its strategies on presentations that were already solved, potentially discovering shorter sequences of AC-moves, while also tackling presentations that remained unsolved.
 
-We also need to choose a horizon length $T$ over which the cumulative return is calculated (c.f. \autoref{sec:mdp}). In reinforcement learning, training on tasks with long horizons is usually harder than on those with short horizons. This is because in long horizon tasks it is often more difficult to figure out which actions are responsible for the eventual outcomes, a problem known as the credit assignment problem. There is also more uncertainty in the returns (high variance), which can slow down convergence and destabilize the learning process. The size of the exploration space also becomes a critical issue. With longer horizons, the agent needs to explore a more diverse set of actions to learn about long-term consequences without getting stuck in suboptimal regions. However, it does not mean that we can not train well-performing agents for long-horizon tasks; rather, it indicates that with longer horizons we may need significantly stronger computational power and extended training periods.\footnote{Another option for improving performance in long-horizon tasks is to provide good intermediate rewards; unfortunately, this is rather hard in the present context of the AC conjecture.}
+We also need to choose a horizon length $T$ over which the cumulative return is calculated (c.f. \cref{sec:mdp}). In reinforcement learning, training on tasks with long horizons is usually harder than on those with short horizons. This is because in long horizon tasks it is often more difficult to figure out which actions are responsible for the eventual outcomes, a problem known as the credit assignment problem. There is also more uncertainty in the returns (high variance), which can slow down convergence and destabilize the learning process. The size of the exploration space also becomes a critical issue. With longer horizons, the agent needs to explore a more diverse set of actions to learn about long-term consequences without getting stuck in suboptimal regions. However, it does not mean that we can not train well-performing agents for long-horizon tasks; rather, it indicates that with longer horizons we may need significantly stronger computational power and extended training periods.\footnote{Another option for improving performance in long-horizon tasks is to provide good intermediate rewards; unfortunately, this is rather hard in the present context of the AC conjecture.}
 
 The horizon length $T$ is an important hyperparameter in the context of our problem as any presentation that requires a sequence of AC-moves of length greater than the horizon length will necessarily remain unsolved by PPO. On the other hand, choosing a horizon length that is too long can significantly slow down the training process. We experimented with two different schedules for horizon length during training: 
 \begin{enumerate}[label=(\roman*)]
@@ -107,7 +107,7 @@ The horizon length $T$ is an important hyperparameter in the context of our prob
 The trained agents behave differently in the two cases as we will now describe.
 
 \subsection{PPO with constant horizon length: experimental results} When keeping the horizon length fixed during training, we experimented with considerably smaller values, i.e. $T=200$ and $T=400$. Out of the $1190$ Miller--Schupp presentations of the initial state distribution, the best performing PPO agents could solve $431$ and $402$ presentations respectively. \footnote{We also explored the value $T=2000$. However, we found it much slower to train due to the reasons described above. We could only solve $219$ presentations of the initial state distribution in this case. This training run had not converged, and we expect that with more computational power and extended training periods, it will be worthwhile to experiment with larger values of $T$, perhaps helping us solve even more presentations than greedy search.}
-In each case, these presentations formed a subset of the presentations solved by the greedy search (\autoref{fig:performance}).
+In each case, these presentations formed a subset of the presentations solved by the greedy search (\cref{fig:performance}).
 
 \begin{figure}
 	\centering
@@ -125,13 +125,13 @@ In each case, these presentations formed a subset of the presentations solved by
 	\label{fig:performance}
 \end{figure}
 
-In the rest of this section, we will describe some observations made for an agent trained with the value $T=200$.\footnote{The complete list of hyperparameters for this experiment is summarized in \autoref{app:hyperparameters}.}
-%In \autoref{fig:performance} above, the performance of this experiment is compared with the results of the greedy search and the breadth-first search. 
+In the rest of this section, we will describe some observations made for an agent trained with the value $T=200$.\footnote{The complete list of hyperparameters for this experiment is summarized in \cref{app:hyperparameters}.}
+%In \cref{fig:performance} above, the performance of this experiment is compared with the results of the greedy search and the breadth-first search. 
 While PPO consistently outperformed BFS for all values of $n$ and for all lengths of presentations, it consistently underperformed compared to the greedy search.
 \footnote{The results in this section were obtained using relatively small neural networks for both the actor and the critic networks, each consisting of two layers with 512 hidden units. It is natural to assume that increasing the size of these networks could enable a PPO agent to outperform the greedy search. However, such experiments were not performed due to computational limitations. Future work could explore this direction to assess the impact of larger network architectures.}
-In \autoref{fig:path_lengths_ppo_solved_vs_unsolved}, we plot the distribution of path lengths discovered by greedy search in the two cases of presentations that could / could not be solved by PPO. It is clear that the presentations PPO solved had, in general, smaller path lengths. In particular, all of these had greedy search path lengths less than $200$.
+In \cref{fig:path_lengths_ppo_solved_vs_unsolved}, we plot the distribution of path lengths discovered by greedy search in the two cases of presentations that could / could not be solved by PPO. It is clear that the presentations PPO solved had, in general, smaller path lengths. In particular, all of these had greedy search path lengths less than $200$.
 
-In \autoref{fig:path_lengths_gs_vs_ppo}, we give a scatterplot of the path lengths discovered by PPO and greedy search for all of the presentations solved by PPO. We note that in many cases, PPO found shorter paths compared to the greedy search. This is expected as PPO learns to improve its strategy during the training, discovering shorter paths for presentations it may have already solved. The scatterplot shows the shortest paths discovered by PPO for each presentation. We also note that in many cases, PPO found longer paths than greedy search. This shows that our specific run exhibits a suboptimal policy. It could perhaps be improved by performing more hyperparameter tuning on the training process.
+In \cref{fig:path_lengths_gs_vs_ppo}, we give a scatterplot of the path lengths discovered by PPO and greedy search for all of the presentations solved by PPO. We note that in many cases, PPO found shorter paths compared to the greedy search. This is expected as PPO learns to improve its strategy during the training, discovering shorter paths for presentations it may have already solved. The scatterplot shows the shortest paths discovered by PPO for each presentation. We also note that in many cases, PPO found longer paths than greedy search. This shows that our specific run exhibits a suboptimal policy. It could perhaps be improved by performing more hyperparameter tuning on the training process.
 
 \begin{figure}
 	\centering
@@ -160,7 +160,7 @@ Keeping the horizon length fixed either fails to solve hard presentations if the
 We trained a PPO agent for 100 million environment interactions, with the same hyperparameters as in the previous section; only varying the horizon length over the course of training. In the beginning, the horizon length was set to $200$; it was increased to $400$ after 10 million environment interactions, then to $800$ after 25 million environment interactions, and finally to $1200$ after 50 million environment interactions.
 This schedule allowed the PPO agent to first solve easier presentations, avoiding the challenges of long-horizon tasks. As the agent’s capabilities improved, the gradual increase in horizon length enabled the agent to tackle more complex Miller-Schupp presentations.
 
-The best-performing PPO agent solved two new presentations of the Miller-Schupp series that the greedy search had failed to solve (\autoref{thm:MS}):
+The best-performing PPO agent solved two new presentations of the Miller-Schupp series that the greedy search had failed to solve (\cref{thm:MS}):
 	\begin{gather*}
 		\angles{x, y \mid x^{-1} y^3 x y^{-4} , \ x^{-1} y^{-1} x y^{-3} x^{-1} y^{-1}}, \\
 		\angles{x, y \mid x^{-1} y^4 x y^{-5} , \ x^{-1} y x y^{-1} x^{-1} y^{-3}}.
@@ -194,7 +194,7 @@ the length 195 path for the first of the two presentations above is as follows.
 \end{aligned}
 \]
 
-This sequence should be read from left to right; first apply $h_2$, then $h_8$, and so forth. The length 381 path is presented in \autoref{app:paths}. 
+This sequence should be read from left to right; first apply $h_2$, then $h_8$, and so forth. The length 381 path is presented in \cref{app:paths}. 
 \footnote{An interested reader may verify the correctness of these paths through a Jupyter Notebook available at the following link for the associated GitHub repository,
 \begin{center}
 \href{https://github.com/shehper/AC-Solver}{https://github.com/shehper/AC-Solver}.

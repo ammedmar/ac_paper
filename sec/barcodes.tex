@@ -5,7 +5,7 @@
 \subsection{Neighborhoods}
 
 Let us return to our data set of 1190 presentations in the Miller--Schupp series for \(n \leq 7\) and \(\length(w) \leq 7\).
-Using the methods described in \autoref{sec:ppo}, we trained a PPO agent that successfully solved 417 of these presentations.
+Using the methods described in \cref{sec:ppo}, we trained a PPO agent that successfully solved 417 of these presentations.
 We will refer to the set of these 417 presentations as PPO-solved and the remaining 773 presentations as PPO-unsolved.
 Our goal is to analyze the relationship between these labels and the sizes of their respective AC neighborhoods.
 A presentation is considered to be in the \(k\)-step neighborhood of another if they can be connected by applying at most \(k\) AC-moves.
@@ -23,7 +23,7 @@ Their basic statistics are
 	\bottomrule
 \end{tabular}
 \]
-A more detailed description of the frequency of values is presented in \autoref{fig:prime_combined_pie}.
+A more detailed description of the frequency of values is presented in \cref{fig:prime_combined_pie}.
 
 \begin{figure}
 	\includegraphics[scale=.4]{fig/prime_combined_pie_rl_cropped.pdf}
@@ -33,11 +33,11 @@ A more detailed description of the frequency of values is presented in \autoref{
 
 The largest neighborhood size accounts for nearly a third of all considered presentations.
 However, it represents only 2.4\% of PPO-solved presentations, while constituting almost half (48.3\%) of the PPO-unsolved presentations.
-For more details, please refer to \autoref{fig:prime_pies}.
+For more details, please refer to \cref{fig:prime_pies}.
 
 In contrast, using BFS, these proportions are 7.1\% and 52.5\%, respectively.
 
-Another notable feature visible in \autoref{fig:prime_pies} is that just three neighborhood sizes account for over three-quarters of all PPO-unsolved presentations.
+Another notable feature visible in \cref{fig:prime_pies} is that just three neighborhood sizes account for over three-quarters of all PPO-unsolved presentations.
 When considering six neighborhood sizes, this proportion rises to 96.9\%.
 In fact, only twelve neighborhood sizes are present among PPO-unsolved presentations, whereas all 131 sizes appear among PPO-solved presentations.
 The most common neighborhood size for PPO-solved presentations is 89,560, representing only 17.3\% of them.
@@ -55,7 +55,7 @@ Moreover, 54.2\% of all PPO-solved presentations have a neighborhood size shared
 As we observed, having a maximal neighborhood size provides significant insight into whether a presentation is labeled as PPO-solved or PPO-unsolved.
 Additionally, the minimum neighborhood size among PPO-unsolved presentations—89,573—is also quite telling, as 54\% of PPO-solved presentations have neighborhood sizes smaller than this value.
 This percentage can be further improved by considering that the neighborhood sizes of PPO-unsolved presentations are concentrated within three specific bands.
-Please refer to \autoref{fig:prime_histogram} for more details.
+Please refer to \cref{fig:prime_histogram} for more details.
 We find that 64.3\% of PPO-solved presentations fall outside the three bands \([89,575, 89,575]\), \([89,715, 89,831]\), and \([89,844, 89,872]\), which together contain over 99\% of PPO-unsolved presentations.
 By narrowing the last band to \([89,859, 89,872]\), these three bands now encompass the neighborhood sizes of over 90\% of PPO-unsolved presentations, while their complement includes 77.2\% of PPO-solved presentations.
 
@@ -77,7 +77,7 @@ The latter was particularly intriguing, given the emphasis on Markov processes a
 
 \subsection{Isolated components}
 
-In \autoref{ss:greedy_search}, we explored a greedy approach to finding AC-trivializations of a presentation \(\pi\).
+In \cref{ss:greedy_search}, we explored a greedy approach to finding AC-trivializations of a presentation \(\pi\).
 Specifically, the goal was to construct a sequence of presentations \((\pi_0, \dots, \pi)\), where \(\pi_0\) is the trivial presentation, such that each consecutive pair in the sequence is related by an AC-move.
 Furthermore, at each step \(k\), the presentation \(\pi_k\) was chosen to have the shortest possible length among all presentations connected to \(\pi_{k+1}\) via an AC-move.
 In general, the length of a presentation in an AC-trivialization tends to exceed the length of the original presentation being trivialized.
@@ -129,7 +129,7 @@ Explicitly, \(\Gamma^\ell\) includes all vertices that can be connected to the t
 
 We will denote by $v(\ell)$ and $e(\ell)$ the number of vertices and edges of $\Gamma^\ell$.
 Let us denote by $ic(\ell)_k$ the number of isolated components with isolation value $k$.
-\autoref{fig:classical_persistence} summarize our results for the classic AC-moves whereas \autoref{fig:prime_persistence} does so for their prime version.\footnote{For this task we used \texttt{giotto-TDA} version 5.1 \cite{tauzin2021giotto}.
+\cref{fig:classical_persistence} summarize our results for the classic AC-moves whereas \cref{fig:prime_persistence} does so for their prime version.\footnote{For this task we used \texttt{giotto-TDA} version 5.1 \cite{tauzin2021giotto}.
 	Specifically, its binding of the \texttt{SimplexTree} data structure introduced in \cite{boissonnat2014simplex} and implemented in \texttt{GUDHI} \cite{maria2014gudhi}.}
 
 \begin{figure}
@@ -182,7 +182,7 @@ Let us denote by $ic(\ell)_k$ the number of isolated components with isolation v
 
 It is natural to base the AC-graph at a potential counterexample to the AC conjecture.
 Let \(\Sigma^\ell\) be the full subgraph of \(\Gamma^{\text{AC(2)}}\) containing all presentation that can be joined to \(AK(3)\) through a path whose maximum length is at most \(\ell\).
-In \autoref{fig:ak_classic_persistence} and \autoref{fig:ak_prime_persistence} we respectively present the number of vertices, edges, and isolated components of \(\Sigma^\ell\) constructed using classic and prime moves.
+In \cref{fig:ak_classic_persistence} and \cref{fig:ak_prime_persistence} we respectively present the number of vertices, edges, and isolated components of \(\Sigma^\ell\) constructed using classic and prime moves.
 
 \begin{figure}
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
