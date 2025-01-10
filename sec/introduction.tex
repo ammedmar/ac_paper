@@ -20,7 +20,6 @@ Our approach to problems of this type involves equipping the RL model with the a
 
 In this paper, we begin a systematic implementation of this approach by carefully analyzing the distribution of hardness in potential counterexamples to a long-standing conjecture, the Andrews--Curtis conjecture. As with many other challenging problems, a natural measure of hardness is the number of steps an RL agent needs to take. What makes the Andrews--Curtis conjecture particularly suitable for our study is that it includes numerous examples requiring a hyper-exponential number of steps, providing an effective testbed for exploring the aforementioned questions through the lens of RL, search algorithms, and topological data analysis.
 
-
 While our primary focus is on exploring the distribution of hardness to inform algorithm development, we also discover new results about the long-standing potential counterexamples of this conjecture. A notable family of potential counterexamples, denoted $\AK(n)$, due to Akbulut and Kirby, 
 \[
 \AK(n) = \angles{x, y \mid x^n = y^{n+1}, xyx = yxy}, \quad n \geq 3
@@ -29,50 +28,52 @@ has been open in mathematics for more than four decades \cite{Akbulut--Kirby}.
 \footnote{The original work included the case $n=2$, but this case was solved approximately two decades later \cite{genetic}. The case $n=1$ also gives a balanced presentation of the trivial group, which is easy to solve in a few steps.}
 The length of the presentation $\AK(n)$ is $2n + 7$, and 
 until now, it was unknown whether this length can even be reduced using AC moves. We find that for every fixed $n$, $\AK(n)$ is AC-equivalent to each element of the following 1-parameter family of presentations parameterized by $k \in \mathbb{Z}$,
-\[P(n, k) = \angles{x, y \mid  y^{n-k-1}  x^{-1} y x = x y x^{-1} y^{n-k} \ , \ x = y^{-k} x^{-1} y x y }.
+\[
+P(n, k) = \angles{x, y \mid  y^{n-k-1}  x^{-1} y x = x y x^{-1} y^{n-k} \ , \ x = y^{-k} x^{-1} y x y }.
 \]
-When $n \geq 5$, this family contains presentations of length less than $2n + 7$. The shortest presentation occurs in the case $k=n-1$, which gives us the following theorem.
+When $n \geq 5$, this family contains presentations of length less than $2n + 7$. The shortest presentation occurs in the case $k=n-1$, which gives us the following result, proven as \cref{t:n+11}.
 
-\begin{theorem}\label{t:n+11}
+\begin{introtheorem}
 	For every $n\geq 2$, $\AK(n)$ is AC-equivalent to the presentation
 	\[
 	\angles{ x,y \mid x^{-1} y x = x y x^{-1} y \ ,\  xyx=yx^{n-1}y },
 	\]
 	of length $n+11$. This gives a reduction in length of $AK(n)$ for all $n \geq 5$.
-\end{theorem}
+\end{introtheorem}
 
-Another important family of potential counterexamples due to Miller and Schupp,
+Another important family of potential counterexamples, due to Miller and Schupp, is
 \[
 \MS(n, w) = \angles{x, y \mid x^{-1} y^n x = y^{n+1}, x = w},
 \]
-where $n > 0$ and $w$ is a word with exponent sum zero on $x$, has been open for more than 25 years \cite{Miller--Schupp}. We obtain the following result.
+where $n > 0$ and $w$ is a word with exponent sum zero on $x$. 
+It has been open for more than 25 years \cite{Miller--Schupp}.
 
-\begin{theorem}\label{t:msfamilies}
-        The following subfamilies of Miller-Schupp presentations are AC-trivial:
+\begin{introtheorem}
+        The following infinite subfamilies of Miller-Schupp presentations are AC-trivial:
         \begin{enumerate}[label=(\roman*)]
             \item $\MS(1, w)$ for all $w$,
             \item $\MS(n, w_\star)$ for $w_\star = y^{-1} x y x^{-1}$,
             \item $\MS(2, w_k)$ for $w_k = y^{-k} x^{-1} y x y$ where $k \in \mathbb{Z}$.
         \end{enumerate}
         Furthermore, for each fixed $n > 0$, all members of the 1-parameter family, $\MS(n, w_k)$, parameterized by $k \in \mathbb{Z}$, are AC-equivalent to each other and to $\AK(n)$.
-\end{theorem}
+\end{introtheorem}
 
-In addition to these results involving infinite families, we also found AC-trivializations of hundreds of Miller-Schupp presentations. Of special note are two hard presentations,
-which our classical search algorithms could not solve at first. We trained reinforcement learning agents to find,
+In addition to these results involving infinite families, respectively proven as \cref{t:ms1wt,t:msnw} \anibal{I could not find where (\textit{(iii)} is proven}, we also found AC-trivializations of hundreds of Miller-Schupp presentations. Of special note are two hard presentations, which our classical search algorithms could not solve at first. We trained reinforcement learning agents to find,
 
-\begin{theorem}\label{thm:MS}
+\begin{introtheorem}\label{thm:MS}
     The following potential counterexamples belonging to the Miller--Schupp series are AC-trivial:
 	\begin{gather*}
 		\angles{x, y \mid x^{-1} y^3 x y^{-4} , \ x^{-1} y^{-1} x y^{-3} x^{-1} y^{-1}}, \\
 		\angles{x, y \mid x^{-1} y^4 x y^{-5} , \ x^{-1} y x y^{-1} x^{-1} y^{-3}}.
 	\end{gather*}
-\end{theorem}
+\end{introtheorem}
+\anibal{I could not find where this theorem was proven. Please update the cross-reference}
 
 Note that the first of these presentations is extremely similar to the following rewriting of $\MS(3, w_{-3})$,
 \[
 \MS(3, w_{-3}) = \angles{x, y \mid x^{-1} y^3 x y^{-4}, x^{-1} y^{-1} x y^{-3} x y^{-1}}.
 \]
-with all but one letter being different. The latter presentations is AC-equivalent to $\AK(3)$ (from \cref{t:msfamilies}) --- perhaps the most important potential counterexample to the Andrews-Curtis conjecture.
+with all but one letter being different. The latter presentations is AC-equivalent to $\AK(3)$ --- perhaps the most important potential counterexample to the Andrews-Curtis conjecture.
 This shows how very similar-looking presentations can have vastly different hardness properties, emphasizing the need for a systematic understanding of hardness in math problems.
 
 \medskip
@@ -87,9 +88,6 @@ However, after closer inspection, we discovered a subtle misprint in \cite[p.10]
 
 \medskip
 We should emphasize that this entire project was carried out using relatively modest computational resources that a small academic research group can easily afford. Consequently, we placed greater emphasis on theoretical tools and techniques that, when combined with scaled-up computational resources, can lead to further advancements.
-
-
-
 
 \medskip The rest of the paper is organized as follows. In \cref{sec:AC}, we provide an overview of the Andrews--Curtis conjecture. We then apply classical search algorithms to examples in the Miller--Schupp series in \cref{sec:search}, where we devise a greedy search algorithm that significantly outperforms the widely used breadth-first search algorithm. In \cref{sec:rl}, we employ reinforcement learning, specifically the Proximal Policy Optimization (PPO) algorithm \cite{schulman2017proximal}, and find that while it performs better than breadth-first search and solves some presentations that hard for greedy search, it does not strictly surpass the greedy search algorithm.
 %(see \cref{fig:performance})

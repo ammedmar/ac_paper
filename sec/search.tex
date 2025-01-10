@@ -184,7 +184,7 @@ We can substitute these equations in the second relator to move around all occur
 
 The following result follows from this theorem.
 
-\begin{theorem}
+\begin{theorem}\label{t:msnw}
     $\MS(n, w_\star)$ for $w_\star = y^{-1} x y x^{-1}$ is AC-trivial for all $n$.
 \end{theorem}
 
@@ -214,7 +214,7 @@ AC-trivializations of $MS(n, w_\star)$ for $n = 3, 4, 5, 6, 7, 8$ were recently 
 
 In \cref{sec:search-ms}, we discussed the performance of classical search algorithms for presentations of the Miller-Schupp series. But what if we apply these algorithms for presentations of the Akbulut-Kirby series instead? We find that starting from $AK(5)$---a presentation of length $17$---and performing greedy search for $20$ million nodes, reduces its length to 16. Examining the sequence of AC moves connecting the two presentations, we found the following result.\shehper{@Anibal, all: Two paper-wide issues to mention here: 1. Should we try to match numbering of theorems in introduction with their numbering in later sections, and 2. when we autoref lemma or proposition, it is referenced as a Theorem instead. I dont know how to fix that..}
 
-\begin{theorem}\label{t:n+11_}
+\begin{theorem}\label{t:n+11}
 	For every $n\geq 2$, $\AK(n)$ is AC-equivalent to the presentation
 	\[
 	\angles{ x,y \mid x^{-1} y x = x y x^{-1} y \ ,\  xyx=yx^{n-1}y },
@@ -222,7 +222,7 @@ In \cref{sec:search-ms}, we discussed the performance of classical search algori
 	of length $n+11$. This gives reduction in length of $AK(n)$ for all $n \geq 5$.
 \end{theorem}
 
-To prove this theorem, we will  use the following result due to \cite{MMS}, and prove two additional theorems (\cref{t:mswk_wk1} and \cref{t:ms-short}). From these results, \cref{t:n+11_} follows immediately. 
+To prove this theorem, we will  use the following result due to \cite{MMS}, and prove two additional theorems (\cref{t:mswk_wk1} and \cref{t:ms-short}). From these results, \cref{t:n+11} follows immediately. 
 
 \begin{proposition}
     [Myasnikov, Myasnikov, and Shpilrain, \cite{MMS}]\label{t:MS-AK-MS}
@@ -284,7 +284,7 @@ To prove this theorem, we will  use the following result due to \cite{MMS}, and 
     Multiplying the first relation by $y^{-1} x$ from the left and by $y^{-1}$ from the right, we get $y^{n-1} x y^{-1} = y^{-1} x y^{n}$, which we may rewrite as $y^{n-k-1} \left(y^k x y^{-1}\right) = \left(y^{-1} x y^{k}\right) y^{n-k}$. Substituting from (i) on the LHS and from (ii) on the RHS gives the required result.
 \end{proof}
 
-Combining the previous three results shows that, for each fixed $n$, $AK(n)$ is AC-equivalent to all members of the infinite families $MS(n, w_k)$ and $P(n, k)$. From this, \cref{t:n+11_} follows immediately from setting $k = n - 1$.
+Combining the previous three results shows that, for each fixed $n$, $AK(n)$ is AC-equivalent to all members of the infinite families $MS(n, w_k)$ and $P(n, k)$. From this, \cref{t:n+11} follows immediately from setting $k = n - 1$.
 
 While $P(n, n-1)$ is always the shortest presentation from the $P$ family, other $P(n, k)$ may also give reductions in length of $\AK(n)$. To find which presentations of $P$-family are shorter than $\AK(n)$, we compare the length of $\AK(n)$, i.e. $2n + 7$, with the length of $P(n, k)$ given by:
 \[
