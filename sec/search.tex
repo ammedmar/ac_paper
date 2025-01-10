@@ -7,7 +7,7 @@ We find that the latter significantly outperforms the former. Based on our empir
 
 \subsection{Breadth-first search}
 
-In breadth-first search (See \autoref{alg:bfs} for pseudocode), we start with an initial state, which is a balanced presentation we aim to AC-trivialize, and place it in a queue. At each iteration, a state is removed from the queue, and its neighbors are added if they have not already been visited. This process continues until the sought-after state, i.e., a trivial balanced presentation, is found or a maximum number of states $N$ is visited. In our experiments, we set $N = 10^6$.
+In breadth-first search (See \cref{alg:bfs} for pseudocode), we start with an initial state, which is a balanced presentation we aim to AC-trivialize, and place it in a queue. At each iteration, a state is removed from the queue, and its neighbors are added if they have not already been visited. This process continues until the sought-after state, i.e., a trivial balanced presentation, is found or a maximum number of states $N$ is visited. In our experiments, we set $N = 10^6$.
 
 \begin{algorithm}
 	\caption{Breadth-First Search}\label{alg:bfs}
@@ -34,7 +34,7 @@ In breadth-first search (See \autoref{alg:bfs} for pseudocode), we start with an
 
 \subsection{Greedy search}\label{ss:greedy_search}
 
-Greedy search, described in \autoref{alg:gs}, differs only slightly from breadth-first search. We replace the queue with a priority queue, which stores the states in order determined by a tuple of values $(k, l)$, where $k$ is the length of the presentation and $l$ is the path length between the state and the initial state.
+Greedy search, described in \cref{alg:gs}, differs only slightly from breadth-first search. We replace the queue with a priority queue, which stores the states in order determined by a tuple of values $(k, l)$, where $k$ is the length of the presentation and $l$ is the path length between the state and the initial state.
 
 Instead of dequeuing the earliest state, the algorithm dequeues the state with the smallest value of $k$. If there is more than one state in the priority queue with the same value of $k$, the state with the smallest value of $l$ is chosen.
 
@@ -64,11 +64,11 @@ Instead of dequeuing the earliest state, the algorithm dequeues the state with t
 
 \subsection{Comparison of performance on Miller-Schupp series}\label{sec:search-ms}
 
-We find that greedy-search outperforms breadth-first search in the task of AC-trivializing Miller--Schupp presentations. %\autoref{fig:performance}
+We find that greedy-search outperforms breadth-first search in the task of AC-trivializing Miller--Schupp presentations. %\cref{fig:performance}
 Out of the 1190 presentations in the Miller--Schupp series with $n \leq 7$ and $\length(w) \leq 7$, greedy search solved 533 while BFS solved only 278.
 Each algorithm was constrained to visit a maximum of 1 million nodes.
-The percentage of presentations solved by these algorithms decreases monotonically as a function of $n$, with greedy search being able to solve all presentations with $n=1$ (see \autoref{fig:performance_of_search_vs_n}).
-This empirical result encouraged us to prove AC-triviality of the infinite family $MS(1, w)$, which we give in \autoref{sec:ms1w_}.
+The percentage of presentations solved by these algorithms decreases monotonically as a function of $n$, with greedy search being able to solve all presentations with $n=1$ (see \cref{fig:performance_of_search_vs_n}).
+This empirical result encouraged us to prove AC-triviality of the infinite family $MS(1, w)$, which we give in \cref{sec:ms1w_}.
 
 \begin{figure}
 	\centering
@@ -92,7 +92,7 @@ are AC-equivalent to $\AK(3)$, while the other two
 \]
 could be related neither to $\AK(3)$ nor to the trivial presentation through any path involving only presentations with both relators having length less than 20.
 
-For presentations solved by greedy search, we plot the maximum amount by which the length of a presentation increased in an AC trivialization path in \autoref{fig:gs_length_increase}.
+For presentations solved by greedy search, we plot the maximum amount by which the length of a presentation increased in an AC trivialization path in \cref{fig:gs_length_increase}.
 In most cases, there was no increase in length; and the maximum increase was only~5.
 At first glance, this seemed surprising to us, given that we allowed the relator lengths to increase by a much larger amount in our search process.\footnote{The length of each relator was allowed to increase up to \(2 \times \text{max}(2n+3, \length(w)+1) + 2\), which is twice the maximum of the initial lengths of the two relators in a presentation, plus an additional 2.
 The maximum possible increase in presentation length is twice this number minus the original length.
@@ -101,15 +101,15 @@ However, the hard cutoff set by visiting a maximum of only 1 million nodes ensur
 This limitation could be cured either by increasing the number of maximum nodes (at the cost of higher memory use) or by using a different criterion to order nodes in the priority queue.
 It will be useful to explore the latter approach perhaps by looking for a criterion itself using deep learning algorithms.
 
-We also plot the lengths of AC sequences discovered by greedy search as functions of $n$ and the maximum increase in the presentation length (\autoref{fig:gs_path_length}).
-Unsurprisingly, path lengths increase proportionally with the increase in the length of the presentation (\autoref{fig:path_lengths_vs_length_increase}).
+We also plot the lengths of AC sequences discovered by greedy search as functions of $n$ and the maximum increase in the presentation length (\cref{fig:gs_path_length}).
+Unsurprisingly, path lengths increase proportionally with the increase in the length of the presentation (\cref{fig:path_lengths_vs_length_increase}).
 The following presentation with $n=5$ had the longest AC trivialization path,
 \[
 \angles{x, y \mid x^{-1} y^5 x = y^6,  x = y x^2 y^{-1}}
 \] %correcting : \[\angles{x^{-1} y^5 x = y^6 \mid x = y x^2 y^{-1}}\]
 requiring a sequence of 344 AC-moves.
 Note that greedy search does not necessarily find the shortest paths of trivialization.
-We will see in \autoref{sec:application} that a Reinforcement Learning algorithm finds shorter trivializing sequences for many examples of the Miller--Schupp series.
+We will see in \cref{sec:application} that a Reinforcement Learning algorithm finds shorter trivializing sequences for many examples of the Miller--Schupp series.
 This again hints at the potential utility of exploring more efficient criteria for ordering nodes in the priority queue.
 
 In the remainder of this paper, we will refer to the presentations from the Miller--Schupp series that were solved and unsolved by the greedy search as ``GS-solved" and ``GS-unsolved" presentations, respectively. In other words, many of our experiments will be tested on two datasets that consists of Miller--Schupp presentations with $n \leq 7$ and $\length(w) \leq 7$: the GS-solved dataset has 533 presentations, whereas GS-unsolved dataset has 657 presentations. The combined dataset that contains all presentations with $n \leq 7$ and $\length(w) \leq 7$ has size 1190.
@@ -198,7 +198,7 @@ we can rewrite the second relation as $y^{-1} x y = x^2$, and apply the automorp
 \MS(n, w_\star) = \angles{x, y \mid
 x^{-1} y x = y^2 , y^{-1} x^n y = x^{n+1}}.
 \]
-This presentation is the same as $MS(1, y^{-1} x^n y x^{-n})$, which is AC-trivial by \autoref{t:ms1wt}. 
+This presentation is the same as $MS(1, y^{-1} x^n y x^{-n})$, which is AC-trivial by \cref{t:ms1wt}. 
 \end{proof}
 
 AC-trivializations of $MS(n, w_\star)$ for $n = 3, 4, 5, 6, 7, 8$ were recently obtained using automated theorem proving in \cite{new-ac-for-ms}. Here, we have obtained AC-trivializations of this family for all $n$.
@@ -212,7 +212,7 @@ AC-trivializations of $MS(n, w_\star)$ for $n = 3, 4, 5, 6, 7, 8$ were recently 
 \subsection{Length reduction for $\AK(n)$}
 \label{sec:len-reduction}
 
-In \autoref{sec:search-ms}, we discussed the performance of classical search algorithms for presentations of the Miller-Schupp series. But what if we apply these algorithms for presentations of the Akbulut-Kirby series instead? We find that starting from $AK(5)$---a presentation of length $17$---and performing greedy search for $20$ million nodes, reduces its length to 16. Examining the sequence of AC moves connecting the two presentations, we found the following result.\shehper{@Anibal, all: Two paper-wide issues to mention here: 1. Should we try to match numbering of theorems in introduction with their numbering in later sections, and 2. when we autoref lemma or proposition, it is referenced as a Theorem instead. I dont know how to fix that..}
+In \cref{sec:search-ms}, we discussed the performance of classical search algorithms for presentations of the Miller-Schupp series. But what if we apply these algorithms for presentations of the Akbulut-Kirby series instead? We find that starting from $AK(5)$---a presentation of length $17$---and performing greedy search for $20$ million nodes, reduces its length to 16. Examining the sequence of AC moves connecting the two presentations, we found the following result.\shehper{@Anibal, all: Two paper-wide issues to mention here: 1. Should we try to match numbering of theorems in introduction with their numbering in later sections, and 2. when we autoref lemma or proposition, it is referenced as a Theorem instead. I dont know how to fix that..}
 
 \begin{theorem}\label{t:n+11_}
 	For every $n\geq 2$, $\AK(n)$ is AC-equivalent to the presentation
@@ -222,7 +222,7 @@ In \autoref{sec:search-ms}, we discussed the performance of classical search alg
 	of length $n+11$. This gives reduction in length of $AK(n)$ for all $n \geq 5$.
 \end{theorem}
 
-To prove this theorem, we will  use the following result due to \cite{MMS}, and prove two additional theorems (\autoref{t:mswk_wk1} and \autoref{t:ms-short}). From these results, \autoref{t:n+11_} follows immediately. 
+To prove this theorem, we will  use the following result due to \cite{MMS}, and prove two additional theorems (\cref{t:mswk_wk1} and \cref{t:ms-short}). From these results, \cref{t:n+11_} follows immediately. 
 
 \begin{proposition}
     [Myasnikov, Myasnikov, and Shpilrain, \cite{MMS}]\label{t:MS-AK-MS}
@@ -284,7 +284,7 @@ To prove this theorem, we will  use the following result due to \cite{MMS}, and 
     Multiplying the first relation by $y^{-1} x$ from the left and by $y^{-1}$ from the right, we get $y^{n-1} x y^{-1} = y^{-1} x y^{n}$, which we may rewrite as $y^{n-k-1} \left(y^k x y^{-1}\right) = \left(y^{-1} x y^{k}\right) y^{n-k}$. Substituting from (i) on the LHS and from (ii) on the RHS gives the required result.
 \end{proof}
 
-Combining the previous three results shows that, for each fixed $n$, $AK(n)$ is AC-equivalent to all members of the infinite families $MS(n, w_k)$ and $P(n, k)$. From this, \autoref{t:n+11_} follows immediately from setting $k = n - 1$.
+Combining the previous three results shows that, for each fixed $n$, $AK(n)$ is AC-equivalent to all members of the infinite families $MS(n, w_k)$ and $P(n, k)$. From this, \cref{t:n+11_} follows immediately from setting $k = n - 1$.
 
 While $P(n, n-1)$ is always the shortest presentation from the $P$ family, other $P(n, k)$ may also give reductions in length of $\AK(n)$. To find which presentations of $P$-family are shorter than $\AK(n)$, we compare the length of $\AK(n)$, i.e. $2n + 7$, with the length of $P(n, k)$ given by:
 \[

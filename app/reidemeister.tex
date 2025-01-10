@@ -1,12 +1,12 @@
 \section{Reidemeister moves realized by stable AC moves}\label{app:reid}
 
-In this appendix, we prove \autoref{prop:unknot-stable}, which we rewrite below.
+In this appendix, we prove \cref{prop:unknot-stable}, which we rewrite below.
 
 \begin{proposition}[Myasnikov, Myasnikov, and Shpilrain, \cite{MMS}]
     Let $\angles{ x_1,\ldots, x_n\, \mid \, r_1, \ldots, r_n }$ be the Wirtinger presentation of an unknot diagram. Then for any $k=1,\ldots,n$ and word $w$ in the $x_i$ with exponent sum $\pm 1$, the balanced presentation of the trivial group $\langle x_1,\ldots, x_n\,|\, r_1,\ldots, r_{k-1}, r_{k+1},\ldots, r_n, w\rangle$ is stably Andrews-Curtis-trivial.
 \end{proposition}
 
-As reviewed in \autoref{subsec:ac-unknot}, given any oriented knot diagram, we assign generators $\{x_i\}_{i=1}^n$ to each of the arcs and relators $\{ r_i\}_{i=1}^n$ to each of the crossings. These generators and relators form a balanced presentation of the fundamental group of the knot complement. There exists an ordering of the relators and a choice of $\pm 1$ as exponents such that the relators satisfy the equation, 
+As reviewed in \cref{subsec:ac-unknot}, given any oriented knot diagram, we assign generators $\{x_i\}_{i=1}^n$ to each of the arcs and relators $\{ r_i\}_{i=1}^n$ to each of the crossings. These generators and relators form a balanced presentation of the fundamental group of the knot complement. There exists an ordering of the relators and a choice of $\pm 1$ as exponents such that the relators satisfy the equation, 
 \[
 \prod\limits_{i=1}^n r_i^{\pm 1} = 1
 \]
@@ -150,14 +150,14 @@ As a knot diagram of the unknot is reduced to the trivial diagram, the associate
 \end{figure}
 
 Two diagrams of the same knot can be related by a finite sequence of the three
-Reidemeister moves shown in \autoref{fig:rm}. Here we distinguish \textbf{R2a} and \textbf{R2b} just because they give slightly different computation about the presentations. Since we want to consider the behavior of balanced presentations $\angles{ x_1,\ldots, x_n \mid  r_1,\ldots, r_{k-1}, r_{k+1},\ldots, r_n, w}$ of the trivial group under Reidemeister moves, we can assume that the relator eliminated, $r_k$, is not one given by the crossings in \textbf{R1}, \textbf{R2a}, \textbf{R2b}, \textbf{R3}. We note, however, that since any relator in a Wirtinger presentation can be written as the product of the other relators, the relator we eliminated can be recovered using (AC1)--(AC3).
+Reidemeister moves shown in \cref{fig:rm}. Here we distinguish \textbf{R2a} and \textbf{R2b} just because they give slightly different computation about the presentations. Since we want to consider the behavior of balanced presentations $\angles{ x_1,\ldots, x_n \mid  r_1,\ldots, r_{k-1}, r_{k+1},\ldots, r_n, w}$ of the trivial group under Reidemeister moves, we can assume that the relator eliminated, $r_k$, is not one given by the crossings in \textbf{R1}, \textbf{R2a}, \textbf{R2b}, \textbf{R3}. We note, however, that since any relator in a Wirtinger presentation can be written as the product of the other relators, the relator we eliminated can be recovered using (AC1)--(AC3).
 \\
 \\
 \textbf{R1}:
 \begin{align*}
 \langle x_1,\ldots,x_n,x,y\mid r_1,\ldots,r_n,yx^{-1},w\rangle\longleftrightarrow\langle x_1,\ldots,x_n,x\mid r_1',\ldots,r_n',w'\rangle
 \end{align*}
-Here $r_i'$ and $w'$ are obtained from replacing $y$ in $r_i$ and $w$ by $x$. The equivalence comes from the substitution in \autoref{lem:substitution}.
+Here $r_i'$ and $w'$ are obtained from replacing $y$ in $r_i$ and $w$ by $x$. The equivalence comes from the substitution in \cref{lem:substitution}.
 \\
 \\
 \textbf{R2a}:
@@ -190,5 +190,5 @@ Here $r_i',w'$ are obtained from replacing $z$ in $r_i,w$ by $y^{-1}xy$; $\tilde
 Here $w'$ is obtained from replacing $v$ in $w$ by $xyx^{-1}$.
 
 
-After reducing our diagram to the trivial diagram of the unknot, we are left with $\langle x \mid \bar w\rangle$, where $\bar w$ is $w$ after applying all the Reidemeister moves. This is because the trivial diagram of the unknot gives the presentation $\langle x\mid \,\,\rangle$ of the infinite cyclic group, so $\bar w$ is the only relator remaining.  Moreover, $\bar w = x^{\pm1}$ since at each stage, $w$ has exponent sum $\pm 1$, so $\langle x \mid \bar w\rangle$ can be reduced to the trivial presentation $\langle \,\, \mid \,\, \rangle$. Thus \autoref{prop:unknot-stable} is proven.
+After reducing our diagram to the trivial diagram of the unknot, we are left with $\langle x \mid \bar w\rangle$, where $\bar w$ is $w$ after applying all the Reidemeister moves. This is because the trivial diagram of the unknot gives the presentation $\langle x\mid \,\,\rangle$ of the infinite cyclic group, so $\bar w$ is the only relator remaining.  Moreover, $\bar w = x^{\pm1}$ since at each stage, $w$ has exponent sum $\pm 1$, so $\langle x \mid \bar w\rangle$ can be reduced to the trivial presentation $\langle \,\, \mid \,\, \rangle$. Thus \cref{prop:unknot-stable} is proven.
 
