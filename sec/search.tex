@@ -3,7 +3,7 @@
 \section{Classical search algorithms}\label{sec:search}
 
 In this section, we compare the effectiveness of breadth-first and greedy search algorithms to AC-trivialize presentations in the Miller--Schupp series.
-We find that the latter significantly outperforms the former. Based on our empirical observations, we find AC-triviality of infinite subfamilies of the Miller-Schupp series, as well as length reductions of $\AK(n)$. 
+We find that the latter significantly outperforms the former. Based on our empirical observations, we find AC-triviality of infinite subfamilies of the Miller--Schupp series, as well as length reductions of $\AK(n)$. 
 
 \subsection{Breadth-first search}
 
@@ -62,7 +62,7 @@ Instead of dequeuing the earliest state, the algorithm dequeues the state with t
 	\end{algorithmic}
 \end{algorithm}
 
-\subsection{Comparison of performance on Miller-Schupp series}\label{sec:search-ms}
+\subsection{Comparison of performance on Miller--Schupp series}\label{sec:search-ms}
 
 We find that greedy-search outperforms breadth-first search in the task of AC-trivializing Miller--Schupp presentations. %\cref{fig:performance}
 Out of the 1190 presentations in the Miller--Schupp series with $n \leq 7$ and $\length(w) \leq 7$, greedy search solved 533 while BFS solved only 278.
@@ -150,7 +150,7 @@ In the remainder of this paper, we will refer to the presentations from the Mill
 
 \subsection{AC-triviality of $\MS(1, w)$} \label{sec:ms1w_}
 
-As mentioned in the previous subsection, the greedy search could solve all $n=1$ presentations of the Miller-Schupp series in our dataset. This motivated us to prove AC-triviality for all $\MS(1, w)$. 
+As mentioned in the previous subsection, the greedy search could solve all $n=1$ presentations of the Miller--Schupp series in our dataset. This motivated us to prove AC-triviality for all $\MS(1, w)$. 
 
 In this and the following subsections, we frequently use the \emph{substitution} transformation mentioned in Section~\ref{sec:AC}.   
 
@@ -212,7 +212,7 @@ AC-trivializations of $MS(n, w_\star)$ for $n = 3, 4, 5, 6, 7, 8$ were recently 
 \subsection{Length reduction for $\AK(n)$}
 \label{sec:len-reduction}
 
-In \cref{sec:search-ms}, we discussed the performance of classical search algorithms for presentations of the Miller-Schupp series. But what if we apply these algorithms for presentations of the Akbulut-Kirby series instead? We find that starting from $AK(5)$---a presentation of length $17$---and performing greedy search for $20$ million nodes, reduces its length to 16. Examining the sequence of AC moves connecting the two presentations, we found the following result.\shehper{@Anibal, all: Two paper-wide issues to mention here: 1. Should we try to match numbering of theorems in introduction with their numbering in later sections, and 2. when we autoref lemma or proposition, it is referenced as a Theorem instead. I dont know how to fix that..}
+In \cref{sec:search-ms}, we discussed the performance of classical search algorithms for presentations of the Miller--Schupp series. But what if we apply these algorithms for presentations of the Akbulut--Kirby series instead? We find that starting from $AK(5)$---a presentation of length $17$---and performing greedy search for $20$ million nodes, reduces its length to 16. Examining the sequence of AC moves connecting the two presentations, we found the following result.\shehper{@Anibal, all: Two paper-wide issues to mention here: 1. Should we try to match numbering of theorems in introduction with their numbering in later sections, and 2. when we autoref lemma or proposition, it is referenced as a Theorem instead. I dont know how to fix that..}
 
 \begin{theorem}\label{t:n+11}
 	For every $n\geq 2$, $\AK(n)$ is AC-equivalent to the presentation

@@ -24,10 +24,8 @@ While our primary focus is on exploring the distribution of hardness to inform a
 \[
 \AK(n) = \angles{x, y \mid x^n = y^{n+1}, xyx = yxy}, \quad n \geq 3
 \]
-has been open in mathematics for more than four decades \cite{Akbulut--Kirby}.
-\footnote{The original work included the case $n=2$, but this case was solved approximately two decades later \cite{genetic}. The case $n=1$ also gives a balanced presentation of the trivial group, which is easy to solve in a few steps.}
-The length of the presentation $\AK(n)$ is $2n + 7$, and 
-until now, it was unknown whether this length can even be reduced using AC moves. We find that for every fixed $n$, $\AK(n)$ is AC-equivalent to each element of the following 1-parameter family of presentations parameterized by $k \in \mathbb{Z}$,
+has been open in mathematics for more than four decades \cite{Akbulut--Kirby}.\footnote{The original work included the case $n=2$, but this case was solved approximately two decades later \cite{genetic}.The case $n=1$ also gives a balanced presentation of the trivial group, which is easy to solve in a few steps.}
+The length of the presentation $\AK(n)$ is $2n + 7$, and until now, it was unknown whether this length can even be reduced using AC moves. We find that for every fixed $n$, $\AK(n)$ is AC-equivalent to each element of the following 1-parameter family of presentations parameterized by $k \in \mathbb{Z}$,
 \[
 P(n, k) = \angles{x, y \mid  y^{n-k-1}  x^{-1} y x = x y x^{-1} y^{n-k} \ , \ x = y^{-k} x^{-1} y x y }.
 \]
@@ -49,16 +47,16 @@ where $n > 0$ and $w$ is a word with exponent sum zero on $x$.
 It has been open for more than 25 years \cite{Miller--Schupp}.
 
 \begin{introtheorem}
-        The following infinite subfamilies of Miller-Schupp presentations are AC-trivial:
+        The following infinite subfamilies of Miller--Schupp presentations are AC-trivial:
         \begin{enumerate}[label=(\roman*)]
             \item $\MS(1, w)$ for all $w$,
-            \item $\MS(n, w_\star)$ for $w_\star = y^{-1} x y x^{-1}$,
+            \item $\MS(n, w_\star)$ for $w_\star = y^{-1} x y x^{-1}$, \anibal{What's the quantifier for \(n\)?}
             \item $\MS(2, w_k)$ for $w_k = y^{-k} x^{-1} y x y$ where $k \in \mathbb{Z}$.
         \end{enumerate}
         Furthermore, for each fixed $n > 0$, all members of the 1-parameter family, $\MS(n, w_k)$, parameterized by $k \in \mathbb{Z}$, are AC-equivalent to each other and to $\AK(n)$.
 \end{introtheorem}
 
-In addition to these results involving infinite families, respectively proven as \cref{t:ms1wt,t:msnw} \anibal{I could not find where (\textit{(iii)} is proven}, we also found AC-trivializations of hundreds of Miller-Schupp presentations. Of special note are two hard presentations, which our classical search algorithms could not solve at first. We trained reinforcement learning agents to find,
+In addition to these results involving infinite families, respectively proven as \cref{t:ms1wt,t:msnw} \anibal{I could not find where (\textit{(iii)} is proven}, we also found AC-trivializations of hundreds of Miller--Schupp presentations. Of special note are two hard presentations, which our classical search algorithms could not solve at first. We trained reinforcement learning agents to find,
 
 \begin{introtheorem}\label{thm:MS}
     The following potential counterexamples belonging to the Miller--Schupp series are AC-trivial:
@@ -73,7 +71,7 @@ Note that the first of these presentations is extremely similar to the following
 \[
 \MS(3, w_{-3}) = \angles{x, y \mid x^{-1} y^3 x y^{-4}, x^{-1} y^{-1} x y^{-3} x y^{-1}}.
 \]
-with all but one letter being different. The latter presentations is AC-equivalent to $\AK(3)$ --- perhaps the most important potential counterexample to the Andrews-Curtis conjecture.
+with all but one letter being different. The latter presentations is AC-equivalent to $\AK(3)$ --- perhaps the most important potential counterexample to the Andrews--Curtis conjecture.
 This shows how very similar-looking presentations can have vastly different hardness properties, emphasizing the need for a systematic understanding of hardness in math problems.
 
 \medskip
@@ -93,7 +91,7 @@ We should emphasize that this entire project was carried out using relatively mo
 %(see \cref{fig:performance})
 Building on these insights, \cref{sec:algo} presents several ideas for algorithm development, proposing strategies to mitigate the overwhelming complexity faced by an RL agent in challenging problems.
 In \cref{sec:lm}, we examine the linguistic structure of balanced presentations using a decoder-only Transformer model, observing distinct clusters within the embedding space corresponding to presentations solved and unsolved by the greedy search algorithm.
-In \cref{sec:isolated}, we employ topological methods to assess the complexity of presentations. Specifically, we utilize persistent homology to define the \textit{isolation value} of a presentation. This value is infinite for counterexamples to the AC conjecture and serves as a measure of a presentation's resistance to being trivialized. Finally, in \cref{sec:stable}, we study the stable version of the Andrews-Curtis conjecture, and its relationship with knot theory.
+In \cref{sec:isolated}, we employ topological methods to assess the complexity of presentations. Specifically, we utilize persistent homology to define the \textit{isolation value} of a presentation. This value is infinite for counterexamples to the AC conjecture and serves as a measure of a presentation's resistance to being trivialized. Finally, in \cref{sec:stable}, we study the stable version of the Andrews--Curtis conjecture, and its relationship with knot theory.
 This relationship has previously been used to give potential counterexamples of the standard Andrews--Curtis conjecture. We prove AC-triviality of a large class of these presentations. 
 % and propose that the rest are also all AC-trivializable. 
 
