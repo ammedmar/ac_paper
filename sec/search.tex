@@ -68,7 +68,7 @@ We find that greedy-search outperforms breadth-first search in the task of AC-tr
 Out of the 1190 presentations in the Miller--Schupp series with $n \leq 7$ and $\length(w) \leq 7$, greedy search solved 533 while BFS solved only 278.
 Each algorithm was constrained to visit a maximum of 1 million nodes.
 The percentage of presentations solved by these algorithms decreases monotonically as a function of $n$, with greedy search being able to solve all presentations with $n=1$ (see \cref{fig:performance_of_search_vs_n}).
-This empirical result encouraged us to prove AC-triviality of the infinite family $MS(1, w)$, which we give in \cref{sec:ms1w_}.
+This empirical result encouraged us to prove AC-triviality of the infinite family $\MS(1, w)$, which we give in \cref{sec:ms1w_}.
 
 \begin{figure}
 	\centering
@@ -198,10 +198,10 @@ we can rewrite the second relation as $y^{-1} x y = x^2$, and apply the automorp
 \MS(n, w_\star) = \angles{x, y \mid
 x^{-1} y x = y^2 , y^{-1} x^n y = x^{n+1}}.
 \]
-This presentation is the same as $MS(1, y^{-1} x^n y x^{-n})$, which is AC-trivial by \cref{t:ms1wt}. 
+This presentation is the same as $\MS(1, y^{-1} x^n y x^{-n})$, which is AC-trivial by \cref{t:ms1wt}. 
 \end{proof}
 
-AC-trivializations of $MS(n, w_\star)$ for $n = 3, 4, 5, 6, 7, 8$ were recently obtained using automated theorem proving in \cite{new-ac-for-ms}. Here, we have obtained AC-trivializations of this family for all $n$.
+AC-trivializations of $\MS(n, w_\star)$ for $n = 3, 4, 5, 6, 7, 8$ were recently obtained using automated theorem proving in \cite{new-ac-for-ms}. Here, we have obtained AC-trivializations of this family for all $n$.
 
 
 % Indeed, to see how to realize this with AC moves, consider by means of example the application of (1) to $w_1yxw_2$. First, we cycle the relator to get $yxw_2w_1$, then invert it to get $w_1^{-1}w_2^{-1}x^{-1}y^{-1}$, and then multiply by (1) written as $yxy^{-2}x^{-1}$ onto the end of the relator, giving $w_1^{-1}w_2^{-2}y^{-2}x^{-1}$. Inverting again and cycling gives us $w_1xy^2w_2$. 
@@ -212,7 +212,7 @@ AC-trivializations of $MS(n, w_\star)$ for $n = 3, 4, 5, 6, 7, 8$ were recently 
 \subsection{Length reduction for $\AK(n)$}
 \label{sec:len-reduction}
 
-In \cref{sec:search-ms}, we discussed the performance of classical search algorithms for presentations of the Miller--Schupp series. But what if we apply these algorithms for presentations of the Akbulut--Kirby series instead? We find that starting from $AK(5)$---a presentation of length $17$---and performing greedy search for $20$ million nodes, reduces its length to 16. Examining the sequence of AC moves connecting the two presentations, we found the following result.\shehper{@Anibal, all: Two paper-wide issues to mention here: 1. Should we try to match numbering of theorems in introduction with their numbering in later sections, and 2. when we autoref lemma or proposition, it is referenced as a Theorem instead. I dont know how to fix that..}
+In \cref{sec:search-ms}, we discussed the performance of classical search algorithms for presentations of the Miller--Schupp series. But what if we apply these algorithms for presentations of the Akbulut--Kirby series instead? We find that starting from $AK(5)$---a presentation of length $17$---and performing greedy search for $20$ million nodes, reduces its length to 16. Examining the sequence of AC moves connecting the two presentations, we found the following result.\shehper{@Anibal, all: Two paper-wide issues to mention here: 1. Should we try to match numbering of theorems in introduction with their numbering in later sections, and 2. when we cref lemma or proposition, it is referenced as a Theorem instead. I dont know how to fix that..}
 
 \begin{theorem}\label{t:n+11}
 	For every $n\geq 2$, $\AK(n)$ is AC-equivalent to the presentation
@@ -226,11 +226,11 @@ To prove this theorem, we will  use the following result due to \cite{MMS}, and 
 
 \begin{proposition}
     [Myasnikov, Myasnikov, and Shpilrain, \cite{MMS}]\label{t:MS-AK-MS}
-    For all $n \geq 2$, $AK(n)$ is AC-equivalent to $MS(n, w_1)$ where $w_1 = y^{-1} x^{-1} y x y$.
+    For all $n \geq 2$, $AK(n)$ is AC-equivalent to $\MS(n, w_1)$ where $w_1 = y^{-1} x^{-1} y x y$.
 \end{proposition}
 
 \begin{theorem}\label{t:mswk_wk1}
-    For each fixed $n > 0$, the 1-parameter family of presentations $MS(n, w_k)$ are all AC-equivalent. Here, $w_k = y^{-k} x^{-1} y x y$ is parameterized by $k \in \mathbb{Z}$. 
+    For each fixed $n > 0$, the 1-parameter family of presentations $\MS(n, w_k)$ are all AC-equivalent. Here, $w_k = y^{-k} x^{-1} y x y$ is parameterized by $k \in \mathbb{Z}$. 
     % \shehper{@Lucas (requires work): I wonder if we can find a similar result for $MS(n, w'_l)$ where $w'_l = y^{-1} x^{-1} y^l x y$. That is, all elements of this family are AC-equivalent. This would lead to AC-triviality of $AK(3)$ (and possibly $AK(n)$) as the case $l=-3$ is known to be AC-trivial: it is presentation 403 in our greedy solved presentations.txt file on GitHub. Similarly, a result for $y^{-1} x^{-1} y x y^p$ might also be useful. }
 \end{theorem}
 
@@ -240,9 +240,9 @@ To prove this theorem, we will  use the following result due to \cite{MMS}, and 
         \[
 \MS(n, w_k) = \angles{x, y \mid x^{-1} y^n x = y^{n+1}, x = y^{-k} x^{-1} y x y},
 \]
-    we will show that for any fixed $n$ and $k$, $MS(n, w_k)$ is AC-equivalent to $MS(n, w_{k+1})$.
+    we will show that for any fixed $n$ and $k$, $\MS(n, w_k)$ is AC-equivalent to $\MS(n, w_{k+1})$.
 
-    First, note that the first relation in $MS(n, w_k)$ can be rearranged in the following three ways:
+    First, note that the first relation in $\MS(n, w_k)$ can be rearranged in the following three ways:
     \begin{enumerate}[label=(\roman*)]
         \item Multiplying by $y^{k-n}x$ from the left and by $y^{-1}$ from the right gives 
         \[
@@ -262,7 +262,7 @@ To prove this theorem, we will  use the following result due to \cite{MMS}, and 
 \end{proof}
 
 \begin{theorem}\label{t:ms-short}
-    For each $n > 0$ and $k \in \mathbb{Z}$, $MS(n, w_k)$ is AC-equivalent to the presentation
+    For each $n > 0$ and $k \in \mathbb{Z}$, $\MS(n, w_k)$ is AC-equivalent to the presentation
     \[P(n, k) = \angles{x, y \mid  y^{n-k-1}  x^{-1} y x = x y x^{-1} y^{n-k} \ , \ x = y^{-k} x^{-1} y x y },
     \]
     of total length $|k| + |n - k| + |n - k - 1| + 11$. For each fixed $n$, this length is minimum when $k=n-1$, which gives the presentation
@@ -284,8 +284,9 @@ To prove this theorem, we will  use the following result due to \cite{MMS}, and 
     Multiplying the first relation by $y^{-1} x$ from the left and by $y^{-1}$ from the right, we get $y^{n-1} x y^{-1} = y^{-1} x y^{n}$, which we may rewrite as $y^{n-k-1} \left(y^k x y^{-1}\right) = \left(y^{-1} x y^{k}\right) y^{n-k}$. Substituting from (i) on the LHS and from (ii) on the RHS gives the required result.
 \end{proof}
 
-Combining the previous three results shows that, for each fixed $n$, $AK(n)$ is AC-equivalent to all members of the infinite families $MS(n, w_k)$ and $P(n, k)$. From this, \cref{t:n+11} follows immediately from setting $k = n - 1$.
+Combining the previous three results shows that, for each fixed $n$, $AK(n)$ is AC-equivalent to all members of the infinite families $\MS(n, w_k)$ and $P(n, k)$. From this, \cref{t:n+11} follows immediately from setting $k = n - 1$.
 
+\begin{remark}
 While $P(n, n-1)$ is always the shortest presentation from the $P$ family, other $P(n, k)$ may also give reductions in length of $\AK(n)$. To find which presentations of $P$-family are shorter than $\AK(n)$, we compare the length of $\AK(n)$, i.e. $2n + 7$, with the length of $P(n, k)$ given by:
 \[
     \begin{cases} 
@@ -293,9 +294,13 @@ While $P(n, n-1)$ is always the shortest presentation from the $P$ family, other
         3k + 12 - 2n, & \text{if } k \geq n.
     \end{cases}
 \]
-This is less than $2n+7$ when $4 \leq k \leq n-1$ or $n \leq k < \frac{1}{3} \left(4n-5 \right)$. 
+This is less than $2n+7$ when $4 \leq k \leq n-1$ or $n \leq k < \frac{1}{3} \left(4n-5 \right)$.
+\end{remark}
 
-We also remark that all members of the infinite families $MS(2, w_k)$ and $P(2, k)$ are AC-trivial due to their AC-equivalence with $\AK(2)$.
+We also note that the AC-triviality of $\AK(2)$, when combined with \cref{t:mswk_wk1}, gives the following result. 
+\begin{corollary}\label{c:ms2wk}
+Each member of the infinite families $\MS(2, w_k)$ and $P(2, k)$ is AC-trivial.
+\end{corollary}
 
 
 

@@ -40,7 +40,7 @@ We note that, much like the substitution move in the standard Andrews--Curtis co
 The families of presentations studied in this paper---namely, the Akbulut--Kirby series and the Miller--Schupp series---also serve as potential counterexamples to the stable Andrews--Curtis conjecture.\footnote{Specifically, $\AK(3)$---the shortest potential counterexample for the standard Andrews--Curtis conjecture is also a potential counterexample for the stable Andrews--Curtis conjecture.}
 This naturally leads to a broader question about the relationship between the stable Andrews--Curtis conjecture and its standard counterpart: do there exist any stably AC-trivial presentations of the trivial group that could serve as potential counterexamples to the standard Andrews--Curtis conjecture? 
 A construction of such candidate presentations from Wirtinger presentations of knot diagrams of the unknot was given in \cite{MMS}. We will review their construction in \cref{subsec:ac-unknot}. In \cref{sec:proofs}, we will prove that a substantial subclass of these presentations are, in fact, AC-trivial. 
-Furthermore, we will conjecture that [ADD HERE]
+Furthermore, we will conjecture that any presentation obtained in this way is also AC-trivial. 
 %all presentations the remaining presentations are also AC-trivial, supported by evidence from numerous examples.
 
 
@@ -249,8 +249,8 @@ Suppose $w=x_{i_1}^{\epsilon_ 1}x_{i_2}^{\epsilon_2}\cdots x_{i_m}^{\epsilon_m}$
 
 Note that the lemma holds for \emph{any} presentation $\langle x_1,\ldots, x_n \mid r_1,\ldots,r_{n-1}\rangle$ of $\mathbb{Z}$, and not just the ones coming from knot diagrams of the unknot. We will now use this lemma to prove our result for presentations of \cref{prop:unknot-stable}.
 
-\begin{theorem} \label{prop:unknot}
-    Let $\angles{ x_1,\ldots, x_n\, \mid \, r_1, \ldots, r_n }$ be the Wirtinger presentation of an unknot diagram. Then for any $k=1,\ldots,n$ and word $w$ in the $x_i$ with exponent sum $\pm 1$, the balanced presentation of the trivial group $\angles{ x_1,\ldots, x_n \mid r_1,\ldots, r_{k-1}, r_{k+1},\ldots, r_n, w}$ is Andrews--Curtis-trivial.
+\begin{theorem} \label{thm:unknot}
+    Let $\angles{ x_1,\ldots, x_n \mid r_1, \ldots, r_n }$ be the Wirtinger presentation of an unknot diagram. Then for any $k=1,\ldots,n$ and word $w$ in the $x_i$ with exponent sum $\pm 1$, the balanced presentation of the trivial group $\angles{ x_1,\ldots, x_n \mid r_1,\ldots, r_{k-1}, r_{k+1},\ldots, r_n, w}$ is Andrews--Curtis-trivial.
 \end{theorem}
 
 \begin{proof}
@@ -266,18 +266,33 @@ With the second-last relator \( x_{n-1} = z_{n-1} x_n z_{n-1}^{-1} \), substitut
 Thus, the presentation reduces to  $\angles{x_1, \ldots, x_n \mid x_1, \ldots, x_n}$,
 rendering it AC-trivial. 
 % As the last relator is $x_{n-1}=z_{n-1}x_nz_{n-1}^{-1}$, we can substitute $x_n=1$ into the relator, simplifying it to $x_{n-1}$. We then substitute $x_{n-1}=1$ into the previous relator, and continue this process until the first relator reads $x_1$. We get the presentation $\langle x_1,\ldots, x_n\,|\, x_1,\ldots,x_n\rangle$, rendering the presentation in question AC-trivial. 
+
 \end{proof}
 \begin{remark}
-    Starting with a balanced presentation of \cref{prop:unknot} and reducing the number of generators only through recursive application of substitution and removal (\cref{lem:substitution}), we obtain a large class of AC-trivial presentations with fewer generators. Indeed, each relator in any such presentation is still a simple conjugation relation ($x_i=zx_jz^{-1}$ where $z$ is some word in the generators). Thus we can use the same argument as in the proof of \cref{prop:unknot} to trivialize the relators iteratively. 
+\label{rem:sub+rem}
+    Starting with a balanced presentation of \cref{thm:unknot} and reducing the number of generators only through recursive application of substitution and removal (\cref{lem:substitution}), we obtain a large class of AC-trivial presentations with fewer generators. Indeed, each relator in any such presentation is still a simple conjugation relation ($x_i=zx_jz^{-1}$ where $z$ is some word in the generators). Thus we can use the same argument as in the proof of \cref{thm:unknot} to trivialize the relators iteratively. 
 \end{remark}
 
 For example, consider the 3-generator family presented in the previous section, which was obtained through repeated application of \cref{lem:substitution}. The first relator is $x$ equals $z$ conjugated by  $yxyx^{-1}z^{-1}xy^{-1}x^{-1}y^{-1}xyx^{-1}$, and the second relator is $y$ equals $x$ conjugated by $xyx^{-1}z^{-1}xy^{-1}x^{-1}yxyx^{-1}zxy^{-1}x^{-1}y^{-1}$. Substituting $w=z$ simplifies the first relator to $x$, which when substituted into the second relator, simplifies it to $y$. 
 % \lucas{I don't think this conjecture really makes sense anymore: we know that presentations coming from knot diagram directly are AC-trivial. Thus, to conjuecture that we can do any stable AC move and get something still AC trivial is just to conjecture that the stable AC conjecture isn't actually any weaker than the AC conjecture. \fixme{Shehper: Not really. We are making this claim not in general but only for presentations coming from knot diagrams. So perhaps, yes, if you'd like, the conjecture is that for presentations coming from knot diagrams, all being stably AC-trivial, are also AC-trivial.
 
 % I am okay with whether you'd want to include this conjecture or not. We'll just need to edit the last two sentences of Section 8.1 where we say "In subsection 8.3..." and also the introduction of the paper where we also mention the conjecture accordingly.}}
-[FIX HERE] We used this procedure for a large class of presentations with fewer generators, derived from various knot diagrams of the unknot, including several ``hard" diagrams presented in \cite{burton2024hard}. We found that in each case, there existed a simple choice of $w$ that trivialized the presentation. Therefore, we hypothesize that knot diagrams only give AC-trivial presentations. Establishing a general proof of this statement would be a significant contribution and is left as an open question for future research.
-
-
+% [FIX HERE] We used this procedure for a large class of presentations with fewer generators, derived from various knot diagrams of the unknot, including several ``hard" diagrams presented in \cite{burton2024hard}. We found that in each case, there existed a simple choice of $w$ that trivialized the presentation. Therefore, we hypothesize that knot diagrams only give AC-trivial presentations. Establishing a general proof of this statement would be a significant contribution and is left as an open question for future research.
+\medskip
+We note, however, that the method described in \cref{rem:sub+rem} is only one way to reduce the number of generators. It is also possible to consider more general sequences of stable AC moves, which may produce presentations where relators are not all in simple conjugation form. We conjecture that any such presentation is also AC-trivial.
+\begin{theorem}
+    \label{conj:unknot}
+    Let $\angles{ x_1,\ldots, x_n \mid r_1,\ldots, r_{k-1},r_{k+1},\ldots, r_n, w}$ be the AC-trivial presentation coming from an unknot diagram as in \cref{thm:unknot}. Then any stably AC-equivalent presentation $\angles{ x_1,\ldots, x_m \mid s_1,\ldots, s_{m-1}, w}$ is also AC-trivial.
+    \end{theorem}
+\begin{proof}
+    Since $\angles{ x_1,\ldots, x_n \mid r_1,\ldots, r_{k-1},r_{k+1},\ldots, r_n, w}$ is AC-trivial, we can freely apply (AC1)–(AC3) without changing the AC-triviality of the presentation. Thus, it suffices to show that applying (AC4) and (AC5) do not affect the AC-triviality of the presentation. First, observe that any move (AC5) can be realized as a trivial case of substitution and removal. Certainly, as explained in \cref{rem:sub+rem}, doing a substitution and removal starting from a presentation where all relations are conjugation relations does not affect the AC-triviality. Moreover, if we apply some moves (AC1)–(AC3) before doing the substitution and removal, we can alternatively do the substitution and removal first followed by the corresponding sequence of moves (AC1)–(AC3) to arrive at the same presentation. Thus, we again get an AC-trivial presentation. Finally, it is clear that applying (AC4) does not change the AC-triviality of the presentation as we simply apply the same trivialization steps without touching the new relation.  
+\end{proof}
+Moreover, Wirtinger presentations of the unknot diagram are specific cases of presentations of $\mathbb{Z}$ where each generator generates the group. We also conjecture that for any such presentation of $\mathbb{Z}$ leads to AC-trivial presentations. 
+\begin{conjecture}
+\label{conj:general_Z}
+    Let $\langle x_1,\ldots x_n | r_1,\ldots, r_{n-1}\rangle$ be any presentation of $\mathbb{Z}$ where each $x_i$ generates $\mathbb{Z}$, i.e., $x_i=x_j^{\pm 1}$ for any $i,j$. Then for any word $w$ in the $x_i$ with exponent sum $\pm 1$, the presentation $\langle x_1,\ldots x_n | r_1,\ldots, r_{n-1}, w\rangle$ is AC-trivial. 
+\end{conjecture}
+Note that because $\langle x_1,\ldots, x_m| s_1,\ldots s_{m-1}\rangle$ is a presentation of $\mathbb{Z}$, \cref{conj:general_Z} implies \cref{conj:unknot_conj}. 
 % \subsection{New work}
 % \shehper{@self: based on Lucas' conjecture, new rewriting of section 8 could be as follows.
 

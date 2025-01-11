@@ -153,18 +153,22 @@ In \cref{fig:path_lengths_gs_vs_ppo}, we give a scatterplot of the path lengths 
 	\label{fig:path_lengths_gs_vs_ppo_full}
 \end{figure}
 
-\subsection{New Miller-Schupp trivializations through variable horizon length}\label{sec:variable_horizon}
+\subsection{New Miller--Schupp trivializations through variable horizon length}\label{sec:variable_horizon}
 
 Keeping the horizon length fixed either fails to solve hard presentations if the horizon length is too small, or requires significant computational resources for training to converge if the horizon length is too large. Therefore, we experimented with varying horizon length during training. 
 
 We trained a PPO agent for 100 million environment interactions, with the same hyperparameters as in the previous section; only varying the horizon length over the course of training. In the beginning, the horizon length was set to $200$; it was increased to $400$ after 10 million environment interactions, then to $800$ after 25 million environment interactions, and finally to $1200$ after 50 million environment interactions.
 This schedule allowed the PPO agent to first solve easier presentations, avoiding the challenges of long-horizon tasks. As the agent’s capabilities improved, the gradual increase in horizon length enabled the agent to tackle more complex Miller-Schupp presentations.
 
-The best-performing PPO agent solved two new presentations of the Miller-Schupp series that the greedy search had failed to solve (\cref{thm:MS}):
+The best-performing PPO agent solved two new presentations of the Miller-Schupp series that the greedy search had failed to solve.
+
+\begin{theorem}\label{thm:MS}
+    The following potential counterexamples belonging to the Miller--Schupp series are AC-trivial:
 	\begin{gather*}
 		\angles{x, y \mid x^{-1} y^3 x y^{-4} , \ x^{-1} y^{-1} x y^{-3} x^{-1} y^{-1}}, \\
 		\angles{x, y \mid x^{-1} y^4 x y^{-5} , \ x^{-1} y x y^{-1} x^{-1} y^{-3}}.
 	\end{gather*}
+\end{theorem}
 
 For these presentations, the AC paths discovered by the agent had lengths of $205$ and $1085$, respectively. These paths contained subsequences of moves that acted trivially. We removed these subsequences, obtaining paths of lengths $195$ and $381$ respectively. The initial lengths of the two presentations are $17$ and $19$, which increased to the maximum values of $29$ and $30$ before the presentations were trivialized. 
 
