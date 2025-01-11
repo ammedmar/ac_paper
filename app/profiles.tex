@@ -1,0 +1,38 @@
+% !TEX root = ../ac_paper.tex
+
+\section{Persistent homology profiles}\anibal{@self: Add the new examples when available}
+
+It is natural to base the AC-graph at a potential counterexample to the AC conjecture.
+Let \(\Sigma^\ell\) be the full subgraph of \(\Gamma^{\text{AC(2)}}\) containing all presentation that can be joined to \(AK(3)\) through a path whose maximum length is at most \(\ell\).
+In \cref{fig:ak_classic_persistence} and \cref{fig:ak_prime_persistence} we respectively present the number of vertices, edges, and isolated components of \(\Sigma^\ell\) constructed using classic and prime moves.
+
+\begin{figure}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ & $ic(\ell,3)$ & $ic(\ell,4)$ & $ic(\ell,5)$ & $ic(\ell,6)$ \\ \hline
+		15 & 6864 & 20762 & 1 &  &  &  &  &  \\ \hline
+		16 & 10280 & 31090 & 4 & 1 &  &  &  &  \\ \hline
+		17 & 428904 & 1297682 & 68 & 27 & 2 & 4 &  &  \\ \hline
+		18 & 1007496 & 3047669 & 122 & 27 & 10 & 4 &  &  \\ \hline
+		19 & 11804992 & 35738752 & 498 & 115 & 30 & 16 & 12 & 1 \\ \hline
+		20 & 25705728 & 77795370 & 826 & 147 & 46 & 28 & 32 & 1 \\ \hline
+	\end{tabular}
+	\caption{Isolated components with respect to base \(\AK(3)\) in the AC graph constructed with classic moves.}
+	\label{fig:ak_classic_persistence}
+\end{figure}
+
+\begin{figure}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ & $ic(\ell,3)$ & $ic(\ell,4)$ & $ic(\ell,5)$ & $ic(\ell,6)$ \\ \hline
+		15 & 1716 & 3474 & 1 &  &  &  &  &  \\ \hline
+		16 & 10280 & 20824 & 16 & 4 & 3 &  &  &  \\ \hline
+		17 & 428904 & 870176 & 232 & 82 & 17 & 4 &  &  \\ \hline
+		18 & 1007496 & 2043912 & 360 & 94 & 37 & 4 &  &  \\ \hline
+		19 & 11804992 & 23962672 & 1664 & 364 & 106 & 16 & 24 & 1 \\ \hline
+		20 & 25705728 & 52149632 & 2760 & 476 & 170 & 40 & 56 & 1 \\ \hline
+		21 & 109521488 & 222218112 & 5016 & 1804 & 378 & 72 & 56 & 17 \\ \hline
+	\end{tabular}
+	\caption{Isolated components with respect to the base \(\AK(3)\) in the AC graph constructed with prime moves.}
+	\label{fig:ak_prime_persistence}
+\end{figure}

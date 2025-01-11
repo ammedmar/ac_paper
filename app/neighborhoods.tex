@@ -2,6 +2,33 @@
 
 \section{Neighborhood constructions}\label{s:neighborhoods}
 
+\subsection{Neighborhoods for MS series}
+
+We define the $n$-neighborhood of a balanced presentation $\pi$ as the set of all balanced presentations that can be obtained by applying at most $n$ AC-moves to $\pi$.
+We used \cref{alg:bfs_neigh}, a variation of BFS, to generate $5$-neighborhoods of presentations in the Miller--Schupp series. 
+As before, we disregard the order of the relators.
+
+\begin{algorithm}
+	\caption{Breadth-First Search Algorithm Bounded by Number of Steps}\label{alg:bfs_neigh}
+	\begin{algorithmic}[1]
+		\State \textbf{Input:} A balanced presentation $\pi$, positive integer $n$
+		\State \textbf{Output:} $n$-neighborhood of $\pi$
+		\State Initialize a queue $Q$, set of visited nodes $visited$, and numerical map $dist$ that represents the minimal number of AC-moves needed to transform $\pi$ into a given presentation
+		\State Mark $\pi$ as visited, put it into queue $Q$, and set its distance to $0$
+		\While{$Q$ is not empty}
+		\State $u \gets $ top of $Q$ \Comment{Remove the front node of $Q$}
+		\For{every AC-move $m$}
+		\State $child \gets m(u)$
+		\If{$dist[u] < n$ and $child$ is not in $visited$}
+		\State Put $child$ in $Q$ and mark it as visited
+		\State Set $dist[child] = dist[u] + 1$
+		\EndIf
+		\EndFor
+		\EndWhile
+		\Return set $visited$
+	\end{algorithmic}
+\end{algorithm}
+
 \subsection{Neighborhoods of the identity}
 
 For any $\ell \in \{3, \dots, 16\}$, we constructed a neighborhood of the identity using an algorithm based on BFS search (\cref{alg:bfs_1}).
@@ -29,32 +56,5 @@ We consider the relators of a presentations as a set (meaning that the order of 
 		\EndIf
 		\EndFor
 		\EndWhile
-	\end{algorithmic}
-\end{algorithm}
-
-\subsection{Neighborhoods for MS series}
-
-We define the $n$-neighborhood of a balanced presentation $\pi$ as the set of all balanced presentations that can be obtained by applying at most $n$ AC-moves to $\pi$.
-We used \cref{alg:bfs_neigh}, a variation of BFS, to generate $5$-neighborhoods of presentations in the Miller--Schupp series. 
-As before, we disregard the order of the relators.
-
-\begin{algorithm}
-	\caption{Breadth-First Search Algorithm Bounded by Number of Steps}\label{alg:bfs_neigh}
-	\begin{algorithmic}[1]
-		\State \textbf{Input:} A balanced presentation $\pi$, positive integer $n$
-		\State \textbf{Output:} $n$-neighborhood of $\pi$
-		\State Initialize a queue $Q$, set of visited nodes $visited$, and numerical map $dist$ that represents the minimal number of AC-moves needed to transform $\pi$ into a given presentation
-		\State Mark $\pi$ as visited, put it into queue $Q$, and set its distance to $0$
-		\While{$Q$ is not empty}
-		\State $u \gets $ top of $Q$ \Comment{Remove the front node of $Q$}
-		\For{every AC-move $m$}
-		\State $child \gets m(u)$
-		\If{$dist[u] < n$ and $child$ is not in $visited$}
-		\State Put $child$ in $Q$ and mark it as visited
-		\State Set $dist[child] = dist[u] + 1$
-		\EndIf
-		\EndFor
-		\EndWhile
-		\Return set $visited$
 	\end{algorithmic}
 \end{algorithm}

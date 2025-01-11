@@ -1,8 +1,24 @@
 % !TEX root = ../ac_paper.tex
 
-\section{Neighborhood sizes and isolated components}\label{sec:isolated}
+\section{Hardness: Local and topological vistas}\label{sec:isolated}
 
-\subsection{Neighborhoods}
+Throughout this work, we have focused on the hardness property of presentations, measured by the difficulty of different algorithmic methods to find an AC path connecting them to the trivial presentation.  
+Hardness is a global property, as the typical paths encountered in this work are orders of magnitude longer than the length of the trivialized presentation.  
+In the first and third parts of this section, we study how much of a presentation's hardness can be predicted by its local structure.  
+
+The simplest feature of a presentation that we consider, beyond its length, is the number of presentations that can be connected to it via a small number of AC moves.  
+In \cref{ss:nbhd_sizes}, we analyze the distribution of these neighborhood sizes for the 1,190 presentations in the Miller--Schupp series considered in \cref{sec:ppo}, along with their PPO-solved and PPO-unsolved labels obtained from the experiments described therein.  
+We find that the PPO-unsolved presentations are concentrated within a few specific neighborhood sizes, whereas the PPO-solved presentations exhibit a more uniform distribution across a broader range of sizes.  
+
+As observed throughout this work, the maximal length of a presentation in an AC-trivialization path tends to exceed the length of the starting presentation, \(\pi\).  
+The difference between the length of \(\pi\) and the minimum increase in length across all its AC-trivializations serves as an invariant of \(\pi\).  
+In the second part of this section, we use the persistent topology of the AC graph to provide a principled structural measure of the hardness distribution in the AC trivialization problem, and compute this invariant for small values of the length.
+
+After the introduction of persistent homology in the previous subsection, in 
+We close this section combining combinatorial and topologicla local features to predict the solvability of a presentation.
+
+
+\subsection{Neighborhood sizes}\label{ss:nbhd_sizes}
 
 Let us return to our data set of 1190 presentations in the Miller--Schupp series for \(n \leq 7\) and \(\length(w) \leq 7\).
 Using the methods described in \cref{sec:ppo}, we trained a PPO agent that successfully solved 417 of these presentations.
@@ -10,9 +26,10 @@ We will refer to the set of these 417 presentations as PPO-solved and the remain
 Our goal is to analyze the relationship between these labels and the sizes of their respective AC neighborhoods.
 A presentation is considered to be in the \(k\)-step neighborhood of another if they can be connected by applying at most \(k\) AC-moves.
 
-\subsubsection{Experimental results}
+\subsubsection{Neighborhood size distribution}
 
-There are 131 distinct neighborhood sizes in our data.
+We will focus on 5-step neighborhoods of these presentations,  refering to the number of presentations in them as the size of the neighborhood.
+There are 131 distinct neighborhood sizes in our dataset.
 Their basic statistics are
 \[
 \begin{tabular}{cccccc}
@@ -53,7 +70,7 @@ Moreover, 54.2\% of all PPO-solved presentations have a neighborhood size shared
 \end{figure}
 
 As we observed, having a maximal neighborhood size provides significant insight into whether a presentation is labeled as PPO-solved or PPO-unsolved.
-Additionally, the minimum neighborhood size among PPO-unsolved presentations—89,573—is also quite telling, as 54\% of PPO-solved presentations have neighborhood sizes smaller than this value.
+Additionally, the minimum neighborhood size among PPO-unsolved presentations--89,573--is also quite telling, as 54\% of PPO-solved presentations have neighborhood sizes smaller than this value.
 This percentage can be further improved by considering that the neighborhood sizes of PPO-unsolved presentations are concentrated within three specific bands.
 Please refer to \cref{fig:prime_histogram} for more details.
 We find that 64.3\% of PPO-solved presentations fall outside the three bands \([89,575, 89,575]\), \([89,715, 89,831]\), and \([89,844, 89,872]\), which together contain over 99\% of PPO-unsolved presentations.
@@ -67,22 +84,17 @@ By narrowing the last band to \([89,859, 89,872]\), these three bands now encomp
 	\label{fig:prime_histogram}
 \end{figure}
 
-\medskip
-
-One might expect that enhancing the discriminatory power of \(n\)-neighborhoods could be achieved by incorporating features beyond their size.
-We explored two additional types of features, but surprisingly, they only marginally improved the accuracy of PPO-solved/unsolved predictions.
-The first type was based on node centrality, while the second focused on spectral features of the neighborhood graphs.
-The latter was particularly intriguing, given the emphasis on Markov processes and the well-known relationship between random walks on graphs and the graph Laplacian.
 
 
-\subsection{Isolated components}
+\subsection{Isolation structure}\label{ss:components}
 
 In \cref{ss:greedy_search}, we explored a greedy approach to finding AC-trivializations of a presentation \(\pi\).
 Specifically, the goal was to construct a sequence of presentations \((\pi_0, \dots, \pi)\), where \(\pi_0\) is the trivial presentation, such that each consecutive pair in the sequence is related by an AC-move.
 Furthermore, at each step \(k\), the presentation \(\pi_k\) was chosen to have the shortest possible length among all presentations connected to \(\pi_{k+1}\) via an AC-move.
 In general, the length of a presentation in an AC-trivialization tends to exceed the length of the original presentation being trivialized.
 The minimum increase in length across all possible AC-trivializations serves as an invariant of the presentation.
-We will explore this invariant using concepts from persistent homology.
+In this subsection, we provide a principled summarization of this invariant across all presentations rooted in topology.
+This invariant serves as a measure of the hardness of the AC trivialization problem and provides a basis for comparison with other similar path-searching problems.
 
 \subsubsection{Formalization}
 
@@ -101,8 +113,6 @@ If each $\Gamma_n$ is full in $\Gamma$ we refer to the filtration as full and no
 Let $\Gamma^{\text{AC(k)}}$ be the graph whose vertices are $k$-balanced presentations, based at the trivial presentation, having an edge between two vertices if there is an AC-move between them.
 Additionally, $\Gamma^{\text{AC(k)}}$ is equipped with a full filtration obtained from the function sending a vertex to the length of its presentation minus $k$.
 
-%\subsubsection{Isolation values and isolated components}
-
 Given a filtered based graph $(\Gamma, v_0)$.
 The \textit{filtration value} $\Filt(v)$ of a vertex $v$ is the smallest $n \in \N$ such that $v$ is a vertex in $\Gamma_n$.
 Similarly, its \textit{connectivity value} $\Conn(v)$ is the smallest $n \in \N$ such that $v$ and $v_0$ can be joined by a path in $\Gamma_n$ or is set to $\infty$ if such path does not exist in $\Gamma$.
@@ -118,19 +128,33 @@ We introduce an equivalence relation on isolated vertices.
 Two belong to the same \textit{isolated component} if they have the same connectivity value, say $n$, and they can be joined by a path in $\Gamma_{n-1}$.
 The \textit{isolation value} of a component is the maximum of the isolation values of its elements.
 
-We can interpret these invariants using the framework of topological data analysis, see for example \cite{carlsson2022tda}.
-Specifically, the set of isolated components of a based filtered graph $\Gamma$ corresponds to the multiset of bars in the barcode of its reduced persistent $0$-homology.
+The set of isolated components, along with their isolation values, defines the \textit{isolation structure} of the filtered based graph.
+It provides a principled measure of the hardness of finding paths to the base vertex.
+
+\subsubsection{Persistent 0-homology}\anibal{@self: Expand this to include an explanation of persistence and why it matches.}
+
+We can interpret this invariant using the framework of topological data analysis, see for example \cite{carlsson2022tda}.
+
+Concretely, given a filtered graph
+\[
+\Gamma_0 \leq \Gamma_1 \leq \Gamma_2 \leq \dotsb
+\]
+
+
+As we can see, the set of isolated components of a based filtered graph $\Gamma$ corresponds to the multiset of bars in the barcode of its reduced persistent $0$-homology.
 Additionally, the isolation value of an isolated component corresponds to the length of its associated bar.
 
 \subsubsection{Experimental results}
 
-Let \(\Gamma^\ell\) be the full subgraph of \(\Gamma^{\text{AC(2)}}\), with the induced filtration, consisting of all presentations with a connectivity value less than or equal to \(\ell\).
-Explicitly, \(\Gamma^\ell\) includes all vertices that can be connected to the trivial vertex via paths containing only presentations of length at most \(\ell\).
+Let \(\Gamma^\ell\) be the full subgraph of \(\Gamma^{\text{AC(2)}}\), with the induced filtration, consisting of all presentations with a connectivity value less than or equal to \(\ell\).  
+Explicitly, \(\Gamma^\ell\) includes all vertices that can be connected to the trivial vertex via paths containing only presentations of length at most \(\ell\).  
+Each such filtered-based graph provides an approximation of the AC graph.  
+We compute the isolation structure of each of these graphs to shed light on the isolation structure of the AC graph.  
 
-We will denote by $v(\ell)$ and $e(\ell)$ the number of vertices and edges of $\Gamma^\ell$.
+Denote by $v(\ell)$ and $e(\ell)$ the number of vertices and edges of $\Gamma^\ell$.
 Let us denote by $ic(\ell)_k$ the number of isolated components with isolation value $k$.
-\cref{fig:classical_persistence} summarize our results for the classic AC-moves whereas \cref{fig:prime_persistence} does so for their prime version.\footnote{For this task we used \texttt{giotto-TDA} version 5.1 \cite{tauzin2021giotto}.
-	Specifically, its binding of the \texttt{SimplexTree} data structure introduced in \cite{boissonnat2014simplex} and implemented in \texttt{GUDHI} \cite{maria2014gudhi}.}
+\cref{fig:classical_persistence} summarize our results for the classic AC-moves whereas \cref{fig:prime_persistence} does so for their prime version.\footnote{
+	For this task we used \texttt{giotto-TDA} version 5.1 \cite{tauzin2021giotto}.Specifically, its binding of the \texttt{SimplexTree} data structure introduced in \cite{boissonnat2014simplex} and implemented in \texttt{GUDHI} \cite{maria2014gudhi}.}
 
 \begin{figure}
 	\begin{tabular}{|c|c|c|c|c|c|}
@@ -178,43 +202,6 @@ Let us denote by $ic(\ell)_k$ the number of isolated components with isolation v
 	\label{fig:prime_persistence}
 \end{figure}
 
-\subsubsection{}
-
-It is natural to base the AC-graph at a potential counterexample to the AC conjecture.
-Let \(\Sigma^\ell\) be the full subgraph of \(\Gamma^{\text{AC(2)}}\) containing all presentation that can be joined to \(AK(3)\) through a path whose maximum length is at most \(\ell\).
-In \cref{fig:ak_classic_persistence} and \cref{fig:ak_prime_persistence} we respectively present the number of vertices, edges, and isolated components of \(\Sigma^\ell\) constructed using classic and prime moves.
-
-\begin{figure}
-	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
-		\hline
-		$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ & $ic(\ell,3)$ & $ic(\ell,4)$ & $ic(\ell,5)$ & $ic(\ell,6)$ \\ \hline
-		15 & 6864 & 20762 & 1 &  &  &  &  &  \\ \hline
-		16 & 10280 & 31090 & 4 & 1 &  &  &  &  \\ \hline
-		17 & 428904 & 1297682 & 68 & 27 & 2 & 4 &  &  \\ \hline
-		18 & 1007496 & 3047669 & 122 & 27 & 10 & 4 &  &  \\ \hline
-		19 & 11804992 & 35738752 & 498 & 115 & 30 & 16 & 12 & 1 \\ \hline
-		20 & 25705728 & 77795370 & 826 & 147 & 46 & 28 & 32 & 1 \\ \hline
-	\end{tabular}
-	\caption{Isolated components with respect to base \(\AK(3)\) in the AC graph constructed with classic moves.}
-	\label{fig:ak_classic_persistence}
-\end{figure}
-
-\begin{figure}
-	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
-		\hline
-		$\ell$ & $v(\ell)$ & $e(\ell)$ & $ic(\ell,1)$ & $ic(\ell,2)$ & $ic(\ell,3)$ & $ic(\ell,4)$ & $ic(\ell,5)$ & $ic(\ell,6)$ \\ \hline
-		15 & 1716 & 3474 & 1 &  &  &  &  &  \\ \hline
-		16 & 10280 & 20824 & 16 & 4 & 3 &  &  &  \\ \hline
-		17 & 428904 & 870176 & 232 & 82 & 17 & 4 &  &  \\ \hline
-		18 & 1007496 & 2043912 & 360 & 94 & 37 & 4 &  &  \\ \hline
-		19 & 11804992 & 23962672 & 1664 & 364 & 106 & 16 & 24 & 1 \\ \hline
-		20 & 25705728 & 52149632 & 2760 & 476 & 170 & 40 & 56 & 1 \\ \hline
-		21 & 109521488 & 222218112 & 5016 & 1804 & 378 & 72 & 56 & 17 \\ \hline
-	\end{tabular}
-	\caption{Isolated components with respect to the base \(\AK(3)\) in the AC graph constructed with prime moves.}
-	\label{fig:ak_prime_persistence}
-\end{figure}
-
 %\[
 %%OLD
 %\begin{tabular}{|c|c|c|c|c|c|}
@@ -234,3 +221,34 @@ In \cref{fig:ak_classic_persistence} and \cref{fig:ak_prime_persistence} we resp
 %	13 & 3115928 & 8478633 & 32 & 21 & 2 \\ \hline
 %\end{tabular}
 %\]
+
+\subsection{A comparison of local features}
+
+In this subsection we used a supervised learning technique based on random trees to predict the label PPO-solved and PPO-unsolved, using a battery of different features of the neighborhoods in the MS series. 
+
+\anibal{@Bartek: Please explain the technical aspects of the classifyer here. Please mention that all F1 scores displayed are on the test set}. 
+
+The base line is provided by considering the lenght as the only feature.
+The F1 score of the resulting clasifier is 0.838.
+Unsurprisingly, the neighborhood size outperforms this feature and provides a new baseline with an F1 score of 0.879.
+It is interesting to mention that the correlation between length and neighborhood size is low (0.216) compared to for example that with number of edges (0.999).
+
+Another noteworthy result is that purely topological features can achieve performance comparable to that of neighborhood size.  
+For instance, using the barcode as a single feature yields an F1 score of 0.874, and focusing on specific subsets of the barcode can produce even better results; see, for example, \cref{fig:barcode_f1_scores}.
+
+\begin{figure}
+	\includegraphics[scale=.6]{fig/barcode_f1_scores.png}\anibal{@Bartek: Please update this to a PDF figure with x-axis just having the letter N}
+	\caption{F1 score obtained taking the submultiset of the barcode containing only bars of length less than or eqqual to N.}
+	\label{fig:barcode_f1_scores}
+\end{figure}
+
+Combining topological features with the neighborhood size provides the best classifyier we trained.
+It has a F1 score of ?? and uses the following features ... where ... is defined as... \anibal{@Bartek: please complete}.
+
+% @ Bartek: maybe we can incorporate the SHAP values.
+
+In addition to the above features derived from persistent homology, we explored two other types of features.  
+Surprisingly, these features only marginally improved the accuracy of PPO-solved/unsolved predictions.  
+The first type was based on node centrality, while the second focused on spectral properties of the neighborhood graphs.  
+The latter is particularly intriguing due to its connection to Markov processes and the well-known relationship between random walks on graphs and the graph Laplacian.  
+Further analysis is needed to fully understand the relationship between these local graph features and hardness.
